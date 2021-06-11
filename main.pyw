@@ -133,16 +133,6 @@ if __name__ == '__main__':
 
 
 
-
-
-
-
-
-
-
-
-
-
 # # first lets import all the necessary libraries
 # import os
 # import platform
