@@ -15,6 +15,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         #Load the UI Page
         uic.loadUi('mainwindow.ui', self)
+        globals.integration_time = 1
+        globals.averages = 2
 
         # set all the buttons that should be enabled or not
         self.startStopButton.setEnabled(False)
@@ -43,19 +45,54 @@ class MainWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def configButton_clicked(self):
         print("configuration")
+        # this is a little glitchy 
+        # this is a little glitchy 
+        # this is a little glitchy
+        # this is a little glitchy
+        largest_pixel = 0
+        while( largest_pixel > 60000 or largest_pixel < 55000 ):
+            largest_pixel = 0
+            for x in range(0, len(globals.spectraldata)-2):
+                if(globals.spectraldata[x] > largest_pixel):
+                    largest_pixel = globals.spectraldata[x]
+
+            if(largest_pixel > 60000):
+                # lower the integration time:
+                globals.integration_time = globals.integration_time - 1
+
+            if(largest_pixel < 55000):
+                # increase integration time: 
+                globals.integration_time = globals.integration_time + 1
+
+            self.startStopButton_clicked()
+        print(largest_pixel)
+        
+        cycle_time = globals.integration_time * globals.averages
+        while( cycle_time > 550 or cycle_time < 450):
+            if cycle_time > 550: 
+                globals.averages -= 1 
+            if cycle_time < 450: 
+                globals.averages += 1
+            cycle_time = globals.integration_time * globals.averages
+            self.startStopButton_clicked()
+        print("done with configuration")
+        print(globals.integration_time)
+        print(globals.averages)
+        
+
+        
 
     @pyqtSlot()
     def startStopButton_clicked(self):
-        print("startStopButton")
         self.startStopButton.setEnabled(False)
         self.repaint()                                                                      # gets rid of old data on the screen
         ret = AVS_UseHighResAdc(globals.dev_handle, True)                                   # sets the spectrometer to use 16 bit resolution instead of 14 bit
         measconfig = MeasConfigType()
         measconfig.m_StartPixel = 0
         measconfig.m_StopPixel = globals.pixels - 1
-        measconfig.m_IntegrationTime = 5                                                    # variables that will get changed
+        measconfig.m_IntegrationTime = globals.integration_time                                                    # variables that will get changed
         measconfig.m_IntegrationDelay = 0
-        measconfig.m_NrAverages = 1                                                         # variables that will get changed
+        measconfig.m_NrAverages = globals.averages                                                         # variables that will get changed
         measconfig.m_CorDynDark_m_Enable = 0  # nesting of types does NOT work!!
         measconfig.m_CorDynDark_m_ForgetPercentage = 0
         measconfig.m_Smoothing_m_SmoothPix = 0
@@ -108,13 +145,11 @@ class MainWindow(QtWidgets.QMainWindow):
                                                                                                                  # will return the number of devices on success this should be 1 
 
         ret = AVS_GetNrOfDevices()                                                                               # will check the list of connected usb devices and returns the number attached   
-
         mylist = AvsIdentityType()                                                                              # pretty sure these do the same thing but whatever you know it works
         mylist = AVS_GetList(1)                                                                                 # may need to come back and see what this function does
 
         # displaying information on the serial number and working with it
         serienummer = str(mylist[0].SerialNumber.decode("utf-8"))
-        # QMessageBox.information(self,"Info","Found Serialnumber: " + serienummer)
 
 
         # this activates the spectrometer for communication
@@ -123,8 +158,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # gets all the information about the spectrometer
         devcon = DeviceConfigType()
         devcon = AVS_GetParameter(globals.dev_handle, 63484)
-        
-
         globals.pixels = devcon.m_Detector_m_NrPixels
         globals.wavelength = AVS_GetLambda(globals.dev_handle)
 
