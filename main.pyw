@@ -14,7 +14,7 @@ class MainWindow(QtWidgets.QMainWindow):
         super(MainWindow, self).__init__(*args, **kwargs)
 
         #Load the UI Page
-        uic.loadUi('mainwindow.ui', self)
+        uic.loadUi('Gui.ui', self)
         globals.integration_time = 1
         globals.averages = 2
 
@@ -49,6 +49,8 @@ class MainWindow(QtWidgets.QMainWindow):
         # this is a little glitchy 
         # this is a little glitchy
         # this is a little glitchy
+        # seems that the dark reading is just noise and increasing the integration time has no effect on it
+        # not sure how to solve this just yet
         largest_pixel = 0
         while( largest_pixel > 60000 or largest_pixel < 55000 ):
             largest_pixel = 0
@@ -58,11 +60,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
             if(largest_pixel > 60000):
                 # lower the integration time:
-                globals.integration_time = globals.integration_time - 1
+                globals.integration_time = globals.integration_time - 0.5
 
             if(largest_pixel < 55000):
                 # increase integration time: 
-                globals.integration_time = globals.integration_time + 1
+                globals.integration_time = globals.integration_time + 0.5
+
+            print(globals.integration_time)
 
             self.startStopButton_clicked()
         print(largest_pixel)
@@ -78,8 +82,6 @@ class MainWindow(QtWidgets.QMainWindow):
         print("done with configuration")
         print(globals.integration_time)
         print(globals.averages)
-        
-
         
 
     @pyqtSlot()
