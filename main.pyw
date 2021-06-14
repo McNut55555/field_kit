@@ -31,11 +31,22 @@ class MainWindow(QtWidgets.QMainWindow):
         self.darkButton.clicked.connect(self.darkButton_clicked)
         self.refButton.clicked.connect(self.refButton_clicked)
         self.configButton.clicked.connect(self.configButton_clicked)
+        self.stopButton.clicked.connect(self.stopButton_clicked)
 
     @pyqtSlot()
     def darkButton_clicked(self):
         globals.darkData = globals.spectraldata
         print("darkData now saved")
+
+    @pyqtSlot()
+    def stopButton_clicked(self):
+        AVS_Done()
+        self.startStopButton.setEnabled(False)
+        self.connectButton.setEnabled(True)
+        self.darkButton.setEnabled(False)
+        self.configButton.setEnabled(False)
+        self.refButton.setEnabled(False)
+        print("disconnected")
 
     @pyqtSlot()
     def refButton_clicked(self):
@@ -68,7 +79,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 # increase integration time: 
                 globals.integration_time = globals.integration_time + 0.5
 
-            print(globals.integration_time)
 
             self.startStopButton_clicked()
         print(largest_pixel)
