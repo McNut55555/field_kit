@@ -51,6 +51,8 @@ class MainWindow(QtWidgets.QMainWindow):
         # this is a little glitchy
         # seems that the dark reading is just noise and increasing the integration time has no effect on it
         # not sure how to solve this just yet
+        # if it continues on without stopping or coming out of the loop the device needs to be disconnected and then reconnected
+        # the above should get fixed
         largest_pixel = 0
         while( largest_pixel > 60000 or largest_pixel < 55000 ):
             largest_pixel = 0
