@@ -41,16 +41,30 @@ class MainWindow(QtWidgets.QMainWindow):
         self.scopeModeButton.clicked.connect(self.scope)
         self.scopeMinDarkButton.clicked.connect(self.scopeMinDarkButton_clicked)
         self.absButton.clicked.connect(self.absButton_clicked)
+        self.reflectButton.clicked.connect(self.reflectButton_clicked)
 
     @pyqtSlot()
     def absButton_clicked(self):
         y_value = []
-        y_label = "absorbance"
+        y_label = "Percent (%)"
         title = "Absorbance Mode"
         for x in range(0, len(globals.spectraldata)-2):
-            y_value.append( -math.log((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
+            if (globals.refData[x] - globals.darkData[x]) == 0:
+                y_value.append(0.0)
+            else:
+                y_value.append( -1*math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x]))))
 
         self.plot(y_value, y_label, title)
+
+    @pyqtSlot()
+    def reflectButton_clicked(self):
+        print()
+        y_value = []
+        y_label = "Percent (%)"
+        title = "Reflectance Mode"
+        for x in range(0,len(globals.spectraldata)-2):
+            y_value.append( 100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])) )
+
 
     @pyqtSlot()
     def darkButton_clicked(self):
@@ -84,6 +98,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # if it continues on without stopping or coming out of the loop the device needs to be disconnected and then reconnected
         # the above should get fixed
         largest_pixel = 0
+        count = 0
         while( largest_pixel > 60000 or largest_pixel < 55000 ):
             largest_pixel = 0
             for x in range(0, len(globals.spectraldata)-2):
@@ -99,9 +114,13 @@ class MainWindow(QtWidgets.QMainWindow):
                 globals.integration_time = globals.integration_time + 2
 
             # QtWidgets.QApplication.processEvents()                                        # look into this line
+            count += 1
+            if count >= 200:
+                break
             self.startStopButton_clicked()
         print(largest_pixel)
         
+        count = 0
         cycle_time = globals.integration_time * globals.averages
         while( cycle_time > 550 or cycle_time < 450):
             if cycle_time > 550: 
@@ -110,6 +129,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 globals.averages += 1
             cycle_time = globals.integration_time * globals.averages
             self.startStopButton_clicked()
+            count += 1 
+            if count >= 200:
+                break
         print("done with configuration")
         print(globals.integration_time)
         print(globals.averages)
@@ -225,14 +247,10 @@ class MainWindow(QtWidgets.QMainWindow):
             globals.reflectData.append( (globals.spectraldata[x] - globals.darkData[x])/(globals.refData[x]-globals.darkData[x]) )
 
     def scope(self):
-
         # get the values
-        print("falls into scope")
         y_value = []
-
         for x in range(0,len(globals.spectraldata)-2):                                  # dropping off the last two data points
             y_value.append(globals.spectraldata[x])
-
         self.plot(y_value, "Scope (ADC Counts)", "Scope Mode")
 
     def plot(self, y_value, y_label, title):
