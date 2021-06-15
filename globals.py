@@ -12,3 +12,4 @@ reflectData = [0.0] * 4096
 integration_time = 1
 averages = 2
 stopscanning = True
+first = True

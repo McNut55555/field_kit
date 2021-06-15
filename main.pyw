@@ -16,8 +16,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         #Load the UI Page
         uic.loadUi('Gui.ui', self)
+
+        # initalize the inital globals
         globals.integration_time = 1
         globals.averages = 2
+        globals.first = True 
+
 
         # set all the buttons that should be enabled or not
         self.startStopButton.setEnabled(False)
@@ -74,11 +78,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
             if(largest_pixel > 60000):
                 # lower the integration time:
-                globals.integration_time = globals.integration_time - 0.5
+                globals.integration_time = globals.integration_time - 1
 
             if(largest_pixel < 55000):
                 # increase integration time: 
-                globals.integration_time = globals.integration_time + 0.5
+                globals.integration_time = globals.integration_time + 1
 
             # QtWidgets.QApplication.processEvents()                                        # look into this line
             self.startStopButton_clicked()
@@ -123,19 +127,14 @@ class MainWindow(QtWidgets.QMainWindow):
         measconfig.m_Control_m_StoreToRam = 0
         ret = AVS_PrepareMeasure(globals.dev_handle, measconfig)
         nummeas = 1                                                                         # variables that will get changed
-        
-        # to use Windows messages, supply a window handle to send the messages to
-        # ret = AVS_Measure(globals.dev_handle, int(self.winId()), nummeas)
-        # single message sent from DLL, confirmed with Spy++
-        # when using polling, just pass a 0 for the windows handle
 
-        scans = 0                                                                       # counter
-        globals.stopscanning = False                                                    # dont want to stop scanning until we say so
-        while (globals.stopscanning == False):                                          # keep scanning until we dont want to anymore
-            ret = AVS_Measure(globals.dev_handle, 0, 1)                                 # tell it to scan
-            dataready = False                                                           # while the data is false
+        scans = 0                                                                           # counter
+        globals.stopscanning = False                                                        # dont want to stop scanning until we say so
+        while (globals.stopscanning == False):                                              # keep scanning until we dont want to anymore
+            ret = AVS_Measure(globals.dev_handle, 0, 1)                                     # tell it to scan
+            dataready = False                                                               # while the data is false
             while (dataready == False):
-                dataready = (AVS_PollScan(globals.dev_handle) == True)                  # get the status of data
+                dataready = (AVS_PollScan(globals.dev_handle) == True)                      # get the status of data
                 time.sleep(0.001)
             if dataready == True:
                 ret = AVS_GetScopeData(globals.dev_handle)
@@ -151,18 +150,24 @@ class MainWindow(QtWidgets.QMainWindow):
         self.refButton.setEnabled(True)
         self.startStopButton.setEnabled(True)
 
+        # while globals.first == True:
+        #     self.plot_scope()
+        #     globals.first = False
+
         self.plot_scope()    
+
         return   
 
     @pyqtSlot()
     def connectButton_clicked(self):
         # initialize the usb... were not gonna care about eithernet for now only usb
-        ret = AVS_Init(0)                                                                                        # init(0) means were using a USB
-                                                                                                                 # will return the number of devices on success this should be 1 
+        ret = AVS_Init(0)                                                                                   # init(0) means were using a USB
+                                                                                                            # will return the number of devices on success this should be 1 
 
-        ret = AVS_GetNrOfDevices()                                                                               # will check the list of connected usb devices and returns the number attached   
-        mylist = AvsIdentityType()                                                                              # pretty sure these do the same thing but whatever you know it works
-        mylist = AVS_GetList(1)                                                                                 # may need to come back and see what this function does
+        ret = AVS_GetNrOfDevices()                                                                          # will check the list of connected usb devices and returns the number attached   
+        mylist = AvsIdentityType()                                                                          # pretty sure these do the same thing but whatever you know it works
+        mylist = AVS_GetList(1)                                                                             
+        # may need to come back and see what this function does
 
         # displaying information on the serial number and working with it
         serienummer = str(mylist[0].SerialNumber.decode("utf-8"))
@@ -216,6 +221,25 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Set the title of the graph
         self.graphWidget.setTitle("Scope Mode")
+
+        self.graphWidget.clear()
+        self.graphWidget.plot(x_value, y_value)
+
+    def plot(self, y_value, y_label, title):
+
+        # get the values
+        x_value = []
+        for x in range(0,len(globals.wavelength)-2):                                    # not sure if this is going to effect it but dropping off the last two data points
+            x_value.append(globals.wavelength[x])
+        
+        # Set the label for x axis
+        self.graphWidget.setLabel('bottom', 'Wavelength (nm)')
+
+        # Set the label for y-axis
+        self.graphWidget.setLabel('left', y_label)
+
+        # Set the title of the graph
+        self.graphWidget.setTitle(title)
 
         self.graphWidget.clear()
         self.graphWidget.plot(x_value, y_value)
