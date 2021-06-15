@@ -6,6 +6,7 @@ import os
 import globals
 from avaspec import *
 import time
+import math
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -79,7 +80,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 # increase integration time: 
                 globals.integration_time = globals.integration_time + 0.5
 
-
+            # QtWidgets.QApplication.processEvents()                                        # look into this line
             self.startStopButton_clicked()
         print(largest_pixel)
         
@@ -141,7 +142,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 globals.spectraldata = ret[1]
                 scans = scans + 1
                 if (scans >= nummeas):
-                    globals.stopscanning = True               
+                    globals.stopscanning = True  
+            # self.app.processEvents()                          ##########################################      look into this line
             time.sleep(0.001)  
 
         self.darkButton.setEnabled(True)
@@ -149,7 +151,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.refButton.setEnabled(True)
         self.startStopButton.setEnabled(True)
 
-        self.plot()    
+        self.plot_scope()    
         return   
 
     @pyqtSlot()
@@ -181,7 +183,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
         return
 
-    def plot(self):
+    def plot_absorbance(self):
+        for x in range(0, len(globals.spectraldata)-2):
+            globals.absData.append( -math.log((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
+
+    def plot_transmittance(self):
+        print("transmission")
+        for x in range(0, len(globals.spectraldata)-2):
+            globals.transData.append( (globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x]) )
+
+    def plot_reflectance(self):
+        print("reflectance")
+        for x in range(0, len(globals.spectraldata)-2):
+            globals.reflectData.append( (globals.spectraldata[x] - globals.darkData[x])/(globals.refData[x]-globals.darkData[x]) )
+
+    def plot_scope(self):
 
         # get the values
         x_value = []
