@@ -1,3 +1,4 @@
+from re import S
 from PyQt5 import QtWidgets, uic
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
@@ -37,6 +38,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.refButton.clicked.connect(self.refButton_clicked)
         self.configButton.clicked.connect(self.configButton_clicked)
         self.stopButton.clicked.connect(self.stopButton_clicked)
+        self.scopeModeButton.clicked.connect(self.scope)
+        self.scopeMinDarkButton.clicked.connect(self.scopeMinDarkButton_clicked)
+        self.absButton.clicked.connect(self.absButton_clicked)
+
+    @pyqtSlot()
+    def absButton_clicked(self):
+        y_value = []
+        y_label = "absorbance"
+        title = "Absorbance Mode"
+        for x in range(0, len(globals.spectraldata)-2):
+            y_value.append( -math.log((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
+
+        self.plot(y_value, y_label, title)
 
     @pyqtSlot()
     def darkButton_clicked(self):
@@ -78,11 +92,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
             if(largest_pixel > 60000):
                 # lower the integration time:
-                globals.integration_time = globals.integration_time - 1
+                globals.integration_time = globals.integration_time - 2
 
             if(largest_pixel < 55000):
                 # increase integration time: 
-                globals.integration_time = globals.integration_time + 1
+                globals.integration_time = globals.integration_time + 2
 
             # QtWidgets.QApplication.processEvents()                                        # look into this line
             self.startStopButton_clicked()
@@ -154,7 +168,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #     self.plot_scope()
         #     globals.first = False
 
-        self.plot_scope()    
+        self.scope()    
 
         return   
 
@@ -188,6 +202,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
         return
 
+    def scopeMinDarkButton_clicked(self):
+        y_value = []
+        title = "Scope Minus Dark"
+        y_label = "Counts"
+        for x in range(0, len(globals.spectraldata)-2):
+            y_value.append(globals.spectraldata[x]-globals.darkData[x])
+        self.plot(y_value, y_label, title)
+
     def plot_absorbance(self):
         for x in range(0, len(globals.spectraldata)-2):
             globals.absData.append( -math.log((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
@@ -202,28 +224,16 @@ class MainWindow(QtWidgets.QMainWindow):
         for x in range(0, len(globals.spectraldata)-2):
             globals.reflectData.append( (globals.spectraldata[x] - globals.darkData[x])/(globals.refData[x]-globals.darkData[x]) )
 
-    def plot_scope(self):
+    def scope(self):
 
         # get the values
-        x_value = []
+        print("falls into scope")
         y_value = []
-        for x in range(0,len(globals.wavelength)-2):                                    # not sure if this is going to effect it but dropping off the last two data points
-            x_value.append(globals.wavelength[x])
-        
+
         for x in range(0,len(globals.spectraldata)-2):                                  # dropping off the last two data points
             y_value.append(globals.spectraldata[x])
 
-        # Set the label for x axis
-        self.graphWidget.setLabel('bottom', 'Wavelength (nm)')
-
-        # Set the label for y-axis
-        self.graphWidget.setLabel('left', 'Scope (ADC Counts)')
-
-        # Set the title of the graph
-        self.graphWidget.setTitle("Scope Mode")
-
-        self.graphWidget.clear()
-        self.graphWidget.plot(x_value, y_value)
+        self.plot(y_value, "Scope (ADC Counts)", "Scope Mode")
 
     def plot(self, y_value, y_label, title):
 

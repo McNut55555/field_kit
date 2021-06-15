@@ -5,7 +5,7 @@ wavelength = [0.0] * 4096
 spectraldata = [0.0] * 4096
 darkData = [0.0] * 4096
 refData = [0.0] * 4096
-absData = [0.0] * 4096
+# absData = [0.0] * 4096
 transData = [0.0] * 4096
 reflectData = [0.0] * 4096
 
