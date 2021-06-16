@@ -19,8 +19,8 @@ class MainWindow(QtWidgets.QMainWindow):
         uic.loadUi('Gui.ui', self)
 
         # initalize the inital globals
-        globals.integration_time = 1
-        globals.averages = 2
+        globals.integration_time = 10
+        globals.averages = 5
         globals.first = True 
 
         # set all the buttons that should be enabled or not
@@ -317,7 +317,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     file.write("0000" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
             for x in range(0,64):
                 print()
-                
+
             #meascong
             #timestamp
             #SPCfiledate
@@ -345,21 +345,6 @@ class MainWindow(QtWidgets.QMainWindow):
     #
     #
     #   
-
-
-    # def plot_absorbance(self):
-    #     for x in range(0, len(globals.spectraldata)-2):
-    #         globals.absData.append( -math.log((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
-
-    # def plot_transmittance(self):
-    #     print("transmission")
-    #     for x in range(0, len(globals.spectraldata)-2):
-    #         globals.transData.append( (globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x]) )
-
-    # def plot_reflectance(self):
-    #     print("reflectance")
-    #     for x in range(0, len(globals.spectraldata)-2):
-    #         globals.reflectData.append( (globals.spectraldata[x] - globals.darkData[x])/(globals.refData[x]-globals.darkData[x]) )
 
     def scope(self):
         # get the values
