@@ -1,3 +1,6 @@
+from avaspec import * 
+
+
 dev_handle = 0
 pixels = 4096
 wavelength = [0.0] * 4096
@@ -13,3 +16,5 @@ integration_time = 1
 averages = 2
 stopscanning = True
 first = True
+measureType = MeasConfigType()
+identity = AvsIdentityType()

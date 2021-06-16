@@ -200,6 +200,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.configButton.setEnabled(True)
         self.refButton.setEnabled(True)
         self.startStopButton.setEnabled(True)
+        globals.measureType = measconfig
 
         # while globals.first == True:
         #     self.plot_scope()
@@ -217,7 +218,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         ret = AVS_GetNrOfDevices()                                                                          # will check the list of connected usb devices and returns the number attached   
         mylist = AvsIdentityType()                                                                          # pretty sure these do the same thing but whatever you know it works
-        mylist = AVS_GetList(1)                                                                             
+        mylist = AVS_GetList(1)          
+        globals.identity = mylist                                                                   
         # may need to come back and see what this function does
 
         # displaying information on the serial number and working with it
@@ -297,11 +299,25 @@ class MainWindow(QtWidgets.QMainWindow):
             # length
             # seqnum
             file.write("00000000")
-            # measuremode 
+            # measure mode 
             file.write(measureMode)
             # bitness
+            file.write("00000001")
             #SDmarker
+            file.write("00000000")
             #identity 
+            for x in range(0, len(globals.identity[0].SerialNumber)):
+                if len(str(decimalToBinary(globals.identity[0].SerialNumber[x]))) == 6:
+                    file.write("00" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
+                elif len(str(decimalToBinary(globals.identity[0].SerialNumber[x]))) == 7:
+                    file.write("0" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
+                elif len(str(decimalToBinary(globals.identity[0].SerialNumber[x]))) == 5:
+                    file.write("000" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
+                elif len(str(decimalToBinary(globals.identity[0].SerialNumber[x]))) == 4:
+                    file.write("0000" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
+            for x in range(0,64):
+                print()
+                
             #meascong
             #timestamp
             #SPCfiledate
