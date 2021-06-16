@@ -23,13 +23,11 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.averages = 2
         globals.first = True 
 
-
         # set all the buttons that should be enabled or not
         self.startStopButton.setEnabled(False)
         self.darkButton.setEnabled(False)
         self.configButton.setEnabled(False)
         self.refButton.setEnabled(False)
-
 
         # make all the connections
         self.connectButton.clicked.connect(self.connectButton_clicked)
@@ -42,6 +40,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.scopeMinDarkButton.clicked.connect(self.scopeMinDarkButton_clicked)
         self.absButton.clicked.connect(self.absButton_clicked)
         self.reflectButton.clicked.connect(self.reflectButton_clicked)
+        self.saveButton.clicked.connect(self.saveButton_clicked)
+
+    #   Adding all the clicked button functionality 
+    #
+    #
+    #
+    #
 
     @pyqtSlot()
     def absButton_clicked(self):
@@ -49,10 +54,18 @@ class MainWindow(QtWidgets.QMainWindow):
         y_label = "Percent (%)"
         title = "Absorbance Mode"
         for x in range(0, len(globals.spectraldata)-2):
-            if (globals.refData[x] - globals.darkData[x]) == 0:
+            # print((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])))
+            if (globals.refData[x] - globals.darkData[x]) < 0.1:
                 y_value.append(0.0)
+            elif (math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x] - globals.darkData[x])) == 0.0:
+                y_value.append(0.0)
+            elif (math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x] - globals.darkData[x])) > 1:
+                y_value.append(1)
             else:
-                y_value.append( -1*math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x]))))
+                y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
+        for x in range(0, len(y_value)):
+            if y_value[x] > 1:
+                y_value[x] = 1
 
         self.plot(y_value, y_label, title)
 
@@ -86,17 +99,19 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.refData = globals.spectraldata
         print("reference data now saved")
 
+    # this is a little glitchy 
+    # this is a little glitchy 
+    # this is a little glitchy
+    # this is a little glitchy
+    # seems that the dark reading is just noise and increasing the integration time has no effect on it
+    # not sure how to solve this just yet
+    # if it continues on without stopping or coming out of the loop the device needs to be disconnected and then reconnected
+    # the above should get fixed
+
     @pyqtSlot()
     def configButton_clicked(self):
         print("configuration")
-        # this is a little glitchy 
-        # this is a little glitchy 
-        # this is a little glitchy
-        # this is a little glitchy
-        # seems that the dark reading is just noise and increasing the integration time has no effect on it
-        # not sure how to solve this just yet
-        # if it continues on without stopping or coming out of the loop the device needs to be disconnected and then reconnected
-        # the above should get fixed
+
         largest_pixel = 0
         count = 0
         while( largest_pixel > 60000 or largest_pixel < 55000 ):
@@ -115,7 +130,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # QtWidgets.QApplication.processEvents()                                        # look into this line
             count += 1
-            if count >= 200:
+            if count >= 100:
                 break
             self.startStopButton_clicked()
         print(largest_pixel)
@@ -130,7 +145,7 @@ class MainWindow(QtWidgets.QMainWindow):
             cycle_time = globals.integration_time * globals.averages
             self.startStopButton_clicked()
             count += 1 
-            if count >= 200:
+            if count >= 100:
                 break
         print("done with configuration")
         print(globals.integration_time)
@@ -224,6 +239,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         return
 
+    @pyqtSlot()
     def scopeMinDarkButton_clicked(self):
         y_value = []
         title = "Scope Minus Dark"
@@ -232,19 +248,102 @@ class MainWindow(QtWidgets.QMainWindow):
             y_value.append(globals.spectraldata[x]-globals.darkData[x])
         self.plot(y_value, y_label, title)
 
-    def plot_absorbance(self):
-        for x in range(0, len(globals.spectraldata)-2):
-            globals.absData.append( -math.log((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
+    @pyqtSlot()
+    def saveButton_clicked(self):
+        print("Save Button clicked")
+        # may need to add a path variable so you can choose where the file gets saved. 
 
-    def plot_transmittance(self):
-        print("transmission")
-        for x in range(0, len(globals.spectraldata)-2):
-            globals.transData.append( (globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x]) )
+        # would like to open another window to get all the infromation that is need when saving basically the name
+        # need to save to the right file extension depending on the graph they want
+        fileName = "saveFile"
+        extension = ""
+        measureMode = ""
+        choice = 0
+        if(choice == 0):
+            extension = ".raw8"
+            measureMode = "00000000"
+        elif choice == 1:
+            extension = ".rwd8"
+            measureMode = "00000010"
+        elif choice == 2:
+            extension = ".abs8"
+            measureMode = "00000001"
+        elif choice == 3:
+            extension = ".trm8"
+            measureMode = "00000011"
+        elif choice == 4:
+            extension = ".irr8"
+            measureMode = "00000101"
+        elif choice == 5:
+            extension = ".rfl8"
+            measureMode = "00000100"
+        elif choice == 6:
+            extension = ".rir8"
+            measureMode = "00000110"
+        else:
+            extension = ".raw8"
+            measureMode = "00000000"
+            print("ERROR: DIDN'T FIND FILE TYPE SPECIFIED")
 
-    def plot_reflectance(self):
-        print("reflectance")
-        for x in range(0, len(globals.spectraldata)-2):
-            globals.reflectData.append( (globals.spectraldata[x] - globals.darkData[x])/(globals.refData[x]-globals.darkData[x]) )
+        with open(fileName + extension, "w") as file:
+            # Marker
+            file.write("01000001")
+            file.write("01010110")
+            file.write("01010011")
+            file.write("00111000")
+            file.write("00110100")
+            # Number of spectra 
+            file.write("00000001")
+            # length
+            # seqnum
+            file.write("00000000")
+            # measuremode 
+            file.write(measureMode)
+            # bitness
+            #SDmarker
+            #identity 
+            #meascong
+            #timestamp
+            #SPCfiledate
+            #detectortemp
+            #boardtemp
+            #NTC2volt
+            #colorTemp
+            #calIntTime
+            #fitdata
+            #comment
+            #xcoord
+            #scope
+            #dark
+            #reference
+            #mergegroup
+            #straylightconf
+            #nonlincong
+            #customReflectance
+            #customWhiteRefValue
+            #customDarkRefValue
+
+
+    #   clicked button functionality
+    #
+    #
+    #
+    #   
+
+
+    # def plot_absorbance(self):
+    #     for x in range(0, len(globals.spectraldata)-2):
+    #         globals.absData.append( -math.log((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
+
+    # def plot_transmittance(self):
+    #     print("transmission")
+    #     for x in range(0, len(globals.spectraldata)-2):
+    #         globals.transData.append( (globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x]) )
+
+    # def plot_reflectance(self):
+    #     print("reflectance")
+    #     for x in range(0, len(globals.spectraldata)-2):
+    #         globals.reflectData.append( (globals.spectraldata[x] - globals.darkData[x])/(globals.refData[x]-globals.darkData[x]) )
 
     def scope(self):
         # get the values
@@ -273,6 +372,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.graphWidget.plot(x_value, y_value)
 
 
+
+#
+#
+#   This function takes the input and converts it to binary 
+#
+#
+def decimalToBinary(n):
+    return bin(n).replace("0b", "")
+
+#
+#
+#
+#
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
