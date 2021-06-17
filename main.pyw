@@ -134,7 +134,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 # increase integration time: 
                 globals.integration_time = globals.integration_time + increment
 
-            QtWidgets.QApplication.processEvents()                                        # look into this line
+            QtWidgets.QApplication.processEvents()                                        # This works. however ew. 
             count += 1
             if count == 100:
                 break
@@ -240,6 +240,8 @@ class MainWindow(QtWidgets.QMainWindow):
         devcon = AVS_GetParameter(globals.dev_handle, 63484)
         globals.pixels = devcon.m_Detector_m_NrPixels
         globals.wavelength = AVS_GetLambda(globals.dev_handle)
+        # for x in globals.wavelength:
+        #     print(x)
 
         # change if the button should be able to be used or not 
         self.startStopButton.setEnabled(True)
