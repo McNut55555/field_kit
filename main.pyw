@@ -117,11 +117,18 @@ class MainWindow(QtWidgets.QMainWindow):
         largest_pixel = 0
         count = 0
         increment = 5
+        if globals.integration_time <= 5 and globals.integration_time > 1:
+            increment = 1
+        elif globals.integration_time <= 1 and globals.integration_time > 0.2:
+            increment = 0.5
         while( largest_pixel > 60000 or largest_pixel < 55000 ):
             largest_pixel = 0
             for x in range(0, len(globals.spectraldata)-2):
                 if(globals.spectraldata[x] > largest_pixel):
                     largest_pixel = globals.spectraldata[x]
+    
+            if globals.integration_time <= 0:
+                globals.integration_time = math.fabs(globals.integration_time)
 
             if globals.integration_time - increment <= 0:
                 increment = increment / 2
