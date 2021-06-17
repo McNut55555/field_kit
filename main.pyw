@@ -63,19 +63,8 @@ class MainWindow(QtWidgets.QMainWindow):
         y_label = "Absorbance (A.U.)"
         title = "Absorbance Mode"
         for x in range(0, len(globals.spectraldata)-2):
+            # seems that im grabbing outside pixels making the end of the graph bad... will have to look into it. 
             y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
-            print( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10) )
-            # # print((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])))
-            # if (globals.refData[x] - globals.darkData[x]) < 0.001:
-            #     y_value.append(0.0)
-            #     print("fell into this one might be the problem")
-            # elif (math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x] - globals.darkData[x])) == 0.0:
-            #     y_value.append(5)
-            #     print("fell into this one")
-            # # elif (math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x] - globals.darkData[x])) > 1:
-            # #     y_value.append(0.0)
-            # else:
-            #     y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
 
         self.plot(y_value, y_label, title)
 
@@ -145,7 +134,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 # increase integration time: 
                 globals.integration_time = globals.integration_time + increment
 
-            # QtWidgets.QApplication.processEvents()                                        # look into this line
+            QtWidgets.QApplication.processEvents()                                        # look into this line
             count += 1
             if count == 100:
                 break

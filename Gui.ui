@@ -321,16 +321,28 @@
      <string>Measurements</string>
     </property>
    </widget>
-   <widget class="QMenu" name="menuOptions">
+   <widget class="QMenu" name="options">
     <property name="title">
      <string>Options</string>
     </property>
+    <widget class="QMenu" name="menuCollect_Type">
+     <property name="title">
+      <string>Collect Type</string>
+     </property>
+     <addaction name="actioncontinuously"/>
+    </widget>
+    <addaction name="menuCollect_Type"/>
    </widget>
    <addaction name="menuSetup"/>
    <addaction name="menuMeasurement"/>
-   <addaction name="menuOptions"/>
+   <addaction name="options"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actioncontinuously">
+   <property name="text">
+    <string>continuously</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
