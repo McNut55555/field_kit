@@ -41,42 +41,53 @@ class MainWindow(QtWidgets.QMainWindow):
         self.absButton.clicked.connect(self.absButton_clicked)
         self.reflectButton.clicked.connect(self.reflectButton_clicked)
         self.saveButton.clicked.connect(self.saveButton_clicked)
+        self.transButton.clicked.connect(self.transButton_clicked)
 
     #   Adding all the clicked button functionality 
     #
     #
     #
     #
+    @pyqtSlot()
+    def transButton_clicked(self):
+        print("transmission")
+        y_value = []
+        y_label = "Percentage (%)"
+        title = "Transmission Mode"
+        for x in range(0, len(globals.spectraldata)-2):
+            y_value.append(100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
+        self.plot(y_value, y_label, title)
 
     @pyqtSlot()
     def absButton_clicked(self):
         y_value = []
-        y_label = "Percent (%)"
+        y_label = "Absorbance (A.U.)"
         title = "Absorbance Mode"
         for x in range(0, len(globals.spectraldata)-2):
-            # print((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])))
-            if (globals.refData[x] - globals.darkData[x]) < 0.1:
-                y_value.append(0.0)
-            elif (math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x] - globals.darkData[x])) == 0.0:
-                y_value.append(0.0)
-            elif (math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x] - globals.darkData[x])) > 1:
-                y_value.append(1)
-            else:
-                y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
-        for x in range(0, len(y_value)):
-            if y_value[x] > 1:
-                y_value[x] = 1
+            y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
+            print( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10) )
+            # # print((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])))
+            # if (globals.refData[x] - globals.darkData[x]) < 0.001:
+            #     y_value.append(0.0)
+            #     print("fell into this one might be the problem")
+            # elif (math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x] - globals.darkData[x])) == 0.0:
+            #     y_value.append(5)
+            #     print("fell into this one")
+            # # elif (math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x] - globals.darkData[x])) > 1:
+            # #     y_value.append(0.0)
+            # else:
+            #     y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
 
         self.plot(y_value, y_label, title)
 
     @pyqtSlot()
     def reflectButton_clicked(self):
-        print()
         y_value = []
         y_label = "Percent (%)"
         title = "Reflectance Mode"
         for x in range(0,len(globals.spectraldata)-2):
             y_value.append( 100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])) )
+        self.plot(y_value, y_label, title)
 
 
     @pyqtSlot()
@@ -114,38 +125,42 @@ class MainWindow(QtWidgets.QMainWindow):
 
         largest_pixel = 0
         count = 0
+        increment = 5
         while( largest_pixel > 60000 or largest_pixel < 55000 ):
             largest_pixel = 0
             for x in range(0, len(globals.spectraldata)-2):
                 if(globals.spectraldata[x] > largest_pixel):
                     largest_pixel = globals.spectraldata[x]
 
+            if globals.integration_time - increment <= 0:
+                increment = increment / 2
+
             if(largest_pixel > 60000):
                 # lower the integration time:
-                globals.integration_time = globals.integration_time - 2
+                globals.integration_time = globals.integration_time - increment
 
             if(largest_pixel < 55000):
                 # increase integration time: 
-                globals.integration_time = globals.integration_time + 2
+                globals.integration_time = globals.integration_time + increment
 
             # QtWidgets.QApplication.processEvents()                                        # look into this line
             count += 1
-            if count >= 100:
+            if count == 100:
                 break
             self.startStopButton_clicked()
         print(largest_pixel)
         
         count = 0
         cycle_time = globals.integration_time * globals.averages
-        while( cycle_time > 550 or cycle_time < 450):
+        while( cycle_time > 580 or cycle_time < 420):
+            cycle_time = globals.integration_time * globals.averages
             if cycle_time > 550: 
                 globals.averages -= 1 
             if cycle_time < 450: 
                 globals.averages += 1
-            cycle_time = globals.integration_time * globals.averages
             self.startStopButton_clicked()
             count += 1 
-            if count >= 100:
+            if count >= 50:
                 break
         print("done with configuration")
         print(globals.integration_time)
@@ -305,7 +320,9 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write("00000001")
             #SDmarker
             file.write("00000000")
-            #identity 
+            #identity                                                                          # this may need to be 10 long intead of 9
+                #serial number
+            print(type(decimalToBinary(globals.identity[0].UserFriendlyName[0])))
             for x in range(0, len(globals.identity[0].SerialNumber)):
                 if len(str(decimalToBinary(globals.identity[0].SerialNumber[x]))) == 6:
                     file.write("00" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
@@ -315,8 +332,21 @@ class MainWindow(QtWidgets.QMainWindow):
                     file.write("000" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
                 elif len(str(decimalToBinary(globals.identity[0].SerialNumber[x]))) == 4:
                     file.write("0000" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
+                    # has to print 
+                # user friendly name
             for x in range(0,64):
-                print()
+                if x < 10:
+                    if x < len(globals.identity[0].UserFriendlyName):
+                        file.write(decimalToBinary(globals.identity[0].UserFriendlyName[x]))
+                    else:
+                        file.write("00000000")
+                else:
+                    file.write("00000000")
+                # status
+            file.write("\\")
+            print(str(globals.identity[0].Status.decode("utf-8")))
+            print(str(globals.identity[0].Status))
+            print(globals.identity[0].Status)
 
             #meascong
             #timestamp
@@ -380,7 +410,12 @@ class MainWindow(QtWidgets.QMainWindow):
 #
 #
 def decimalToBinary(n):
+    # this thing returns a string
     return bin(n).replace("0b", "")
+
+# def eightBits(n):
+#     if 
+
 
 #
 #
