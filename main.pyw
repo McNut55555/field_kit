@@ -50,7 +50,6 @@ class MainWindow(QtWidgets.QMainWindow):
     #
     @pyqtSlot()
     def transButton_clicked(self):
-        print("transmission")
         y_value = []
         y_label = "Percentage (%)"
         title = "Transmission Mode"
@@ -110,6 +109,10 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.refData = globals.spectraldata
         print("reference data now saved")
 
+    #
+    #
+    #
+    #
     # this is a little glitchy 
     # this is a little glitchy 
     # this is a little glitchy
@@ -118,7 +121,6 @@ class MainWindow(QtWidgets.QMainWindow):
     # not sure how to solve this just yet
     # if it continues on without stopping or coming out of the loop the device needs to be disconnected and then reconnected
     # the above should get fixed
-
     @pyqtSlot()
     def configButton_clicked(self):
         print("configuration")
