@@ -335,6 +335,7 @@
       <string>Collect Type</string>
      </property>
      <addaction name="actioncontinuously"/>
+     <addaction name="actionIndividual"/>
     </widget>
     <addaction name="menuCollect_Type"/>
    </widget>
@@ -346,6 +347,11 @@
   <action name="actioncontinuously">
    <property name="text">
     <string>continuously</string>
+   </property>
+  </action>
+  <action name="actionIndividual">
+   <property name="text">
+    <string>Individual </string>
    </property>
   </action>
  </widget>

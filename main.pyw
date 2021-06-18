@@ -64,7 +64,14 @@ class MainWindow(QtWidgets.QMainWindow):
         title = "Absorbance Mode"
         for x in range(0, len(globals.spectraldata)-2):
             # seems that im grabbing outside pixels making the end of the graph bad... will have to look into it. 
-            y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
+            if math.fabs(globals.refData[x]-globals.darkData[x]) == 0:
+                y_value.append(5)
+                print("divide by zero")
+            elif (math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])) <= 0:
+                y_value.append(5)
+                print("domain = 0")
+            else:
+                y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
 
         self.plot(y_value, y_label, title)
 
