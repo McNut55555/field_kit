@@ -329,16 +329,9 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write("00000000")
             #identity                                                                          # this may need to be 10 long intead of 9
                 #serial number
-            print(type(decimalToBinary(globals.identity[0].UserFriendlyName[0])))
             for x in range(0, len(globals.identity[0].SerialNumber)):
-                if len(str(decimalToBinary(globals.identity[0].SerialNumber[x]))) == 6:
-                    file.write("00" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
-                elif len(str(decimalToBinary(globals.identity[0].SerialNumber[x]))) == 7:
-                    file.write("0" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
-                elif len(str(decimalToBinary(globals.identity[0].SerialNumber[x]))) == 5:
-                    file.write("000" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
-                elif len(str(decimalToBinary(globals.identity[0].SerialNumber[x]))) == 4:
-                    file.write("0000" + str(decimalToBinary(globals.identity[0].SerialNumber[x])))
+                # print(eightBits(str(decimalToBinary(globals.identity[0].SerialNumber[x]))))
+                file.write(eightBits(str(decimalToBinary(globals.identity[0].SerialNumber[x]))))
                     # has to print 
                 # user friendly name
             for x in range(0,64):
@@ -351,11 +344,21 @@ class MainWindow(QtWidgets.QMainWindow):
                     file.write("00000000")
                 # status
             file.write("\\")
-            print(str(globals.identity[0].Status.decode("utf-8")))
-            print(str(globals.identity[0].Status))
-            print(globals.identity[0].Status)
-
+            for x in globals.identity[0].Status:
+                # print(eightBits(decimalToBinary(x)))
+                file.write(eightBits(decimalToBinary(x)))
             #meascong
+            print((globals.MeasConfigType.m_StartPixel))
+            print(globals.MeasConfigType.m_StopPixel)
+            print(globals.MeasConfigType.m_IntegrationTime)
+            print(globals.MeasConfigType.m_IntegrationDelay)
+            print(globals.MeasConfigType.m_NrAverages)
+            print(globals.MeasConfigType.m_CorDynDark_m_Enable)
+            print(globals.MeasConfigType.m_Smoothing_m_SmoothPix)
+            print(globals.MeasConfigType.m_SaturationDetection)
+            print(globals.MeasConfigType.m_Trigger_m_Mode)
+            print(globals.MeasConfigType.m_Control_m_StrobeControl)
+
             #timestamp
             #SPCfiledate
             #detectortemp
@@ -416,13 +419,30 @@ class MainWindow(QtWidgets.QMainWindow):
 #   This function takes the input and converts it to binary 
 #
 #
+
 def decimalToBinary(n):
     # this thing returns a string
     return bin(n).replace("0b", "")
 
-# def eightBits(n):
-#     if 
-
+def eightBits(n):
+    if len(n) == 1:
+        n = "0000000" + n
+    elif len(n) == 2:
+        n = "000000" + n
+    elif len(n) == 3:
+        n = "00000" + n
+    elif len(n) == 4:
+        n = "0000" + n
+    elif len(n) == 5:
+        n = "000" + n
+    elif len(n) == 6:
+        n = "00" + n
+    elif len(n) == 7:
+        n = "0" + n
+    else:
+        print("fell into the else")
+        return n
+    return n
 
 #
 #
