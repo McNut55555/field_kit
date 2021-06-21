@@ -92,6 +92,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def transButton_clicked(self):
+        globals.visGraph = 4
         y_value = []
         y_label = "Percentage (%)"
         title = "Transmission Mode"
@@ -101,6 +102,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def absButton_clicked(self):
+        globals.visGraph = 3
         y_value = []
         y_label = "Absorbance (A.U.)"
         title = "Absorbance Mode"
@@ -119,6 +121,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def reflectButton_clicked(self):
+        globals.visGraph = 5
         y_value = []
         y_label = "Percent (%)"
         title = "Reflectance Mode"
@@ -217,7 +220,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def startStopButton_clicked(self):
-        print("went into collect")
         # self.startStopButton.setEnabled(False)
         self.repaint()                                                                      # gets rid of old data on the screen
         ret = AVS_UseHighResAdc(globals.dev_handle, True)                                   # sets the spectrometer to use 16 bit resolution instead of 14 bit
@@ -270,13 +272,34 @@ class MainWindow(QtWidgets.QMainWindow):
         #     self.plot_scope()
         #     globals.first = False
 
+        # if globals.visGraph == 1:
+        #     print()
+        #     self.scope()
+        # elif globals.visGraph == 2:
+        #     print()
+        #     self.scopeMinDarkButton()
+        # elif globals.visGraph == 3:
+        #     print()
+        #     self.absButton()
+        # elif globals.visGraph == 4:
+        #     print()
+        #     self.transButton()
+        # elif globals.visGraph == 5:
+        #     print()
+        #     self.refButton()
+        # elif globals.visGraph == 6:
+        #     print()
+        # elif globals.visGraph == 7:
+        #     print()
+        # else:
+        #     print()
         self.scope()    
 
         return   
 
     @pyqtSlot()
     def connectButton_clicked(self):
-        print("went into the function")
+        print("connected")
         # initialize the usb... were not gonna care about eithernet for now only usb
         ret = AVS_Init(0)                                                                                   # init(0) means were using a USB
                                                                                                             # will return the number of devices on success this should be 1 
@@ -310,6 +333,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def scopeMinDarkButton_clicked(self):
+        globals.visGraph = 2
         y_value = []
         title = "Scope Minus Dark"
         y_label = "Counts"
@@ -319,7 +343,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def saveButton_clicked(self):
-        print("this is the save feature")
         print("Save Button clicked")
         # may need to add a path variable so you can choose where the file gets saved. 
 
@@ -434,13 +457,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def scope(self):
         # get the values
+        globals.visGraph = 1
         y_value = []
         for x in range(0,len(globals.spectraldata)-2):                                  # dropping off the last two data points
             y_value.append(globals.spectraldata[x])
         self.plot(y_value, "Scope (ADC Counts)", "Scope Mode")
 
     def plot(self, y_value, y_label, title):
-
         # get the values
         x_value = []
         for x in range(0,len(globals.wavelength)-2):                                    # not sure if this is going to effect it but dropping off the last two data points
