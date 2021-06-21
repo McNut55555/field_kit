@@ -1,5 +1,5 @@
 from re import S
-from PyQt5 import QtWidgets, uic
+from PyQt5 import QtWidgets, uic, QtCore
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
@@ -8,15 +8,40 @@ import globals
 from avaspec import *
 import time
 import math
-
+from ui_functions import *
+from ui_main import Ui_MainWindow
 
 class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
-        #Load the UI Page
-        uic.loadUi('Gui.ui', self)
+        ## LOAD THE UI PAGE
+        ######################################################################## 
+        uic.loadUi('ui_main.ui', self)
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+
+        ## TOGGLE/BURGUER MENU
+        ########################################################################
+        self.ui.Btn_Toggle.clicked.connect(lambda: UIFunctions.toggleMenu(self, 250, True))
+
+        ## PAGES
+        ########################################################################
+
+        # PAGE 1
+        self.ui.btn_page_1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_1))
+        self.ui.connectButton.clicked.connect(self.connectButton_clicked)
+
+        # PAGE 2
+        self.ui.btn_page_2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
+
+        # PAGE 3
+        self.ui.btn_page_3.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_3))
+
+
+        # makes sure that the inital page that the GUI displays is page 1. 
+        self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
 
         # initalize the inital globals
         globals.integration_time = 10
@@ -24,24 +49,30 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.first = True 
 
         # set all the buttons that should be enabled or not
-        self.startStopButton.setEnabled(False)
-        self.darkButton.setEnabled(False)
-        self.configButton.setEnabled(False)
-        self.refButton.setEnabled(False)
+        # self.startStopButton.setEnabled(False)
+        # self.darkButton.setEnabled(False)
+        # self.configButton.setEnabled(False)
+        # self.refButton.setEnabled(False)
 
         # make all the connections
-        self.connectButton.clicked.connect(self.connectButton_clicked)
-        self.startStopButton.clicked.connect(self.startStopButton_clicked)
-        self.darkButton.clicked.connect(self.darkButton_clicked)
-        self.refButton.clicked.connect(self.refButton_clicked)
-        self.configButton.clicked.connect(self.configButton_clicked)
-        self.stopButton.clicked.connect(self.stopButton_clicked)
-        self.scopeModeButton.clicked.connect(self.scope)
-        self.scopeMinDarkButton.clicked.connect(self.scopeMinDarkButton_clicked)
-        self.absButton.clicked.connect(self.absButton_clicked)
-        self.reflectButton.clicked.connect(self.reflectButton_clicked)
-        self.saveButton.clicked.connect(self.saveButton_clicked)
-        self.transButton.clicked.connect(self.transButton_clicked)
+        self.ui.connectButton.clicked.connect(lambda: self.connectButton_clicked)
+        self.ui.startStopButton.clicked.connect(self.startStopButton_clicked)
+        self.ui.darkButton.clicked.connect(self.darkButton_clicked)
+        self.ui.refButton.clicked.connect(self.refButton_clicked)
+        self.ui.configButton.clicked.connect(self.configButton_clicked)
+        self.ui.stopButton.clicked.connect(self.stopButton_clicked)
+        self.ui.scopeModeButton.clicked.connect(self.scope)
+        self.ui.scopeMinDarkButton.clicked.connect(self.scopeMinDarkButton_clicked)
+        self.ui.absButton.clicked.connect(self.absButton_clicked)
+        self.ui.reflectButton.clicked.connect(self.reflectButton_clicked)
+        self.ui.saveButton.clicked.connect(self.saveButton_clicked)
+        self.ui.transButton.clicked.connect(self.transButton_clicked)
+        self.ui.collectButton_2.clicked.connect(self.startStopButton_clicked)
+
+        # show the screen
+        self.show()
+
+
 
     #   Adding all the clicked button functionality 
     #
@@ -93,11 +124,11 @@ class MainWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def stopButton_clicked(self):
         AVS_Done()
-        self.startStopButton.setEnabled(False)
-        self.connectButton.setEnabled(True)
-        self.darkButton.setEnabled(False)
-        self.configButton.setEnabled(False)
-        self.refButton.setEnabled(False)
+        # self.startStopButton.setEnabled(False)
+        # self.connectButton.setEnabled(True)
+        # self.darkButton.setEnabled(False)
+        # self.configButton.setEnabled(False)
+        # self.refButton.setEnabled(False)
         print("disconnected")
 
     @pyqtSlot()
@@ -174,7 +205,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def startStopButton_clicked(self):
-        self.startStopButton.setEnabled(False)
+        print("went into collect")
+        # self.startStopButton.setEnabled(False)
         self.repaint()                                                                      # gets rid of old data on the screen
         ret = AVS_UseHighResAdc(globals.dev_handle, True)                                   # sets the spectrometer to use 16 bit resolution instead of 14 bit
         measconfig = MeasConfigType()
@@ -216,10 +248,10 @@ class MainWindow(QtWidgets.QMainWindow):
             # self.app.processEvents()                          ##########################################      look into this line
             time.sleep(0.001)  
 
-        self.darkButton.setEnabled(True)
-        self.configButton.setEnabled(True)
-        self.refButton.setEnabled(True)
-        self.startStopButton.setEnabled(True)
+        # self.darkButton.setEnabled(True)
+        # self.configButton.setEnabled(True)
+        # self.refButton.setEnabled(True)
+        # self.startStopButton.setEnabled(True)
         globals.measureType = measconfig
 
         # while globals.first == True:
@@ -232,6 +264,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def connectButton_clicked(self):
+        print("went into the function")
         # initialize the usb... were not gonna care about eithernet for now only usb
         ret = AVS_Init(0)                                                                                   # init(0) means were using a USB
                                                                                                             # will return the number of devices on success this should be 1 
@@ -258,8 +291,8 @@ class MainWindow(QtWidgets.QMainWindow):
         #     print(x)
 
         # change if the button should be able to be used or not 
-        self.startStopButton.setEnabled(True)
-        self.connectButton.setEnabled(False)
+        # self.startStopButton.setEnabled(True)
+        # self.connectButton.setEnabled(False)
 
         return
 
@@ -402,16 +435,23 @@ class MainWindow(QtWidgets.QMainWindow):
             x_value.append(globals.wavelength[x])
         
         # Set the label for x axis
-        self.graphWidget.setLabel('bottom', 'Wavelength (nm)')
+        self.ui.graphWidget.setLabel('bottom', 'Wavelength (nm)')
+        self.ui.graphWidget_2.setLabel('bottom', 'Wavelength (nm)')
+
 
         # Set the label for y-axis
-        self.graphWidget.setLabel('left', y_label)
+        self.ui.graphWidget.setLabel('left', y_label)
+        self.ui.graphWidget_2.setLabel('left', y_label)
 
         # Set the title of the graph
-        self.graphWidget.setTitle(title)
+        self.ui.graphWidget.setTitle(title)
+        self.ui.graphWidget_2.setTitle(title)
 
-        self.graphWidget.clear()
-        self.graphWidget.plot(x_value, y_value)
+        self.ui.graphWidget.clear()
+        self.ui.graphWidget.plot(x_value, y_value)
+
+        self.ui.graphWidget_2.clear()
+        self.ui.graphWidget_2.plot(x_value, y_value)
 
 
 
