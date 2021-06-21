@@ -744,59 +744,85 @@ QPushButton:hover {
              </layout>
             </widget>
             <widget class="QWidget" name="page_3">
-             <widget class="QWidget" name="layoutWidget">
+             <widget class="QWidget" name="">
               <property name="geometry">
                <rect>
-                <x>52</x>
-                <y>130</y>
-                <width>401</width>
-                <height>81</height>
+                <x>10</x>
+                <y>10</y>
+                <width>394</width>
+                <height>181</height>
                </rect>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <layout class="QVBoxLayout" name="verticalLayout_15">
                <item>
-                <widget class="QLineEdit" name="lineEdit">
-                 <property name="styleSheet">
-                  <string notr="true">color: #FFF;
-</string>
-                 </property>
-                 <property name="text">
-                  <string>Measurement type</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <layout class="QVBoxLayout" name="verticalLayout_8">
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
                  <item>
-                  <widget class="QRadioButton" name="SingleButton">
+                  <widget class="QLabel" name="label">
                    <property name="styleSheet">
                     <string notr="true">color: #FFF;
 </string>
                    </property>
                    <property name="text">
-                    <string>Single Measurement</string>
+                    <string>Measurement Type</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QRadioButton" name="ContinueButton">
+                  <layout class="QVBoxLayout" name="verticalLayout_8">
+                   <item>
+                    <widget class="QRadioButton" name="SingleButton">
+                     <property name="styleSheet">
+                      <string notr="true">color: #FFF;
+</string>
+                     </property>
+                     <property name="text">
+                      <string>Single Measurement</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QRadioButton" name="ContinueButton">
+                     <property name="styleSheet">
+                      <string notr="true">color: #FFF;
+</string>
+                     </property>
+                     <property name="text">
+                      <string>Continuously</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pushButton_2">
                    <property name="styleSheet">
                     <string notr="true">color: #FFF;
 </string>
                    </property>
                    <property name="text">
-                    <string>Continuously</string>
+                    <string>Apply</string>
                    </property>
                   </widget>
                  </item>
                 </layout>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_2">
-                 <property name="text">
-                  <string>Apply</string>
-                 </property>
-                </widget>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <widget class="QLabel" name="label_2">
+                   <property name="styleSheet">
+                    <string notr="true">color: #FFF;
+</string>
+                   </property>
+                   <property name="text">
+                    <string>Save Location:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLineEdit" name="lineEdit"/>
+                 </item>
+                </layout>
                </item>
               </layout>
              </widget>
