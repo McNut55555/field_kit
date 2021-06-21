@@ -44,7 +44,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # makes sure that the inital page that the GUI displays is page 1. 
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
 
-        # initalize the inital globals
+
+        ## initalize the inital globals
+        ########################################################################
         globals.integration_time = 10
         globals.averages = 5
         globals.first = True 
@@ -56,6 +58,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.refButton.setEnabled(False)
 
         # make all the connections
+        #######################################################################
         self.ui.connectButton.clicked.connect(lambda: self.connectButton_clicked)
         self.ui.startStopButton.clicked.connect(self.startStopButton_clicked)
         self.ui.darkButton.clicked.connect(self.darkButton_clicked)
@@ -72,6 +75,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.scaleButton.clicked.connect(self.scaleButton_clicked)
 
         # show the screen
+        #######################################################################
         self.show()
 
 
@@ -150,10 +154,8 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.refData = globals.spectraldata
         print("reference data now saved")
 
-    #
-    #
-    #
-    #
+
+    ############################################################################################    
     # this is a little glitchy 
     # this is a little glitchy 
     # this is a little glitchy
