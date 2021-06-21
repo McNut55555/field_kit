@@ -274,6 +274,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     @pyqtSlot()
     def saveButton_clicked(self):
+        print("this is the save feature")
         print("Save Button clicked")
         # may need to add a path variable so you can choose where the file gets saved. 
 
