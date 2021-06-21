@@ -366,7 +366,7 @@ class Ui_MainWindow(object):
         self.page_3 = QtWidgets.QWidget()
         self.page_3.setObjectName("page_3")
         self.layoutWidget = QtWidgets.QWidget(self.page_3)
-        self.layoutWidget.setGeometry(QtCore.QRect(52, 130, 331, 56))
+        self.layoutWidget.setGeometry(QtCore.QRect(52, 130, 401, 81))
         self.layoutWidget.setObjectName("layoutWidget")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.layoutWidget)
         self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -389,6 +389,9 @@ class Ui_MainWindow(object):
         self.ContinueButton.setObjectName("ContinueButton")
         self.verticalLayout_8.addWidget(self.ContinueButton)
         self.horizontalLayout_6.addLayout(self.verticalLayout_8)
+        self.pushButton_2 = QtWidgets.QPushButton(self.layoutWidget)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.horizontalLayout_6.addWidget(self.pushButton_2)
         self.stackedWidget.addWidget(self.page_3)
         self.verticalLayout_5.addWidget(self.stackedWidget)
         self.horizontalLayout_2.addWidget(self.frame_pages)
@@ -396,7 +399,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -425,6 +428,7 @@ class Ui_MainWindow(object):
         self.lineEdit.setText(_translate("MainWindow", "Measurement type"))
         self.SingleButton.setText(_translate("MainWindow", "Single Measurement"))
         self.ContinueButton.setText(_translate("MainWindow", "Continuously"))
+        self.pushButton_2.setText(_translate("MainWindow", "Apply"))
 
 from pyqtgraph import PlotWidget
 

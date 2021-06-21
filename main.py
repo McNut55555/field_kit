@@ -4,7 +4,6 @@ from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
 import os
-
 from pyqtgraph.functions import disconnect
 import globals
 from avaspec import *
@@ -70,6 +69,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.saveButton.clicked.connect(self.saveButton_clicked)
         self.ui.transButton.clicked.connect(self.transButton_clicked)
         self.ui.collectButton_2.clicked.connect(self.startStopButton_clicked)
+        self.ui.scaleButton.clicked.connect(self.scaleButton_clicked)
 
         # show the screen
         self.show()
@@ -81,6 +81,15 @@ class MainWindow(QtWidgets.QMainWindow):
     #
     #
     #
+    @pyqtSlot()
+    def scaleButton_clicked(self):
+        print("scale")
+        print("this doesnt work")
+        return
+        self.ui.graphWidget.ViewBox()
+        self.ui.graphWidget_2.ViewBox()
+
+
     @pyqtSlot()
     def transButton_clicked(self):
         y_value = []
@@ -187,6 +196,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 break
             self.startStopButton_clicked()
         print(largest_pixel)
+        globals.max = largest_pixel
         
         count = 0
         cycle_time = globals.integration_time * globals.averages
