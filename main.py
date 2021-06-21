@@ -4,6 +4,8 @@ from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
 import os
+
+from pyqtgraph.functions import disconnect
 import globals
 from avaspec import *
 import time
