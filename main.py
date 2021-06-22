@@ -397,7 +397,6 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write("00000000")
             file.write("\\")
             # measure mode 
-            file.write("\\")
             file.write(measureMode)
             file.write("\\")
             # bitness
