@@ -11,6 +11,7 @@ import time
 import math
 from ui_functions import *
 from ui_main import Ui_MainWindow
+import json 
 
 class MainWindow(QtWidgets.QMainWindow):
 
@@ -347,7 +348,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def saveButton_clicked(self):
         print("Save Button clicked")
         # may need to add a path variable so you can choose where the file gets saved. 
-
         # would like to open another window to get all the infromation that is need when saving basically the name
         # need to save to the right file extension depending on the graph they want
         fileName = "saveFile"
@@ -382,22 +382,30 @@ class MainWindow(QtWidgets.QMainWindow):
 
         with open(fileName + extension, "w") as file:
             # Marker
+            file.write("\\")
             file.write("01000001")
             file.write("01010110")
             file.write("01010011")
             file.write("00111000")
             file.write("00110100")
             # Number of spectra 
+            file.write("\\")
             file.write("00000001")
             # length
             # seqnum
+            file.write("\\")
             file.write("00000000")
+            file.write("\\")
             # measure mode 
+            file.write("\\")
             file.write(measureMode)
+            file.write("\\")
             # bitness
             file.write("00000001")
+            file.write("\\")
             #SDmarker
             file.write("00000000")
+            file.write("\\")
             #identity                                                                          # this may need to be 10 long intead of 9
                 #serial number
             for x in range(0, len(globals.identity[0].SerialNumber)):
@@ -419,15 +427,25 @@ class MainWindow(QtWidgets.QMainWindow):
                 # print(eightBits(decimalToBinary(x)))
                 file.write(eightBits(decimalToBinary(x)))
             #meascong
+            # file.write(decimalToBinary(int(globals.MeasConfigType.m_StartPixel)))
             print((globals.MeasConfigType.m_StartPixel))
+            # file.write(decimalToBinary(globals.MeasConfigType.m_StopPixel))
             print(globals.MeasConfigType.m_StopPixel)
+            # file.write(decimalToBinary(globals.MeasConfigType.m_IntegrationTime))
             print(globals.MeasConfigType.m_IntegrationTime)
+            # file.write(decimalToBinary(globals.MeasConfigType.m_IntegrationDelay))
             print(globals.MeasConfigType.m_IntegrationDelay)
+            # file.write(decimalToBinary(globals.MeasConfigType.m_NrAverages))
             print(globals.MeasConfigType.m_NrAverages)
+            # file.write(decimalToBinary(globals.MeasConfigType.m_CorDynDark_m_Enable))
             print(globals.MeasConfigType.m_CorDynDark_m_Enable)
+            # file.write(decimalToBinary(globals.MeasConfigType.m_Smoothing_m_SmoothPix))
             print(globals.MeasConfigType.m_Smoothing_m_SmoothPix)
+            # file.write(decimalToBinary(globals.MeasConfigType.m_SaturationDetection))
             print(globals.MeasConfigType.m_SaturationDetection)
+            # file.write(decimalToBinary(globals.MeasConfigType.m_Trigger_m_Mode))
             print(globals.MeasConfigType.m_Trigger_m_Mode)
+            # file.write(decimalToBinary(globals.MeasConfigType.m_Control_m_StrobeControl))
             print(globals.MeasConfigType.m_Control_m_StrobeControl)
 
             #timestamp
