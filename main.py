@@ -74,6 +74,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.transButton.clicked.connect(self.transButton_clicked)
         self.ui.collectButton_2.clicked.connect(self.startStopButton_clicked)
         self.ui.scaleButton.clicked.connect(self.scaleButton_clicked)
+        self.ui.absIrrButton.clicked.connect(self.absIrrButton_clicked)
+        self.ui.relIrrButton.clicked.connect(self.relIrrButton_clicked)
 
         # show the screen
         #######################################################################
@@ -86,6 +88,14 @@ class MainWindow(QtWidgets.QMainWindow):
     #
     #
     #
+    @pyqtSlot()
+    def absIrrButton_clicked(self):
+        print("abs Irr")
+
+    @pyqtSlot()
+    def relIrrButton_clicked(self):
+        print("rel Irr")
+
     @pyqtSlot()
     def scaleButton_clicked(self):
         print("scale")
