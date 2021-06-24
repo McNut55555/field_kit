@@ -361,10 +361,52 @@ class MainWindow(QtWidgets.QMainWindow):
         # may need to add a path variable so you can choose where the file gets saved. 
         # would like to open another window to get all the infromation that is need when saving basically the name
         # need to save to the right file extension depending on the graph they want
+<<<<<<< HEAD
         msg = QMessageBox()
         msg.setWindowTitle("Save")
         msg.setText("This is where you would put the directory for the information to be saved")
         x = msg.exec()
+=======
+        #
+        #
+        #
+        ########################################## 
+
+        data = {
+            "length": 0, 
+            "seqnum": 0, 
+            "measmode": 0, 
+            "bitness": 0,
+            "SDmarker": 0, 
+            "identity": AvsIdentityType(),
+            "measconf": MeasConfigType(),
+            "timestamp": 0,
+            "SPCfiledate": 0,
+            "detectortemp": 0,
+            "boardtemp": 0,
+            "NTC2volt": 0, 
+            "ColorTemp": 0,
+            "CalIntTime": 0,
+            "fitdata": 0, 
+            "comment": 0, 
+            "xcoord": 0, 
+            "scope": 0,
+            "dark": 0,
+            "reference": 0,
+            "mergegroup": 0,
+            "straylightconf": 0,
+            "nonlinconf": 0,
+            "CustomReflectance": 0, 
+            "CustomWhiteRefValue": 0,
+            "CustomDarkRefValue": 0
+        }
+
+        ##########################################
+        #
+        #
+        #
+
+>>>>>>> 597b4da89513266dd4abd70b6870634a037f4964
         fileName = "saveFile"
         extension = ""
         measureMode = ""
@@ -442,7 +484,11 @@ class MainWindow(QtWidgets.QMainWindow):
                 file.write(eightBits(decimalToBinary(x)))
             #meascong
             # file.write(decimalToBinary(int(globals.MeasConfigType.m_StartPixel)))
-            print((globals.MeasConfigType.m_StartPixel))
+            print()
+            x = (json.decoder(globals.MeasConfigType.m_StartPixel))
+            print(x)
+
+            print()
             # file.write(decimalToBinary(globals.MeasConfigType.m_StopPixel))
             print(globals.MeasConfigType.m_StopPixel)
             # file.write(decimalToBinary(globals.MeasConfigType.m_IntegrationTime))
