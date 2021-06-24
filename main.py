@@ -446,26 +446,33 @@ class MainWindow(QtWidgets.QMainWindow):
                 # print(eightBits(decimalToBinary(x)))
                 file.write(eightBits(decimalToBinary(x)))
             #meascong
-            # file.write(decimalToBinary(int(globals.MeasConfigType.m_StartPixel)))
-            print((globals.MeasConfigType.m_StartPixel))
-            # file.write(decimalToBinary(globals.MeasConfigType.m_StopPixel))
-            print(globals.MeasConfigType.m_StopPixel)
-            # file.write(decimalToBinary(globals.MeasConfigType.m_IntegrationTime))
-            print(globals.MeasConfigType.m_IntegrationTime)
-            # file.write(decimalToBinary(globals.MeasConfigType.m_IntegrationDelay))
-            print(globals.MeasConfigType.m_IntegrationDelay)
-            # file.write(decimalToBinary(globals.MeasConfigType.m_NrAverages))
-            print(globals.MeasConfigType.m_NrAverages)
-            # file.write(decimalToBinary(globals.MeasConfigType.m_CorDynDark_m_Enable))
-            print(globals.MeasConfigType.m_CorDynDark_m_Enable)
-            # file.write(decimalToBinary(globals.MeasConfigType.m_Smoothing_m_SmoothPix))
-            print(globals.MeasConfigType.m_Smoothing_m_SmoothPix)
-            # file.write(decimalToBinary(globals.MeasConfigType.m_SaturationDetection))
-            print(globals.MeasConfigType.m_SaturationDetection)
-            # file.write(decimalToBinary(globals.MeasConfigType.m_Trigger_m_Mode))
-            print(globals.MeasConfigType.m_Trigger_m_Mode)
-            # file.write(decimalToBinary(globals.MeasConfigType.m_Control_m_StrobeControl))
-            print(globals.MeasConfigType.m_Control_m_StrobeControl)
+
+            for x in globals.identity[0]._fields_:
+                print(x)
+
+            for x in globals.measureType._fields_:
+                print(x)
+
+            # # file.write(decimalToBinary(int(globals.MeasConfigType.m_StartPixel)))
+            # print((globals.MeasConfigType.m_StartPixel.size))
+            # # file.write(decimalToBinary(globals.MeasConfigType.m_StopPixel))
+            # print(globals.MeasConfigType.m_StopPixel.size)
+            # # file.write(decimalToBinary(globals.MeasConfigType.m_IntegrationTime))
+            # print(globals.MeasConfigType.m_IntegrationTime.offset)
+            # # file.write(decimalToBinary(globals.MeasConfigType.m_IntegrationDelay))
+            # print(type(globals.MeasConfigType.m_IntegrationDelay))
+            # # file.write(decimalToBinary(globals.MeasConfigType.m_NrAverages))
+            # print(globals.MeasConfigType.m_NrAverages)
+            # # file.write(decimalToBinary(globals.MeasConfigType.m_CorDynDark_m_Enable))
+            # print(globals.MeasConfigType.m_CorDynDark_m_Enable)
+            # # file.write(decimalToBinary(globals.MeasConfigType.m_Smoothing_m_SmoothPix))
+            # print(globals.MeasConfigType.m_Smoothing_m_SmoothPix)
+            # # file.write(decimalToBinary(globals.MeasConfigType.m_SaturationDetection))
+            # print(globals.MeasConfigType.m_SaturationDetection)
+            # # file.write(decimalToBinary(globals.MeasConfigType.m_Trigger_m_Mode))
+            # print(globals.MeasConfigType.m_Trigger_m_Mode)
+            # # file.write(decimalToBinary(globals.MeasConfigType.m_Control_m_StrobeControl))
+            # print(globals.MeasConfigType.m_Control_m_StrobeControl)
 
             #timestamp
             #SPCfiledate
