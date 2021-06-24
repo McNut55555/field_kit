@@ -1,5 +1,6 @@
 from re import S
 from PyQt5 import QtWidgets, uic, QtCore
+from PyQt5.QtWidgets import QMessageBox
 from pyqtgraph import PlotWidget, plot
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
@@ -360,6 +361,10 @@ class MainWindow(QtWidgets.QMainWindow):
         # may need to add a path variable so you can choose where the file gets saved. 
         # would like to open another window to get all the infromation that is need when saving basically the name
         # need to save to the right file extension depending on the graph they want
+        msg = QMessageBox()
+        msg.setWindowTitle("Save")
+        msg.setText("This is where you would put the directory for the information to be saved")
+        x = msg.exec()
         fileName = "saveFile"
         extension = ""
         measureMode = ""
