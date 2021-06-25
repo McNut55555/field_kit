@@ -13,6 +13,7 @@ import math
 from ui_functions import *
 from ui_main import Ui_MainWindow
 import json 
+import struct
 
 class MainWindow(QtWidgets.QMainWindow):
 
@@ -334,6 +335,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # gets all the information about the spectrometer
         devcon = DeviceConfigType()
         devcon = AVS_GetParameter(globals.dev_handle, 63484)
+        globals.deviceConfig = devcon
         globals.pixels = devcon.m_Detector_m_NrPixels
         globals.wavelength = AVS_GetLambda(globals.dev_handle)
         # for x in globals.wavelength:
@@ -363,10 +365,10 @@ class MainWindow(QtWidgets.QMainWindow):
         # need to save to the right file extension depending on the graph they want
 
         # adding a pop up 
-        msg = QMessageBox()
-        msg.setWindowTitle("Save")
-        msg.setText("where you would input a save dir")
-        x = msg.exec()
+        # msg = QMessageBox()
+        # msg.setWindowTitle("Save")
+        # msg.setText("where you would input a save dir")
+        # x = msg.exec()
         #
 
 
@@ -446,33 +448,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 # print(eightBits(decimalToBinary(x)))
                 file.write(eightBits(decimalToBinary(x)))
             #meascong
-
-            for x in globals.identity[0]._fields_:
-                print(x)
-
-            for x in globals.measureType._fields_:
-                print(x)
-
-            # # file.write(decimalToBinary(int(globals.MeasConfigType.m_StartPixel)))
-            # print((globals.MeasConfigType.m_StartPixel.size))
-            # # file.write(decimalToBinary(globals.MeasConfigType.m_StopPixel))
-            # print(globals.MeasConfigType.m_StopPixel.size)
-            # # file.write(decimalToBinary(globals.MeasConfigType.m_IntegrationTime))
-            # print(globals.MeasConfigType.m_IntegrationTime.offset)
-            # # file.write(decimalToBinary(globals.MeasConfigType.m_IntegrationDelay))
-            # print(type(globals.MeasConfigType.m_IntegrationDelay))
-            # # file.write(decimalToBinary(globals.MeasConfigType.m_NrAverages))
-            # print(globals.MeasConfigType.m_NrAverages)
-            # # file.write(decimalToBinary(globals.MeasConfigType.m_CorDynDark_m_Enable))
-            # print(globals.MeasConfigType.m_CorDynDark_m_Enable)
-            # # file.write(decimalToBinary(globals.MeasConfigType.m_Smoothing_m_SmoothPix))
-            # print(globals.MeasConfigType.m_Smoothing_m_SmoothPix)
-            # # file.write(decimalToBinary(globals.MeasConfigType.m_SaturationDetection))
-            # print(globals.MeasConfigType.m_SaturationDetection)
-            # # file.write(decimalToBinary(globals.MeasConfigType.m_Trigger_m_Mode))
-            # print(globals.MeasConfigType.m_Trigger_m_Mode)
-            # # file.write(decimalToBinary(globals.MeasConfigType.m_Control_m_StrobeControl))
-            # print(globals.MeasConfigType.m_Control_m_StrobeControl)
+            print(globals.measureType.m_StartPixel)
+            print(globals.measureType.m_StopPixel)
 
             #timestamp
             #SPCfiledate
