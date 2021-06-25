@@ -97,6 +97,7 @@ class MainWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def relIrrButton_clicked(self):
         print("rel Irr")
+        print('were gonna do this one')
 
     @pyqtSlot()
     def scaleButton_clicked(self):

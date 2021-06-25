@@ -310,7 +310,7 @@ QPushButton:hover {
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>1</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="page_1">
              <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -744,7 +744,7 @@ QPushButton:hover {
              </layout>
             </widget>
             <widget class="QWidget" name="page_3">
-             <widget class="QWidget" name="">
+             <widget class="QWidget" name="layoutWidget">
               <property name="geometry">
                <rect>
                 <x>10</x>
@@ -823,6 +823,32 @@ QPushButton:hover {
                   <widget class="QLineEdit" name="lineEdit"/>
                  </item>
                 </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="">
+              <property name="geometry">
+               <rect>
+                <x>20</x>
+                <y>220</y>
+                <width>342</width>
+                <height>27</height>
+               </rect>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <item>
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>Save Spectrum for Relative Irradiance</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="RefIrrSpec">
+                 <property name="text">
+                  <string>Save</string>
+                 </property>
+                </widget>
                </item>
               </layout>
              </widget>
