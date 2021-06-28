@@ -1,7 +1,7 @@
 from re import S
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtWidgets import QMessageBox
-from pyqtgraph import PlotWidget, plot
+from pyqtgraph import PlotWidget, plot, ViewBox
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
 import os
@@ -104,6 +104,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def scaleButton_clicked(self):
         print("scale")
         print("this doesnt work")
+        ViewBox(self, False, True, False, False, False, False, "None", 2.0)
         return
         self.ui.graphWidget.ViewBox()
         self.ui.graphWidget_2.ViewBox()
