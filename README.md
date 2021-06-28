@@ -5,6 +5,9 @@ portable spectroscopy field kit for Avantes
 In these list of these instruction I assume that you are developing on Linux (unbuntu 18.01). Everything is created using 
 python, python libraries, and qt designer. 
 
+# Issues
+Currently working on developing the Irradiance graphs and saving the data to a file that is able to open in Avasoft. 
+
 # Python Libraries (may need to install through terminal):
 PyQt5
 pyqtgraph
