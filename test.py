@@ -16,6 +16,7 @@ from ui_functions import *
 from ui_main import Ui_MainWindow
 import json 
 import struct
+# import wintypes 
 
 print("connected")
 ret = AVS_Init(0)                                                                                   # init(0) means were using a USB
@@ -112,5 +113,7 @@ print(globals.measureType.m_Control_m_LaserDelay)
 print(globals.measureType.m_Control_m_LaserWidth)
 print(globals.measureType.m_Control_m_LaserWaveLength)
 print(globals.measureType.m_Control_m_StoreToRam)
+
+# wintypes.DWORD(0)
 
 
