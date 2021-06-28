@@ -13,8 +13,6 @@ class UIFunctions(MainWindow):
 
     def toggleMenu(self, maxWidth, enable):
         if enable:
-            print('yup')
-
             # GET WIDTH
             width = self.ui.frame_left_menu.width()
             maxExtend = maxWidth
