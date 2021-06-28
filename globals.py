@@ -21,6 +21,7 @@ stopscanning = True
 first = True
 measureType = MeasConfigType()
 identity = AvsIdentityType()
+deviceConfig = DeviceConfigType()
 
 # what plot are you currently on
 visGraph = 0
