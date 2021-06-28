@@ -78,6 +78,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.scaleButton.clicked.connect(self.scaleButton_clicked)
         self.ui.absIrrButton.clicked.connect(self.absIrrButton_clicked)
         self.ui.relIrrButton.clicked.connect(self.relIrrButton_clicked)
+        self.ui.relIrrButton
 
         # show the screen
         #######################################################################
@@ -169,15 +170,6 @@ class MainWindow(QtWidgets.QMainWindow):
         print("reference data now saved")
 
 
-    ############################################################################################    
-    # this is a little glitchy 
-    # this is a little glitchy 
-    # this is a little glitchy
-    # this is a little glitchy
-    # seems that the dark reading is just noise and increasing the integration time has no effect on it
-    # not sure how to solve this just yet
-    # if it continues on without stopping or coming out of the loop the device needs to be disconnected and then reconnected
-    # the above should get fixed
     @pyqtSlot()
     def configButton_clicked(self):
         print("configuration")
