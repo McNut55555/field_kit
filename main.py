@@ -104,7 +104,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def scaleButton_clicked(self):
         print("scale")
         print("this doesnt work")
-        ViewBox(self, False, True, False, False, False, False, "None", 2.0)
         return
         self.ui.graphWidget.ViewBox()
         self.ui.graphWidget_2.ViewBox()
