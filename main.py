@@ -353,16 +353,8 @@ class MainWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def saveButton_clicked(self):
         print("Save Button clicked")
-        # may need to add a path variable so you can choose where the file gets saved. 
-        # would like to open another window to get all the infromation that is need when saving basically the name
-        # need to save to the right file extension depending on the graph they want
 
-        # adding a pop up 
-        # msg = QMessageBox()
-        # msg.setWindowTitle("Save")
-        # msg.setText("where you would input a save dir")
-        # x = msg.exec()
-        #
+        numpix = globals.measureType.m_StopPixel - globals.measureType.m_StartPixel +1
 
 
         fileName = "saveFile"
