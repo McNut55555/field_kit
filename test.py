@@ -84,36 +84,8 @@ while (globals.stopscanning == False):                                          
     time.sleep(0.001)  
 globals.measureType = measconfig
 #
-#
-# Done getting data
-# lets look at saving shit
 
-# print all the identity stuff
-print(globals.identity[0].SerialNumber)
-print(globals.identity[0].UserFriendlyName)
-print(globals.identity[0].Status)
-print()
-
-# print measure configuration data
-print(globals.measureType.m_StartPixel)
-print(globals.measureType.m_StopPixel)
-print(globals.measureType.m_IntegrationTime)
-print(globals.measureType.m_IntegrationDelay)
-print(globals.measureType.m_NrAverages)
-print(globals.measureType.m_CorDynDark_m_Enable)
-print(globals.measureType.m_CorDynDark_m_ForgetPercentage)
-print(globals.measureType.m_Smoothing_m_SmoothPix)
-print(globals.measureType.m_Smoothing_m_SmoothModel)
-print(globals.measureType.m_SaturationDetection)
-print(globals.measureType.m_Trigger_m_Mode)
-print(globals.measureType.m_Trigger_m_Source)
-print(globals.measureType.m_Trigger_m_SourceType)
-print(globals.measureType.m_Control_m_StrobeControl)
-print(globals.measureType.m_Control_m_LaserDelay)
-print(globals.measureType.m_Control_m_LaserWidth)
-print(globals.measureType.m_Control_m_LaserWaveLength)
-print(globals.measureType.m_Control_m_StoreToRam)
-
-# wintypes.DWORD(0)
+val = 774.241638183594
+print(bin(val))
 
 

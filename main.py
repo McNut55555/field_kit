@@ -511,13 +511,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget_2.plot(x_value, y_value)
 
 
-
-#
-#
-#   This function takes the input and converts it to binary 
-#
-#
-
 def decimalToBinary(n):
     # this thing returns a string
     return bin(n).replace("0b", "")
