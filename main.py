@@ -1,4 +1,4 @@
-from re import S
+from re import L, S
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtWidgets import QMessageBox
 from pyqtgraph import PlotWidget, plot, ViewBox
@@ -399,6 +399,7 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write("\\")
             file.write("00000001")
             # length
+            file.write(eightBits(format(globals.deviceConfig.m_Len, "b")))
             # seqnum
             file.write("\\")
             file.write("00000000")
@@ -437,12 +438,26 @@ class MainWindow(QtWidgets.QMainWindow):
             print(globals.measureType.m_StopPixel)
 
             #timestamp
+            for i in range(32):
+                file.write("0")
             #SPCfiledate
+            for i in range(32):
+                file.write("0")
             #detectortemp
+            for i in range(32):
+                file.write("0")
             #boardtemp
+            for i in range(32):
+                file.write("0")
             #NTC2volt
+            for i in range(32):
+                file.write("0")
             #colorTemp
+            for i in range(32):
+                file.write("0")
             #calIntTime
+            for i in range(32):
+                file.write("0")
             #fitdata
             #comment
             #xcoord
