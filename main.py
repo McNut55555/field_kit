@@ -15,6 +15,9 @@ from ui_main import Ui_MainWindow
 import json 
 import struct
 
+
+## MAIN WINDOW CLASS
+##########################################################
 class MainWindow(QtWidgets.QMainWindow):
 
     def __init__(self, *args, **kwargs):
@@ -48,7 +51,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
 
 
-        ## initalize the inital globals
+        ## INITALIZE THE INITAL GLOBAL VARIABLES
         ########################################################################
         globals.integration_time = 10
         globals.averages = 5
@@ -60,7 +63,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # self.configButton.setEnabled(False)
         # self.refButton.setEnabled(False)
 
-        # make all the connections
+        ## MAKE ALL THE CONNECTIONS
         #######################################################################
         self.ui.connectButton.clicked.connect(lambda: self.connectButton_clicked)
         self.ui.startStopButton.clicked.connect(self.startStopButton_clicked)
@@ -80,17 +83,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.relIrrButton.clicked.connect(self.relIrrButton_clicked)
         self.ui.relIrrButton
 
-        # show the screen
+        ## show the screen
         #######################################################################
         self.show()
 
 
 
-    #   Adding all the clicked button functionality 
-    #
-    #
-    #
-    #
+    ## BUTTON CLICK FUNCTIONALITY  
+    ###########################################################################
     @pyqtSlot()
     def absIrrButton_clicked(self):
         print("abs Irr")
@@ -437,29 +437,31 @@ class MainWindow(QtWidgets.QMainWindow):
             print(globals.measureType.m_StartPixel)
             print(globals.measureType.m_StopPixel)
 
-            #timestamp
+            #timestamp                                                                                      DWORD
             for i in range(32):
                 file.write("0")
-            #SPCfiledate
+            #SPCfiledate                                                                                    DWORD
             for i in range(32):
                 file.write("0")
-            #detectortemp
+            #detectortemp                                                                                   Single
             for i in range(32):
                 file.write("0")
-            #boardtemp
+            #boardtemp                                                                                      Single
             for i in range(32):
                 file.write("0")
-            #NTC2volt
+            #NTC2volt                                                                                       Single
             for i in range(32):
                 file.write("0")
-            #colorTemp
+            #colorTemp                                                                                      Single
             for i in range(32):
                 file.write("0")
-            #calIntTime
+            #calIntTime                                                                                     Single
             for i in range(32):
                 file.write("0")
             #fitdata
-            #comment
+            #comment                                                                                        AnsiChar
+            for i in range(129):
+                file.write("11111111")
             #xcoord
             #scope
             #dark
@@ -472,11 +474,8 @@ class MainWindow(QtWidgets.QMainWindow):
             #customDarkRefValue
 
 
-    #   clicked button functionality
-    #
-    #
-    #
-    #   
+    ## OTHER FUCNTIONS
+    ###########################################################################
 
     def scope(self):
         # get the values
@@ -543,10 +542,9 @@ def eightBits(n):
         return n
     return n
 
-#
-#
-#
-#
+## MAIN
+###########################################################################
+
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
