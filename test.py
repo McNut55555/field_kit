@@ -16,6 +16,10 @@ from ui_functions import *
 from ui_main import Ui_MainWindow
 import json 
 import struct
+
+def decimalToBinary(n):
+    return bin(n).replace("0b", "")
+
 # import wintypes 
 
 print("connected")
@@ -86,6 +90,9 @@ globals.measureType = measconfig
 #
 
 val = 774.241638183594
-print(bin(val))
+
+with open("test.txt","w") as file:
+    file.write(decimalToBinary(val))
+    print(decimalToBinary(val))
 
 

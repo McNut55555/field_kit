@@ -267,7 +267,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 scans = scans + 1
                 if (scans >= nummeas):
                     globals.stopscanning = True  
-            # self.app.processEvents()                          ##########################################      look into this line
+            # self.app.processEvents()                          
             time.sleep(0.001)  
 
         # self.darkButton.setEnabled(True)
@@ -459,13 +459,17 @@ class MainWindow(QtWidgets.QMainWindow):
             for i in range(32):
                 file.write("0")
             #fitdata
+            for i in range(5*64):
+                file.write("1")
             #comment                                                                                        AnsiChar
             for i in range(129):
                 file.write("11111111")
             #xcoord
             #scope
+
             #dark
             #reference
+
             #mergegroup
             #straylightconf
             #nonlincong
