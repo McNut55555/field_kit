@@ -46,10 +46,8 @@ class MainWindow(QtWidgets.QMainWindow):
         # PAGE 3
         self.ui.btn_page_3.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_3))
 
-
         # makes sure that the inital page that the GUI displays is page 1. 
         self.ui.stackedWidget.setCurrentWidget(self.ui.page_1)
-
 
         ## INITALIZE THE INITAL GLOBAL VARIABLES
         ########################################################################
@@ -110,7 +108,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget.ViewBox()
         self.ui.graphWidget_2.ViewBox()
 
-
     @pyqtSlot()
     def transButton_clicked(self):
         globals.visGraph = 4
@@ -137,7 +134,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 print("domain = 0")
             else:
                 y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
-
         self.plot(y_value, y_label, title)
 
     @pyqtSlot()
@@ -149,7 +145,6 @@ class MainWindow(QtWidgets.QMainWindow):
         for x in range(0,len(globals.spectraldata)-2):
             y_value.append( 100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])) )
         self.plot(y_value, y_label, title)
-
 
     @pyqtSlot()
     def darkButton_clicked(self):
@@ -170,7 +165,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def refButton_clicked(self):
         globals.refData = globals.spectraldata
         print("reference data now saved")
-
 
     @pyqtSlot()
     def configButton_clicked(self):
@@ -225,8 +219,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 break
         print("done with configuration")
         print(globals.integration_time)
-        print(globals.averages)
-        
+        print(globals.averages)   
 
     @pyqtSlot()
     def startStopButton_clicked(self):
@@ -304,7 +297,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # else:
         #     print()
         self.scope()    
-
         return   
 
     @pyqtSlot()
@@ -357,9 +349,7 @@ class MainWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def saveButton_clicked(self):
         print("Save Button clicked")
-
         numpix = globals.measureType.m_StopPixel - globals.measureType.m_StartPixel +1
-
 
         fileName = "saveFile"
         extension = ""
@@ -470,10 +460,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 file.write("11111111")
             #xcoord
             #scope
-
             #dark
             #reference
-
             #mergegroup
             #straylightconf
             #nonlincong
@@ -484,7 +472,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     ## OTHER FUCNTIONS
     ###########################################################################
-
     def scope(self):
         # get the values
         globals.visGraph = 1
@@ -503,7 +490,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget.setLabel('bottom', 'Wavelength (nm)')
         self.ui.graphWidget_2.setLabel('bottom', 'Wavelength (nm)')
 
-
         # Set the label for y-axis
         self.ui.graphWidget.setLabel('left', y_label)
         self.ui.graphWidget_2.setLabel('left', y_label)
@@ -511,13 +497,10 @@ class MainWindow(QtWidgets.QMainWindow):
         # Set the title of the graph
         self.ui.graphWidget.setTitle(title)
         self.ui.graphWidget_2.setTitle(title)
-
         self.ui.graphWidget.clear()
         self.ui.graphWidget.plot(x_value, y_value)
-
         self.ui.graphWidget_2.clear()
         self.ui.graphWidget_2.plot(x_value, y_value)
-
 
 def decimalToBinary(n):
     # this thing returns a string
@@ -545,8 +528,6 @@ def eightBits(n):
 
 ## MAIN
 ###########################################################################
-
-
 def main():
     app = QtWidgets.QApplication(sys.argv)
     main = MainWindow()
