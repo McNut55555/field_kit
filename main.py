@@ -57,11 +57,13 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.averages = 5
         globals.first = True 
 
-        # set all the buttons that should be enabled or not
-        # self.startStopButton.setEnabled(False)
-        # self.darkButton.setEnabled(False)
-        # self.configButton.setEnabled(False)
-        # self.refButton.setEnabled(False)
+        ## SET INITAL ALLOWABLE CLICKS
+        ########################################################################
+        self.ui.startStopButton.setEnabled(False)
+        self.ui.darkButton.setEnabled(False)
+        self.ui.configButton.setEnabled(False)
+        self.ui.refButton.setEnabled(False)
+        self.ui.stopButton.setEnabled(False)
 
         ## MAKE ALL THE CONNECTIONS
         #######################################################################
@@ -157,11 +159,11 @@ class MainWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def stopButton_clicked(self):
         AVS_Done()
-        # self.startStopButton.setEnabled(False)
-        # self.connectButton.setEnabled(True)
-        # self.darkButton.setEnabled(False)
-        # self.configButton.setEnabled(False)
-        # self.refButton.setEnabled(False)
+        self.ui.startStopButton.setEnabled(False)
+        self.ui.connectButton.setEnabled(True)
+        self.ui.darkButton.setEnabled(False)
+        self.ui.configButton.setEnabled(False)
+        self.ui.refButton.setEnabled(False)
         print("disconnected")
 
     @pyqtSlot()
@@ -331,12 +333,14 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.deviceConfig = devcon
         globals.pixels = devcon.m_Detector_m_NrPixels
         globals.wavelength = AVS_GetLambda(globals.dev_handle)
-        # for x in globals.wavelength:
-        #     print(x)
 
         # change if the button should be able to be used or not 
-        # self.startStopButton.setEnabled(True)
-        # self.connectButton.setEnabled(False)
+        self.ui.startStopButton.setEnabled(True)
+        self.ui.darkButton.setEnabled(True)
+        self.ui.configButton.setEnabled(True)
+        self.ui.refButton.setEnabled(True)
+        self.ui.stopButton.setEnabled(True)
+        self.ui.connectButton.setEnabled(False)
 
         return
 
