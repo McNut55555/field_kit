@@ -456,8 +456,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 # print(eightBits(decimalToBinary(x)))
                 file.write(eightBits(decimalToBinary(x)))
             #meascong
-            print(globals.measureType.m_StartPixel)
-            print(globals.measureType.m_StopPixel)
 
             #timestamp                                                                                      DWORD
             for i in range(32):
@@ -481,8 +479,8 @@ class MainWindow(QtWidgets.QMainWindow):
             for i in range(32):
                 file.write("0")
             #fitdata
-            for i in range(5*64):
-                file.write("1")
+            some = math.pow(1000, 100)
+            print(double_to_binary(some))
             #comment                                                                                        AnsiChar
             for i in range(129):
                 file.write("11111111")
@@ -553,6 +551,32 @@ def eightBits(n):
         print("fell into the else")
         return n
     return n
+
+## CONVERTS DECIMAL TO BINARY
+###############################################
+def double_to_binary(num):
+    # convert to binary using IEEE 754
+    print("decimal to binary")
+    bin = ''
+    # find the initial bit to see if its negative or not
+    if num < 0:
+        bin += "1"
+    else:
+        bin += "0"
+
+    # find the exponent in scientific notation 
+    # can potenially have a 4 digit exponent 2 ^ 11 
+    string = "{:e}".format(num)
+    val = ''
+    for i in range(4,-1, -1):
+        if string[len(string)-1-i] != "e":
+            val += string[len(string)-1-i]
+        if string[len(string)-1-i] == "e":
+            val = ""
+    print(val)
+
+    # return the value
+    return bin
 
 
 

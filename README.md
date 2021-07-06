@@ -19,7 +19,7 @@ In terminal (installing necessary software):
     - install qwt: "sudo apt-get install libqwt-qt5-dev"
     - install PyQt5: "sudo apt-get install python3-pyqt5"
     - install pyqtgraph: "pip3 install pyqtgraph"
-    - (optional) install code IDE: "sudo apt-get install code"
+    - (optional) install VS Code IDE: "sudo apt-get install code"
 
 # Editing GUI (.ui file):
 Editing the GUI is done through Qt Designer. With Qt Designer the developer is also able to see all of the names associated with each object (button).  
