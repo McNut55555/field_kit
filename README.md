@@ -1,5 +1,5 @@
 # field_kit
-portable spectroscopy field kit for Avantes
+portable spectroscopy field kit for Avantes. 
 
 # Instructions:
 In these list of these instruction I assume that you are developing on Linux (unbuntu 18.01). Everything is created using 
@@ -8,16 +8,25 @@ python, python libraries, and qt designer.
 # Issues
 Currently working on developing the Irradiance graphs and saving the data to a file that is able to open in Avasoft. 
 
-# Python Libraries (may need to install through terminal):
-PyQt5
-pyqtgraph
-math
-ui_funtions
+# Getting Code
+Clone the code from GitHub (Including just for Completeness):
+    git clone https://github.com/McNut55555/field_kit.git
+
+# Setting up Enviornment
+In terminal (installing necessary software):
+    - install Qt5: "sudo apt-get install qt5-default"
+    - install QtCreator: "sudo apt-get install qtcreator"
+    - install qwt: "sudo apt-get install libqwt-qt5-dev"
+    - install PyQt5: "sudo apt-get install python3-pyqt5"
+    - install pyqtgraph: "pip3 install pyqtgraph"
+    - (optional) install code IDE: "sudo apt-get install code"
 
 # Editing GUI (.ui file):
-Used Qt Desiginer to change the design of the GUI (ui_main.ui). After every edit need to run:
-    $ pyuic5 -x ui_main.ui -o ui_main.py
-This command converts the .ui file to a .py file. In the main code it loads a .py file and this is why this command 
-is necessary. If needed one can load the .ui file in with the uic library.
+Editing the GUI is done through Qt Designer. With Qt Designer the developer is also able to see all of the names associated with each object (button).  
 
-# Functions
+# Class MainWindow:
+This class allows for the creation of the GUI and all of its functionality. The functions inside of this class I tried to include enough comments so a Developer is able to understand the funtionality of each of the functions. 
+
+# Functions (main):
+
+

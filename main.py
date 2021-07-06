@@ -5,7 +5,7 @@ from pyqtgraph import PlotWidget, plot, ViewBox
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
 import os
-from pyqtgraph.functions import disconnect
+from pyqtgraph.functions import Color, disconnect
 import globals
 from avaspec import *
 import time
@@ -58,10 +58,15 @@ class MainWindow(QtWidgets.QMainWindow):
         ## SET INITAL ALLOWABLE CLICKS
         ########################################################################
         self.ui.startStopButton.setEnabled(False)
+        self.ui.startStopButton.setStyleSheet("background-color : black")
         self.ui.darkButton.setEnabled(False)
+        self.ui.darkButton.setStyleSheet("background-color : black")
         self.ui.configButton.setEnabled(False)
+        self.ui.configButton.setStyleSheet("background-color : black")
         self.ui.refButton.setEnabled(False)
+        self.ui.refButton.setStyleSheet("background-color : black")
         self.ui.stopButton.setEnabled(False)
+        self.ui.stopButton.setStyleSheet("background-color : black")
 
         ## MAKE ALL THE CONNECTIONS
         #######################################################################
@@ -81,7 +86,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.scaleButton.clicked.connect(self.scaleButton_clicked)
         self.ui.absIrrButton.clicked.connect(self.absIrrButton_clicked)
         self.ui.relIrrButton.clicked.connect(self.relIrrButton_clicked)
-        self.ui.relIrrButton
 
         ## show the screen
         #######################################################################
@@ -221,6 +225,7 @@ class MainWindow(QtWidgets.QMainWindow):
         print(globals.integration_time)
         print(globals.averages)   
 
+    # collects data from the spectrometer. collect button. 
     @pyqtSlot()
     def startStopButton_clicked(self):
         # self.startStopButton.setEnabled(False)
@@ -299,6 +304,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.scope()    
         return   
 
+    # connects to the spectrometer
     @pyqtSlot()
     def connectButton_clicked(self):
         print("connected")
@@ -310,7 +316,6 @@ class MainWindow(QtWidgets.QMainWindow):
         mylist = AvsIdentityType()                                                                          # pretty sure these do the same thing but whatever you know it works
         mylist = AVS_GetList(1)          
         globals.identity = mylist                                                                   
-        # may need to come back and see what this function does
 
         # displaying information on the serial number and working with it
         serienummer = str(mylist[0].SerialNumber.decode("utf-8"))
@@ -328,14 +333,22 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # change if the button should be able to be used or not 
         self.ui.startStopButton.setEnabled(True)
+        self.ui.startStopButton.setStyleSheet("color: #FFF;")
         self.ui.darkButton.setEnabled(True)
+        self.ui.darkButton.setStyleSheet("color: #FFF;")
         self.ui.configButton.setEnabled(True)
+        self.ui.configButton.setStyleSheet("color: #FFF;")
         self.ui.refButton.setEnabled(True)
+        self.ui.refButton.setStyleSheet("color: #FFF;")
         self.ui.stopButton.setEnabled(True)
+        self.ui.stopButton.setStyleSheet("color: #FFF;")
         self.ui.connectButton.setEnabled(False)
+        self.ui.connectButton.setStyleSheet("color: #FFF;")
+        self.ui.connectButton.setStyleSheet("background-color: rgb(45, 45, 45);")
 
         return
 
+    # creates the scope - dark graph and displays it with plot function. 
     @pyqtSlot()
     def scopeMinDarkButton_clicked(self):
         globals.visGraph = 2
@@ -346,6 +359,7 @@ class MainWindow(QtWidgets.QMainWindow):
             y_value.append(globals.spectraldata[x]-globals.darkData[x])
         self.plot(y_value, y_label, title)
 
+    # saves the data of the spectrometer for later use in Avasoft 8. Not finished
     @pyqtSlot()
     def saveButton_clicked(self):
         print("Save Button clicked")
@@ -494,7 +508,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget.setLabel('left', y_label)
         self.ui.graphWidget_2.setLabel('left', y_label)
 
-        # Set the title of the graph
+        # Set the title of the graph and plots
         self.ui.graphWidget.setTitle(title)
         self.ui.graphWidget_2.setTitle(title)
         self.ui.graphWidget.clear()
