@@ -6,11 +6,12 @@ In these list of these instruction I assume that you are developing on Linux (un
 python, python libraries, and qt designer. 
 
 # Issues
-Currently working on developing the Irradiance graphs and saving the data to a file that is able to open in Avasoft. 
+Currently working on developing the Irradiance graphs and saving the data to a file that is openable by Avasoft 8. 
 
 # Getting Code
 Clone the code from GitHub (Including just for Completeness):
-    git clone https://github.com/McNut55555/field_kit.git
+    $ sudo apt install git
+    $ git clone https://github.com/McNut55555/field_kit.git
 
 # Setting up Enviornment
 In terminal (installing necessary software):
