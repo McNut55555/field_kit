@@ -1,4 +1,4 @@
-from re import L, S
+# from re import L, S
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMessageBox
@@ -479,7 +479,7 @@ class MainWindow(QtWidgets.QMainWindow):
             for i in range(32):
                 file.write("0")
             #fitdata
-            some = 1.2
+            some = 17.5
             print(double_to_binary(some))
             #comment                                                                                        AnsiChar
             for i in range(129):
@@ -550,7 +550,7 @@ def eightBits(n):
     elif len(n) == 7:
         n = "0" + n
     else:
-        print("fell into the else")
+        print("eight bits")
         return n
     return n
 
