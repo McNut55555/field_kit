@@ -479,7 +479,7 @@ class MainWindow(QtWidgets.QMainWindow):
             for i in range(32):
                 file.write("0")
             #fitdata
-            some = math.pow(1000, 100)
+            some = 1.2
             print(double_to_binary(some))
             #comment                                                                                        AnsiChar
             for i in range(129):
@@ -532,6 +532,8 @@ def decimalToBinary(n):
     # this thing returns a string
     return bin(n).replace("0b", "")
 
+## MAKES A STRING A BYTE SIZE
+#############################################
 def eightBits(n):
     if len(n) == 1:
         n = "0000000" + n
@@ -557,6 +559,7 @@ def eightBits(n):
 def double_to_binary(num):
     # convert to binary using IEEE 754
     print("decimal to binary")
+    print(float.hex(num))
     bin = ''
     # find the initial bit to see if its negative or not
     if num < 0:
@@ -573,11 +576,10 @@ def double_to_binary(num):
             val += string[len(string)-1-i]
         if string[len(string)-1-i] == "e":
             val = ""
-    print(val)
+    exponent = int(val) + 1023
 
     # return the value
     return bin
-
 
 
 ## MAIN
