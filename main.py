@@ -1,5 +1,6 @@
 from re import L, S
 from PyQt5 import QtWidgets, uic, QtCore
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMessageBox
 from pyqtgraph import PlotWidget, plot, ViewBox
 import pyqtgraph as pg
@@ -153,21 +154,34 @@ class MainWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def darkButton_clicked(self):
         globals.darkData = globals.spectraldata
+        self.ui.darkButton.setStyleSheet("color: green")
+        self.ui.darkButton.setIcon(QIcon("Icons/check.png"))
         print("darkData now saved")
 
     @pyqtSlot()
     def stopButton_clicked(self):
         AVS_Done()
         self.ui.startStopButton.setEnabled(False)
+        self.ui.startStopButton.setStyleSheet("background-color: black;")
         self.ui.connectButton.setEnabled(True)
+        self.ui.connectButton.setStyleSheet("color: #FFF;")
         self.ui.darkButton.setEnabled(False)
+        self.ui.darkButton.setStyleSheet("background-color: black")
         self.ui.configButton.setEnabled(False)
+        self.ui.configButton.setStyleSheet("background-color: black")
         self.ui.refButton.setEnabled(False)
+        self.ui.refButton.setStyleSheet("background-color: black")
+        self.ui.stopButton.setEnabled(False)
+        self.ui.stopButton.setStyleSheet("background-color: black")
+        self.ui.darkButton.setIcon(QIcon())
+        self.ui.refButton.setIcon(QIcon())
         print("disconnected")
 
     @pyqtSlot()
     def refButton_clicked(self):
         globals.refData = globals.spectraldata
+        self.ui.refButton.setStyleSheet("color: green")
+        self.ui.refButton.setIcon(QIcon("Icons/check.png"))
         print("reference data now saved")
 
     @pyqtSlot()
@@ -344,7 +358,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.stopButton.setStyleSheet("color: #FFF;")
         self.ui.connectButton.setEnabled(False)
         self.ui.connectButton.setStyleSheet("color: #FFF;")
-        self.ui.connectButton.setStyleSheet("background-color: rgb(45, 45, 45);")
+        self.ui.connectButton.setStyleSheet("background-color: black")
 
         return
 
