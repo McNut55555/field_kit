@@ -105,6 +105,7 @@ class MainWindow(QtWidgets.QMainWindow):
         print("rel Irr")
         print('were gonna do this one')
 
+    # Rescales the graph to allow for a better view
     @pyqtSlot()
     def scaleButton_clicked(self):
         print("scale")
@@ -113,6 +114,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget.ViewBox()
         self.ui.graphWidget_2.ViewBox()
 
+    # creates the transmission data and displays the graph
     @pyqtSlot()
     def transButton_clicked(self):
         globals.visGraph = 4
@@ -123,6 +125,7 @@ class MainWindow(QtWidgets.QMainWindow):
             y_value.append(100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
         self.plot(y_value, y_label, title)
 
+    # creates the absorbance data and displays the graph
     @pyqtSlot()
     def absButton_clicked(self):
         globals.visGraph = 3
@@ -141,6 +144,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
         self.plot(y_value, y_label, title)
 
+    # creates the reflectance data and displays the graph
     @pyqtSlot()
     def reflectButton_clicked(self):
         globals.visGraph = 5
@@ -151,13 +155,17 @@ class MainWindow(QtWidgets.QMainWindow):
             y_value.append( 100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])) )
         self.plot(y_value, y_label, title)
 
+    # saves the dark data in globals
     @pyqtSlot()
     def darkButton_clicked(self):
+        # saves data
         globals.darkData = globals.spectraldata
+        # changes the buttons look to show user that data has been saved
         self.ui.darkButton.setStyleSheet("color: green")
         self.ui.darkButton.setIcon(QIcon("Icons/check.png"))
         print("darkData now saved")
 
+    # disconnects from the spectrometer and adjusts the enabled buttons
     @pyqtSlot()
     def stopButton_clicked(self):
         AVS_Done()
@@ -177,6 +185,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.refButton.setIcon(QIcon())
         print("disconnected")
 
+    # saves reference data to globals and changes the look of the button to alert user that data has been saved
     @pyqtSlot()
     def refButton_clicked(self):
         globals.refData = globals.spectraldata
@@ -184,6 +193,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.refButton.setIcon(QIcon("Icons/check.png"))
         print("reference data now saved")
 
+    # configures the spectrometer to ensure that no pixel is saturated
     @pyqtSlot()
     def configButton_clicked(self):
         print("configuration")
@@ -191,10 +201,14 @@ class MainWindow(QtWidgets.QMainWindow):
         largest_pixel = 0
         count = 0
         increment = 5
+        # changes the increment depending on the current integration time... for debugging 
         if globals.integration_time <= 5 and globals.integration_time > 1:
             increment = 1
         elif globals.integration_time <= 1 and globals.integration_time > 0.2:
             increment = 0.5
+
+        # stays in the loop until the largest pixel count is in the range of the loop. slowly adjusts integration time till it gets
+        # to the range
         while( largest_pixel > 60000 or largest_pixel < 55000 ):
             largest_pixel = 0
             for x in range(0, len(globals.spectraldata)-2):
@@ -215,14 +229,19 @@ class MainWindow(QtWidgets.QMainWindow):
                 # increase integration time: 
                 globals.integration_time = globals.integration_time + increment
 
+            # code below allows the user to disconnect from the spectrometer mid configuration
             QtWidgets.QApplication.processEvents()                                        # This works. however ew. 
+
+            # Added a count so the configuration doesn't get stuck in a infinite loop... will eventually exit
             count += 1
             if count == 100:
                 break
+            # takes another reading
             self.startStopButton_clicked()
         print(largest_pixel)
         globals.max = largest_pixel
         
+        # this will adjust the number of averages to get in the cycle_time range... the amount of time to take one reading
         count = 0
         cycle_time = globals.integration_time * globals.averages
         while( cycle_time > 580 or cycle_time < 420):
@@ -284,10 +303,7 @@ class MainWindow(QtWidgets.QMainWindow):
             # self.app.processEvents()                          
             time.sleep(0.001)  
 
-        # self.darkButton.setEnabled(True)
-        # self.configButton.setEnabled(True)
-        # self.refButton.setEnabled(True)
-        # self.startStopButton.setEnabled(True)
+
         globals.measureType = measconfig
 
         # while globals.first == True:
@@ -506,6 +522,7 @@ class MainWindow(QtWidgets.QMainWindow):
             y_value.append(globals.spectraldata[x])
         self.plot(y_value, "Scope (ADC Counts)", "Scope Mode")
 
+    # plots the data to both graphs on page 1 and page 2. 
     def plot(self, y_value, y_label, title):
         # get the values
         x_value = []
