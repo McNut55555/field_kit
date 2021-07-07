@@ -23,7 +23,7 @@ In terminal (installing necessary software):
 Editing the GUI is done through Qt Designer. With Qt Designer the developer is also able to see all of the names associated with each object (button).  
 
 # Developement
-Developing Irradiance graphs, saving data openable by Avasoft 8, and options features.  
+Developing Irradiance graphs, saving data openable by Avasoft 8, and options features. After every collection the graph only displays the scope data and the user has to manually switch to the graph they want. It would be nice to keep displaying the graph that the user selects. 
 
 # Class MainWindow:
-This class allows for the creation of the GUI and all of its functionality. The functions inside of this class I tried to include enough comments so a Developer is able to understand the funtionality of each of the functions.
+This class allows for the creation of the GUI and all of its functionality. All functions in class have included comments to explain the functionality. 
