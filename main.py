@@ -401,7 +401,7 @@ class MainWindow(QtWidgets.QMainWindow):
         choice = 0
         if(choice == 0):
             extension = ".raw8"
-            measureMode = "00000000"
+            measureMode = b"0"
         elif choice == 1:
             extension = ".rwd8"
             measureMode = "00000010"
@@ -439,36 +439,37 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write(struct.pack("i", globals.deviceConfig.m_Len))
             # seqnum
             file.write(b'0')
-            print(b'0')
             # measure mode 
-            return
             file.write(measureMode)
             # bitness
-            file.write("00000001")
-            file.write("\\")
+            file.write(b'1')
+                                                                                                        # file.write("00000001")
             #SDmarker
-            file.write("00000000")
-            file.write("\\")
-            #identity                                                                          # this may need to be 10 long intead of 9
+            file.write(b'0')
+                                                                                                        # file.write("00000000")
+            #identity       
+            # 
+            #                                                                    # this may need to be 10 long intead of 9
                 #serial number
             for x in range(0, len(globals.identity[0].SerialNumber)):
-                # print(eightBits(str(decimalToBinary(globals.identity[0].SerialNumber[x]))))
-                file.write(eightBits(str(decimalToBinary(globals.identity[0].SerialNumber[x]))))
-                    # has to print 
+                # file.write(eightBits(str(decimalToBinary(globals.identity[0].SerialNumber[x]))))
+                file.write(struct.pack('B', globals.identity[0].SerialNumber[x]))
+
+
                 # user friendly name
             for x in range(0,64):
                 if x < 10:
                     if x < len(globals.identity[0].UserFriendlyName):
-                        file.write(decimalToBinary(globals.identity[0].UserFriendlyName[x]))
+                        file.write(struct.pack("B", globals.identity[0].UserFriendlyName[x]))
                     else:
-                        file.write("00000000")
+                        file.write(b"0")
                 else:
-                    file.write("00000000")
+                    file.write(b"0")
                 # status
-            file.write("\\")
             for x in globals.identity[0].Status:
                 # print(eightBits(decimalToBinary(x)))
-                file.write(eightBits(decimalToBinary(x)))
+                print(x)
+                # file.write(eightBits(decimalToBinary(x)))
             #meascong
 
             #timestamp                                                                                      DWORD
