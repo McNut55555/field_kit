@@ -20,6 +20,9 @@ import struct
 def decimalToBinary(n):
     return bin(n).replace("0b", "")
 
+def float_to_bin(num):
+    return format(struct.unpack('!I', struct.pack('!f', num))[0], '064b')
+
 # import wintypes 
 
 print("connected")
@@ -91,8 +94,41 @@ globals.measureType = measconfig
 
 val = 774.241638183594
 
-with open("test.txt","w") as file:
-    file.write(decimalToBinary(val))
-    print(decimalToBinary(val))
+
+import struct
+from array import array
+
+# output_file = open("file", "wb")
+# float_array = array('d', globals.deviceConfig.m_Detector_m_aFit)
+# float_array.tofile(output_file)
+# output_file.close()
+
+with open("file", "wb") as file:
+    for i in globals.deviceConfig.m_Detector_m_aFit:
+        x = struct.pack("<d", i)
+        file.write(x)
+
+
+
+
+# x = -4275451536.0
+# bytes_of_x = struct.pack('<d', x)
+# print(bytes_of_x)
+# x_as_int = struct.unpack("<q", bytes_of_x)[0]
+# print(x_as_int)
+
+# print()
+# for i in globals.deviceConfig.m_Detector_m_aFit:
+#     print(i)
+#     print(struct.pack(">d", i))
+#     print(''.join(map(chr, struct.pack(">d", i))))
+#     print()
+
+
+# a = b'\x3f\xd5\x55\x55\x55\x55\x55\x55'
+# n = struct.unpack(b'>d', a)
+# print(format(n[0], '.18f'))
+# print(struct.pack('d', val))
+
 
 

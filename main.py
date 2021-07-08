@@ -425,26 +425,24 @@ class MainWindow(QtWidgets.QMainWindow):
             measureMode = "00000000"
             print("ERROR: DIDN'T FIND FILE TYPE SPECIFIED")
 
-        with open(fileName + extension, "w") as file:
+        # write data see what happens
+        with open(fileName + extension, "wb") as file:
             # Marker
-            file.write("\\")
-            file.write("01000001")
-            file.write("01010110")
-            file.write("01010011")
-            file.write("00111000")
-            file.write("00110100")
+            file.write(struct.pack("c", b'A'))
+            file.write(struct.pack("c", b'V'))
+            file.write(struct.pack("c", b'S'))
+            file.write(struct.pack("c", b'8'))
+            file.write(struct.pack("c", b'4'))
             # Number of spectra 
-            file.write("\\")
-            file.write("00000001")
+            file.write(struct.pack("i", 1))                             # this is going to be 4 bytes and not 1 thats a problem
             # length
-            file.write(eightBits(format(globals.deviceConfig.m_Len, "b")))
+            file.write(struct.pack("i", globals.deviceConfig.m_Len))
             # seqnum
-            file.write("\\")
-            file.write("00000000")
-            file.write("\\")
+            file.write(b'0')
+            print(b'0')
             # measure mode 
+            return
             file.write(measureMode)
-            file.write("\\")
             # bitness
             file.write("00000001")
             file.write("\\")
