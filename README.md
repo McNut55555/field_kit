@@ -20,7 +20,8 @@ In terminal (installing necessary software):
     - (optional) install VS Code IDE: "$ sudo apt-get install code"
 
 # Editing GUI (.ui file):
-Editing the GUI is done through Qt Designer. With Qt Designer the developer is also able to see all of the names associated with each object (button).  
+Editing the GUI is done through Qt Designer. With Qt Designer the developer is also able to see all of the names associated with each button (objectName). Run the command below to convert the .ui file to a .py file so main can access the changes to the GUI. 
+    - $ pyuic5 -x ui_main.ui -o ui_main.py
 
 # Developement
 Developing Irradiance graphs, saving data openable by Avasoft 8, and options features. After every collection the graph only displays the scope data and the user has to manually switch to the graph they want. It would be nice to keep displaying the graph that the user selects. 
