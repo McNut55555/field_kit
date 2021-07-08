@@ -473,32 +473,32 @@ class MainWindow(QtWidgets.QMainWindow):
             #meascong
 
             #timestamp                                                                                      DWORD
-            for i in range(32):
-                file.write("0")
+            for i in range(4):
+                file.write(b"0")
             #SPCfiledate                                                                                    DWORD
-            for i in range(32):
-                file.write("0")
+            for i in range(4):
+                file.write(b"0")
             #detectortemp                                                                                   Single
-            for i in range(32):
-                file.write("0")
+            for i in range(4):
+                file.write(b"0")
             #boardtemp                                                                                      Single
-            for i in range(32):
-                file.write("0")
+            for i in range(4):
+                file.write(b"0")
             #NTC2volt                                                                                       Single
-            for i in range(32):
-                file.write("0")
+            for i in range(4):
+                file.write(b"0")
             #colorTemp                                                                                      Single
-            for i in range(32):
-                file.write("0")
+            for i in range(4):
+                file.write(b"0")
             #calIntTime                                                                                     Single
-            for i in range(32):
+            for i in range(4):
                 file.write("0")
             #fitdata
             some = 17.5
             print(double_to_binary(some))
             #comment                                                                                        AnsiChar
             for i in range(129):
-                file.write("11111111")
+                file.write(b"1")
             #xcoord
             #scope
             #dark
