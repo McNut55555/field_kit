@@ -395,7 +395,8 @@ class MainWindow(QtWidgets.QMainWindow):
         print("Save Button clicked")
         numpix = globals.measureType.m_StopPixel - globals.measureType.m_StartPixel +1
 
-
+        # find the file extension and the binary associated with it. 
+        # the measuremode binary might not be right rn. 
         fileName = "saveFile"
         extension = ""
         measureMode = ""
