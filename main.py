@@ -492,13 +492,14 @@ class MainWindow(QtWidgets.QMainWindow):
                 file.write(b"0")
             #calIntTime                                                                                     Single
             for i in range(4):
-                file.write("0")
+                file.write(b"0")
             #fitdata
-            some = 17.5
-            print(double_to_binary(some))
+            for i in globals.deviceConfig.m_Detector_m_aFit:
+                file.write(struct.pack("<d", i))
+                print(i)
             #comment                                                                                        AnsiChar
             for i in range(129):
-                file.write(b"1")
+                file.write(b" ")
             #xcoord
             #scope
             #dark
