@@ -435,18 +435,18 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write(struct.pack("c", b'8'))
             file.write(struct.pack("c", b'4'))
             # Number of spectra 
-            file.write(b'1')                                                             # this is going to be 4 bytes and not 1 thats a problem
+            file.write(b'\x01')                                            # this needs to be a binary 1                                                          # this is going to be 4 bytes and not 1 thats a problem
             # length
             file.write(struct.pack("i", globals.deviceConfig.m_Len))
             # seqnum
-            file.write(b'0')
+            file.write(b'\x00')
             # measure mode 
             file.write(measureMode)
             # bitness
-            file.write(b'1')
+            file.write(b'\x01')
                                                                                                         # file.write("00000001")
             #SDmarker
-            file.write(b'0')
+            file.write(b'\x00')
                                                                                                         # file.write("00000000")
             #identity       
             #                                                                    # this may need to be 10 long intead of 9
@@ -454,7 +454,7 @@ class MainWindow(QtWidgets.QMainWindow):
             for x in range(0, len(globals.identity[0].SerialNumber)):
                 # file.write(eightBits(str(decimalToBinary(globals.identity[0].SerialNumber[x]))))
                 file.write(struct.pack('B', globals.identity[0].SerialNumber[x]))
-
+            file.write(b'\x00')
 
                 # user friendly name
             for x in range(0,64):

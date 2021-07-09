@@ -82,11 +82,8 @@ def IEEE(num):
 ## here is where the code will run
 ##################################
 def main():
-    # print(IEEE(10.25))
-    # print(IEEE(774.241638183594))
-    f = 1.2717441261e+20
-    print (struct.pack("f", f).encode("hex"))
-    # print (''.join("%x" % ord(c) for c in struct.unpack(">8c", buf) ))
+    print(b'\x01')
+
 
 if __name__ == '__main__':
     main()
