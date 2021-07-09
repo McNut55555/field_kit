@@ -401,28 +401,28 @@ class MainWindow(QtWidgets.QMainWindow):
         measureMode = ""
         choice = 0
         if(choice == 0):
-            extension = ".raw8"
+            extension = ".RAW8"
             measureMode = b"0"
         elif choice == 2:
-            extension = ".rwd8"
+            extension = ".RWD8"
             measureMode = b"2"
         elif choice == 1:
-            extension = ".abs8"
+            extension = ".ABS8"
             measureMode = b"1"
         elif choice == 3:
-            extension = ".trm8"
+            extension = ".TRM8"
             measureMode = b"3"
         elif choice == 5:
-            extension = ".irr8"
+            extension = ".IRR8"
             measureMode = b"5"
         elif choice == 4:
-            extension = ".rfl8"
+            extension = ".RFL8"
             measureMode = b"4"
         elif choice == 6:
-            extension = ".rir8"
+            extension = ".RIR8"
             measureMode = b"6"
         else:
-            extension = ".raw8"
+            extension = ".RAW8"
             measureMode = b"0"
             print("ERROR: DIDN'T FIND FILE TYPE SPECIFIED")
 
