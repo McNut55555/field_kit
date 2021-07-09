@@ -3,7 +3,9 @@ import ctypes
 import struct
 from PyQt5.QtCore import *
 from enum import Enum
+# import debugpy
 
+# debugpy.breakpoint()
 if 'linux' in sys.platform: # Linux will have 'linux' or 'linux2'
     lib = ctypes.CDLL("libavs.so.0")
     func = ctypes.CFUNCTYPE

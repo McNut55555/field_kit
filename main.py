@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QMessageBox
 from pyqtgraph import PlotWidget, plot, ViewBox
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
-import os
 from pyqtgraph.functions import Color, disconnect
 import globals
 from avaspec import *
@@ -13,8 +12,8 @@ import time
 import math
 from ui_functions import *
 from ui_main import Ui_MainWindow
-import json 
 import struct
+import os
 
 
 ## MAIN WINDOW CLASS
@@ -406,25 +405,25 @@ class MainWindow(QtWidgets.QMainWindow):
             measureMode = b"0"
         elif choice == 1:
             extension = ".rwd8"
-            measureMode = "00000010"
+            measureMode = b"2"
         elif choice == 2:
             extension = ".abs8"
-            measureMode = "00000001"
+            measureMode = b"1"
         elif choice == 3:
             extension = ".trm8"
-            measureMode = "00000011"
+            measureMode = b"3"
         elif choice == 4:
             extension = ".irr8"
-            measureMode = "00000101"
+            measureMode = b"5"
         elif choice == 5:
             extension = ".rfl8"
-            measureMode = "00000100"
+            measureMode = b"4"
         elif choice == 6:
             extension = ".rir8"
-            measureMode = "00000110"
+            measureMode = b"6"
         else:
             extension = ".raw8"
-            measureMode = "00000000"
+            measureMode = b"0"
             print("ERROR: DIDN'T FIND FILE TYPE SPECIFIED")
 
         # write data see what happens
