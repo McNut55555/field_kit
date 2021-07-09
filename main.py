@@ -403,19 +403,19 @@ class MainWindow(QtWidgets.QMainWindow):
         if(choice == 0):
             extension = ".raw8"
             measureMode = b"0"
-        elif choice == 1:
+        elif choice == 2:
             extension = ".rwd8"
             measureMode = b"2"
-        elif choice == 2:
+        elif choice == 1:
             extension = ".abs8"
             measureMode = b"1"
         elif choice == 3:
             extension = ".trm8"
             measureMode = b"3"
-        elif choice == 4:
+        elif choice == 5:
             extension = ".irr8"
             measureMode = b"5"
-        elif choice == 5:
+        elif choice == 4:
             extension = ".rfl8"
             measureMode = b"4"
         elif choice == 6:
