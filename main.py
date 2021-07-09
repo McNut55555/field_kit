@@ -395,6 +395,7 @@ class MainWindow(QtWidgets.QMainWindow):
         print("Save Button clicked")
         numpix = globals.measureType.m_StopPixel - globals.measureType.m_StartPixel +1
 
+
         fileName = "saveFile"
         extension = ""
         measureMode = ""
@@ -434,7 +435,7 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write(struct.pack("c", b'8'))
             file.write(struct.pack("c", b'4'))
             # Number of spectra 
-            file.write(struct.pack("i", 1))                             # this is going to be 4 bytes and not 1 thats a problem
+            file.write(b'1')                                                             # this is going to be 4 bytes and not 1 thats a problem
             # length
             file.write(struct.pack("i", globals.deviceConfig.m_Len))
             # seqnum
@@ -448,7 +449,6 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write(b'0')
                                                                                                         # file.write("00000000")
             #identity       
-            # 
             #                                                                    # this may need to be 10 long intead of 9
                 #serial number
             for x in range(0, len(globals.identity[0].SerialNumber)):
@@ -500,16 +500,38 @@ class MainWindow(QtWidgets.QMainWindow):
             #comment                                                                                        AnsiChar
             for i in range(129):
                 file.write(b" ")
-            #xcoord
-            #scope
-            #dark
-            #reference
+            #xcoord                                                                                         Should be a short ... long rn
+            for x in range(numpix):
+                file.write(struct.pack('l', globals.wavelength[x]))                                         
+            #scope                                                                                          Should be a short ... long rn
+            for x in range(numpix):
+                file.write(struct.pack("l", globals.spectraldata[x]))
+            #dark                                                                                           Should be a short ... long rn
+            for x in range(numpix):
+                file.write(struct.pack("l", globals.darkData[x]))
+            #reference                                                                                      Should be a short ... long rn
+            for x in range(numpix):
+                file.write(struct.pack("l", globals.refData[x]))
             #mergegroup
+            for x in range(10):
+                file.write(b" ")
             #straylightconf
+            file.write(struct.pack('?', True))
+            file.write(struct.pack("?", False))
+            file.write(struct.pack("l", 1))
+            file.write(b'0')
             #nonlincong
+            file.write(struct.pack("?", False))
+            file.write(struct.pack("?", False))
+            file.write(b'0')
             #customReflectance
+            file.write(b"N")
             #customWhiteRefValue
+            for x in range(471):
+                file.write(struct.pack("l", 0))
             #customDarkRefValue
+            for x in range(471):
+                file.write(struct.pack("l", 1))
 
 
     ## OTHER FUCNTIONS
