@@ -505,7 +505,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 print(i)
             #comment                                                                                        AnsiChar
             for i in range(129):
-                file.write(b" ")
+                file.write(b"\02")
             #xcoord                                                                                         Should be a short ... long rn
             for x in range(numpix):
                 file.write(struct.pack('f', globals.wavelength[x]))                                         
