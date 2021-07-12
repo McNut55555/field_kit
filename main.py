@@ -402,28 +402,28 @@ class MainWindow(QtWidgets.QMainWindow):
         choice = 0
         if(choice == 0):
             extension = ".RAW8"
-            measureMode = b"0"
+            measureMode = b"\00"
         elif choice == 2:
             extension = ".RWD8"
-            measureMode = b"2"
+            measureMode = b"\02"
         elif choice == 1:
             extension = ".ABS8"
-            measureMode = b"1"
+            measureMode = b"\01"
         elif choice == 3:
             extension = ".TRM8"
-            measureMode = b"3"
+            measureMode = b"\03"
         elif choice == 5:
             extension = ".IRR8"
-            measureMode = b"5"
+            measureMode = b"\05"
         elif choice == 4:
             extension = ".RFL8"
-            measureMode = b"4"
+            measureMode = b"\04"
         elif choice == 6:
             extension = ".RIR8"
-            measureMode = b"6"
+            measureMode = b"\06"
         else:
             extension = ".RAW8"
-            measureMode = b"0"
+            measureMode = b"\00"
             print("ERROR: DIDN'T FIND FILE TYPE SPECIFIED")
 
         # write data see what happens
@@ -457,19 +457,24 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write(b'\x00')
 
                 # user friendly name
-            for x in range(0,64):
-                if x < 10:
-                    if x < len(globals.identity[0].UserFriendlyName):
-                        file.write(struct.pack("B", globals.identity[0].UserFriendlyName[x]))
-                    else:
-                        file.write(b"0")
-                else:
-                    file.write(b"0")
+            for x in globals.identity[0].UserFriendlyName:\
+                file.write(struct.pack("B", x))
+                # if x < 10:
+                #     if x < len(globals.identity[0].UserFriendlyName):
+                #         file.write(struct.pack("B", globals.identity[0].UserFriendlyName[x]))
+                #     else:
+                #         file.write(b"0")
+                # else:
+                #     file.write(b"0")
+
+
+            
                 # status
             for x in globals.identity[0].Status:
-                # print(eightBits(decimalToBinary(x)))
-                print(x)
-                # file.write(eightBits(decimalToBinary(x)))
+                file.write(struct.pack("B", x))
+
+
+
             #meascong
 
             #timestamp                                                                                      DWORD
