@@ -15,4 +15,3 @@ def file_save(self):
     file.write()
     file.close()
 
-self.file_save()
