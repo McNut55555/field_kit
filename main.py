@@ -525,7 +525,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 file.write(struct.pack("<d", i))
             #comment                                                                                        AnsiChar
             for i in range(129):
-                file.write(b"\07")
+                file.write(b"\00")
             file.write(b"\01")
             #xcoord                                                                                         Should be a short ... long rn
             for x in range(numpix):
