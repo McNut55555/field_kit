@@ -529,16 +529,16 @@ class MainWindow(QtWidgets.QMainWindow):
                 file.write(b"\07")
             #xcoord                                                                                         Should be a short ... long rn
             for x in range(numpix):
-                file.write(struct.pack('f', globals.wavelength[x]))                                         
+                file.write(struct.pack('<f', globals.wavelength[x]))                                         
             #scope                                                                                          Should be a short ... long rn
             for x in range(numpix):
-                file.write(struct.pack("f", globals.spectraldata[x]))
+                file.write(struct.pack("<f", globals.spectraldata[x]))
             #dark                                                                                           Should be a short ... long rn
             for x in range(numpix):
-                file.write(struct.pack("f", globals.darkData[x]))
+                file.write(struct.pack("<f", globals.darkData[x]))
             #reference                                                                                      Should be a short ... long rn
             for x in range(numpix):
-                file.write(struct.pack("f", globals.refData[x]))
+                file.write(struct.pack("<f", globals.refData[x]))
             #mergegroup
             for x in range(10):
                 file.write(b" ")
