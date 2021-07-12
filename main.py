@@ -541,24 +541,24 @@ class MainWindow(QtWidgets.QMainWindow):
                 file.write(struct.pack("<f", globals.refData[x]))
             #mergegroup
             for x in range(10):
-                file.write(b" ")
+                file.write(b"\00")
             #straylightconf
-            file.write(struct.pack('?', True))
-            file.write(struct.pack("?", False))
-            file.write(struct.pack("l", 1))
-            file.write(b'0')
+            file.write(struct.pack('<?', False))
+            file.write(struct.pack("<?", False))
+            file.write(struct.pack("<l", 1))
+            file.write(b'\00')
             #nonlincong
-            file.write(struct.pack("?", False))
-            file.write(struct.pack("?", False))
-            file.write(b'0')
+            file.write(struct.pack("<?", False))
+            file.write(struct.pack("<?", False))
+            file.write(b'\00')
             #customReflectance
             file.write(b"N")
             #customWhiteRefValue
             for x in range(471):
-                file.write(struct.pack("l", 0))
+                file.write(struct.pack("<l", 0))
             #customDarkRefValue
             for x in range(471):
-                file.write(struct.pack("l", 1))
+                file.write(struct.pack("<l", 0))
 
 
     ## OTHER FUCNTIONS
