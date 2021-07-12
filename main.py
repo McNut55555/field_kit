@@ -501,22 +501,22 @@ class MainWindow(QtWidgets.QMainWindow):
 
             #timestamp                                                                                      DWORD
             for i in range(4):
-                file.write(b"\00")
+                file.write(struct.pack("B", 1))
             #SPCfiledate                                                                                    DWORD
             for i in range(4):
-                file.write(b"\00")
+                file.write(struct.pack("B", 1))
             #detectortemp                                                                                   Single
             for i in range(4):
-                file.write(b"\00")
+                file.write(struct.pack("B", 1))
             #boardtemp                                                                                      Single
             for i in range(4):
-                file.write(b"\00")
+                file.write(struct.pack("B", 1))
             #NTC2volt                                                                                       Single
             for i in range(4):
-                file.write(b"\00")
+                file.write(struct.pack("B", 1))
             #colorTemp                                                                                      Single
             for i in range(4):
-                file.write(b"\00")
+                file.write(struct.pack("B", 1))
             #calIntTime                                                                                     Single
             for i in range(4):
                 file.write(b"E")
