@@ -438,6 +438,7 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write(b'\x01')                                            # this needs to be a binary 1                                                          # this is going to be 4 bytes and not 1 thats a problem
             # length
             file.write(struct.pack("i", globals.deviceConfig.m_Len))
+            print(struct.pack("i", globals.deviceConfig.m_Len))
             # seqnum
             file.write(b'\x00')
             # measure mode 
