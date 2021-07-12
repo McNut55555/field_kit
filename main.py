@@ -396,7 +396,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # find the file extension and the binary associated with it. 
         # the measuremode binary might not be right rn. 
-        fileName = "saveFile"
+        fileName = "avalight"
         extension = ""
         measureMode = ""
         choice = 0
@@ -435,54 +435,47 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write(struct.pack("c", b'8'))
             file.write(struct.pack("c", b'4'))
             # Number of spectra 
-            file.write(b'\x01')                                            # this needs to be a binary 1                                                          # this is going to be 4 bytes and not 1 thats a problem
+            file.write(struct.pack("B", 1))                                            # this needs to be a binary 1                                                          # this is going to be 4 bytes and not 1 thats a problem
             # length
-            file.write(struct.pack("i", globals.deviceConfig.m_Len))
-            print(struct.pack("i", globals.deviceConfig.m_Len))
-            # seqnum
+            file.write(struct.pack("<i", globals.deviceConfig.m_Len))
+            print(globals.deviceConfig.m_Len)
+            # seqnum    1
             file.write(b'\x00')
-            # measure mode 
+            # measure mode  1
             file.write(measureMode)
-            # bitness
-            file.write(b'\x01')
+            # bitness   1
+            file.write(b'\x00')
                                                                                                         # file.write("00000001")
-            #SDmarker
+            #SDmarker   1
             file.write(b'\x00')
                                                                                                         # file.write("00000000")
-            #identity       
+            #identity  75        
             #                                                                    # this may need to be 10 long intead of 9
-                #serial number
             for x in range(0, len(globals.identity[0].SerialNumber)):
-                # file.write(eightBits(str(decimalToBinary(globals.identity[0].SerialNumber[x]))))
-                file.write(struct.pack('B', globals.identity[0].SerialNumber[x]))
-            file.write(b'\x00')
-
-                # user friendly name
-            for x in globals.identity[0].UserFriendlyName:\
-                file.write(struct.pack("B", x))
-
-
+                file.write(struct.pack('<B', globals.identity[0].SerialNumber[x]))
+            for x in range(0, 10- len(globals.identity[0].SerialNumber)):
+                file.write(b'\x00')
             
-                # status
+
+            for x in globals.identity[0].UserFriendlyName:
+                file.write(struct.pack("<B", x))
+            for x in range(0,64-len(globals.identity[0].UserFriendlyName)):
+                file.write(b'\x04')
+
             for x in globals.identity[0].Status:
-                file.write(struct.pack("B", x))
+                file.write(struct.pack("<B", x))
 
-
-            print()
             #meascong
                 # m_StartPixel
-            file.write(struct.pack("H", globals.measureType.m_StartPixel))
-            print(struct.pack("H", globals.measureType.m_StartPixel))
+            file.write(struct.pack("<H", globals.measureType.m_StartPixel))
                 # m_stopPixel
-            file.write(struct.pack("H", globals.measureType.m_StopPixel))
-            print(struct.pack("H", globals.measureType.m_StopPixel))
+            file.write(struct.pack("<H", globals.measureType.m_StopPixel))
                 # m_IntegrationTime single
-            file.write(struct.pack("f", globals.measureType.m_IntegrationTime))
-            print(struct.pack("f", globals.measureType.m_IntegrationTime))
+            file.write(struct.pack("<f", globals.measureType.m_IntegrationTime))
                 # m_IntegrationDelay
-            file.write(struct.pack("L", globals.measureType.m_IntegrationDelay))
+            file.write(struct.pack("<L", globals.measureType.m_IntegrationDelay))
                 # m_NrAverages
-            file.write(struct.pack("L", globals.measureType.m_NrAverages))
+            file.write(struct.pack("<L", globals.measureType.m_NrAverages))
                 # m_CorDynDark
                     # m_Enable
             file.write(struct.pack("B", globals.measureType.m_CorDynDark_m_Enable))
@@ -526,14 +519,14 @@ class MainWindow(QtWidgets.QMainWindow):
                 file.write(b"\00")
             #calIntTime                                                                                     Single
             for i in range(4):
-                file.write(b"\00")
+                file.write(b"E")
             #fitdata
             for i in globals.deviceConfig.m_Detector_m_aFit:
                 file.write(struct.pack("<d", i))
                 print(i)
             #comment                                                                                        AnsiChar
             for i in range(129):
-                file.write(b"\02")
+                file.write(b"\07")
             #xcoord                                                                                         Should be a short ... long rn
             for x in range(numpix):
                 file.write(struct.pack('f', globals.wavelength[x]))                                         
