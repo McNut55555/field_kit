@@ -523,10 +523,10 @@ class MainWindow(QtWidgets.QMainWindow):
             #fitdata
             for i in globals.deviceConfig.m_Detector_m_aFit:
                 file.write(struct.pack("<d", i))
-                print(i)
             #comment                                                                                        AnsiChar
             for i in range(129):
                 file.write(b"\07")
+            file.write(b"\01")
             #xcoord                                                                                         Should be a short ... long rn
             for x in range(numpix):
                 file.write(struct.pack('<f', globals.wavelength[x]))                                         
