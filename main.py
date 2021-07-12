@@ -474,10 +474,44 @@ class MainWindow(QtWidgets.QMainWindow):
                 file.write(struct.pack("B", x))
 
 
-
+            print()
             #meascong
-            for i in range(41):
-                file.write(b"\x00")
+                # m_StartPixel
+            file.write(struct.pack("H", globals.measureType.m_StartPixel))
+            print(struct.pack("H", globals.measureType.m_StartPixel))
+                # m_stopPixel
+            file.write(struct.pack("H", globals.measureType.m_StopPixel))
+            print(struct.pack("H", globals.measureType.m_StopPixel))
+                # m_IntegrationTime single
+            file.write(struct.pack("f", globals.measureType.m_IntegrationTime))
+            print(struct.pack("f", globals.measureType.m_IntegrationTime))
+                # m_IntegrationDelay
+            file.write(struct.pack("L", globals.measureType.m_IntegrationDelay))
+                # m_NrAverages
+            file.write(struct.pack("L", globals.measureType.m_NrAverages))
+                # m_CorDynDark
+                    # m_Enable
+            file.write(struct.pack("B", globals.measureType.m_CorDynDark_m_Enable))
+                    # m_ForgetPercentage
+            file.write(struct.pack("B", globals.measureType.m_CorDynDark_m_ForgetPercentage))
+                # m_Smoothing
+            file.write(struct.pack("e", globals.measureType.m_Smoothing_m_SmoothPix))
+            file.write(struct.pack("B", globals.measureType.m_Smoothing_m_SmoothModel))
+                # SaturationDetection
+            file.write(struct.pack("B", globals.measureType.m_SaturationDetection))
+                # m_Trigger
+            file.write(struct.pack("B", globals.measureType.m_Trigger_m_Mode))
+            file.write(struct.pack("B", globals.measureType.m_Trigger_m_Source))
+            file.write(struct.pack("B", globals.measureType.m_Trigger_m_SourceType))
+                # m_Control
+            file.write(struct.pack("H", globals.measureType.m_Control_m_StrobeControl))
+            file.write(struct.pack("I", globals.measureType.m_Control_m_LaserDelay))
+            file.write(struct.pack("I", globals.measureType.m_Control_m_LaserWidth))
+            file.write(struct.pack("f", globals.measureType.m_Control_m_LaserWaveLength))
+            file.write(struct.pack("H", globals.measureType.m_Control_m_StoreToRam))
+
+
+
             #timestamp                                                                                      DWORD
             for i in range(4):
                 file.write(b"\00")
