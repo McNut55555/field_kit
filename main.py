@@ -476,28 +476,29 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
             #meascong
-
+            for i in range(41):
+                file.write(b"\x00")
             #timestamp                                                                                      DWORD
             for i in range(4):
-                file.write(b"0")
+                file.write(b"\00")
             #SPCfiledate                                                                                    DWORD
             for i in range(4):
-                file.write(b"0")
+                file.write(b"\00")
             #detectortemp                                                                                   Single
             for i in range(4):
-                file.write(b"0")
+                file.write(b"\00")
             #boardtemp                                                                                      Single
             for i in range(4):
-                file.write(b"0")
+                file.write(b"\00")
             #NTC2volt                                                                                       Single
             for i in range(4):
-                file.write(b"0")
+                file.write(b"\00")
             #colorTemp                                                                                      Single
             for i in range(4):
-                file.write(b"0")
+                file.write(b"\00")
             #calIntTime                                                                                     Single
             for i in range(4):
-                file.write(b"0")
+                file.write(b"\00")
             #fitdata
             for i in globals.deviceConfig.m_Detector_m_aFit:
                 file.write(struct.pack("<d", i))
