@@ -459,13 +459,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 # user friendly name
             for x in globals.identity[0].UserFriendlyName:\
                 file.write(struct.pack("B", x))
-                # if x < 10:
-                #     if x < len(globals.identity[0].UserFriendlyName):
-                #         file.write(struct.pack("B", globals.identity[0].UserFriendlyName[x]))
-                #     else:
-                #         file.write(b"0")
-                # else:
-                #     file.write(b"0")
 
 
             
