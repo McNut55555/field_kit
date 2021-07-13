@@ -1,7 +1,7 @@
 # from re import L, S
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMessageBox, QFileDialog 
+from PyQt5.QtWidgets import QMessageBox, QFileDialog , QInputDialog
 from pyqtgraph import PlotWidget, plot, ViewBox
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
@@ -400,6 +400,13 @@ class MainWindow(QtWidgets.QMainWindow):
         extension = ""
         measureMode = ""
         choice = 0
+        comment = ""
+
+        #
+        # Get the comment from the user
+        # here the comment is what the user inputs and result is if it was 
+        #
+        comment, result = QInputDialog.getText(self, "Input", "Add Comment")
 
         #
         # This will get the file path where the user would like to save the file. 
@@ -544,9 +551,16 @@ class MainWindow(QtWidgets.QMainWindow):
                 file.write(struct.pack("<d", i))
 
             #comment                                                                                        AnsiChar
-            for i in range(129):
-                file.write(b"\00")
+            if len(comment) <= 129:
+                for i in comment:
+                    file.write(struct.pack("c", bytes(i, 'utf-8')))
+                for i in range(129-len(comment)):
+                    file.write(b'\00')
+            else:
+                for i in range(129):
+                    file.write(struct.pack("c", bytes(comment[i], 'utf-8')))
             file.write(b"\01")
+                # for some reason the file that gets saved has a seperator here
 
             #xcoord                                                                                         Should be a short ... long rn
             for x in range(numpix):
