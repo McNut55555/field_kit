@@ -1,7 +1,7 @@
 # from re import L, S
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtWidgets import QMessageBox, QFileDialog 
 from pyqtgraph import PlotWidget, plot, ViewBox
 import pyqtgraph as pg
 import sys  # We need sys so that we can pass argv to QApplication
@@ -400,6 +400,18 @@ class MainWindow(QtWidgets.QMainWindow):
         extension = ""
         measureMode = ""
         choice = 0
+
+        #
+        # This will get the file path where the user would like to save the file. 
+        #
+        options = QFileDialog.Options()
+        # options |= QFileDialog.DontUseNativeDialog
+        # fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
+        save_path, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","", options=options)
+
+        #
+        # Get the extension of the file. This is what type of file the user would like to save
+        #
         if(choice == 0):
             extension = ".RAW8"
             measureMode = b"\00"
@@ -426,23 +438,28 @@ class MainWindow(QtWidgets.QMainWindow):
             measureMode = b"\00"
             print("ERROR: DIDN'T FIND FILE TYPE SPECIFIED")
 
-        # write data see what happens
-        with open(fileName + extension, "wb") as file:
+        # write data to the file
+        with open(save_path + extension, "wb") as file:
             # Marker
             file.write(struct.pack("c", b'A'))
             file.write(struct.pack("c", b'V'))
             file.write(struct.pack("c", b'S'))
             file.write(struct.pack("c", b'8'))
             file.write(struct.pack("c", b'4'))
+
             # Number of spectra 
-            file.write(struct.pack("B", 1))                                            # this needs to be a binary 1                                                          # this is going to be 4 bytes and not 1 thats a problem
+            file.write(struct.pack("B", 1))   
+                                                    
             # length
             file.write(struct.pack("<i", globals.deviceConfig.m_Len))
             print(globals.deviceConfig.m_Len)
+
             # seqnum    1
             file.write(b'\x00')
+
             # measure mode  1
             file.write(measureMode)
+
             # bitness   1
             file.write(b'\x00')
                                                                                                         # file.write("00000001")
@@ -455,13 +472,10 @@ class MainWindow(QtWidgets.QMainWindow):
                 file.write(struct.pack('<B', globals.identity[0].SerialNumber[x]))
             for x in range(0, 10- len(globals.identity[0].SerialNumber)):
                 file.write(b'\x00')
-            
-
             for x in globals.identity[0].UserFriendlyName:
                 file.write(struct.pack("<B", x))
             for x in range(0,64-len(globals.identity[0].UserFriendlyName)):
                 file.write(b'\x04')
-
             for x in globals.identity[0].Status:
                 file.write(struct.pack("<B", x))
 
@@ -497,72 +511,98 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write(struct.pack("f", globals.measureType.m_Control_m_LaserWaveLength))
             file.write(struct.pack("H", globals.measureType.m_Control_m_StoreToRam))
 
-
-
             #timestamp                                                                                      DWORD
             for i in range(4):
                 file.write(struct.pack("B", 1))
+
             #SPCfiledate                                                                                    DWORD
             for i in range(4):
                 file.write(struct.pack("B", 1))
+
             #detectortemp                                                                                   Single
             for i in range(4):
                 file.write(struct.pack("B", 1))
+
             #boardtemp                                                                                      Single
             for i in range(4):
                 file.write(struct.pack("B", 1))
+
             #NTC2volt                                                                                       Single
             for i in range(4):
                 file.write(struct.pack("B", 1))
+
             #colorTemp                                                                                      Single
             for i in range(4):
                 file.write(struct.pack("B", 1))
+
             #calIntTime                                                                                     Single
             for i in range(4):
                 file.write(b"E")
+
             #fitdata
             for i in globals.deviceConfig.m_Detector_m_aFit:
                 file.write(struct.pack("<d", i))
+
             #comment                                                                                        AnsiChar
             for i in range(129):
                 file.write(b"\00")
             file.write(b"\01")
+
             #xcoord                                                                                         Should be a short ... long rn
             for x in range(numpix):
-                file.write(struct.pack('<f', globals.wavelength[x]))                                         
+                file.write(struct.pack('<f', globals.wavelength[x]))   
+
             #scope                                                                                          Should be a short ... long rn
             for x in range(numpix):
                 file.write(struct.pack("<f", globals.spectraldata[x]))
+
             #dark                                                                                           Should be a short ... long rn
             for x in range(numpix):
                 file.write(struct.pack("<f", globals.darkData[x]))
+
             #reference                                                                                      Should be a short ... long rn
             for x in range(numpix):
                 file.write(struct.pack("<f", globals.refData[x]))
+
             #mergegroup
             for x in range(10):
                 file.write(b"\00")
+
             #straylightconf
             file.write(struct.pack('<?', False))
             file.write(struct.pack("<?", False))
             file.write(struct.pack("<l", 1))
             file.write(b'\00')
+
             #nonlincong
             file.write(struct.pack("<?", False))
             file.write(struct.pack("<?", False))
             file.write(b'\00')
+
             #customReflectance
             file.write(b"N")
+
             #customWhiteRefValue
             for x in range(471):
                 file.write(struct.pack("<l", 0))
+
             #customDarkRefValue
             for x in range(471):
                 file.write(struct.pack("<l", 0))
 
 
+            
     ## OTHER FUCNTIONS
     ###########################################################################
+    def saveFileDialog(self):
+        options = QFileDialog.Options()
+        # options |= QFileDialog.DontUseNativeDialog
+        # fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
+        fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","", options=options)
+
+        if fileName:
+            print(fileName)
+
     def scope(self):
         # get the values
         globals.visGraph = 1

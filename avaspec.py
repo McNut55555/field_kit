@@ -9,14 +9,14 @@ from enum import Enum
 if 'linux' in sys.platform: # Linux will have 'linux' or 'linux2'
     lib = ctypes.CDLL("libavs.so.0")
     func = ctypes.CFUNCTYPE
-# elif 'darwin' in sys.platform: # macOS will have 'darwin'
-#     lib = ctypes.CDLL("DLLs/libavs.0.dylib")
-#     func = ctypes.CFUNCTYPE
+elif 'darwin' in sys.platform: # macOS will have 'darwin'
+    lib = ctypes.CDLL("DLLs/libavs.0.dylib")
+    func = ctypes.CFUNCTYPE
 else: # Windows will have 'win32' or 'cygwin'
     import ctypes.wintypes
     if (ctypes.sizeof(ctypes.c_voidp) == 8): # 64 bit
         WM_MEAS_READY = 0x8001
-        lib = ctypes.WinDLL("avaspecx64.dll")
+        lib = ctypes.WinDLL("C:/Users/mmcnu/Documents/code/field_kit/avaspecx64.dll")
         func = ctypes.WINFUNCTYPE
     else:
         WM_MEAS_READY = 0x0401
