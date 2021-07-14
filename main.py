@@ -124,7 +124,11 @@ class MainWindow(QtWidgets.QMainWindow):
         print("reference data now saved")
         return
 
-    # configures the spectrometer to ensure that no pixel is saturated
+    '''
+    configures the spectrometer to ensure that no pixel is saturated. Does this by slowly incrementing the the integration time. 
+    One the largest pixel is between 60,000 and 55,000 the integration time gets set to that value. It then slowly adjusts the 
+    number of averages so that each 
+    '''
     @pyqtSlot()
     def configButton_clicked(self):
         print("configuration")
@@ -170,22 +174,19 @@ class MainWindow(QtWidgets.QMainWindow):
         print(largest_pixel)
         globals.max = largest_pixel
         
-        # this will adjust the number of averages to get in the cycle_time range... the amount of time to take one reading
+        # this will adjust the number of averages to get in the cycle_time range... the amount of time to take one reading 
+        # I think this value is in seconds but im not quite sure. 
         count = 0
-        cycle_time = globals.integration_time * globals.averages
-        while( cycle_time > 580 or cycle_time < 420):
-            cycle_time = globals.integration_time * globals.averages
-            if cycle_time > 550: 
-                globals.averages -= 1 
-            if cycle_time < 450: 
-                globals.averages += 1
-            self.startStopButton_clicked()
-            count += 1 
-            if count >= 50:
-                break
+        cycle_time = 500
+        globals.averages = int(cycle_time / globals.integration_time)
+        if globals.averages > 100:
+            globals.averages = 100
+        elif globals.averages < 2:
+            globals.averages = 2
         print("done with configuration")
-        print(globals.integration_time)
-        print(globals.averages)   
+        print('cycle time:', cycle_time)
+        print("integration time:", globals.integration_time)
+        print("Averages:", globals.averages)   
         return
 
     # disconnects from the spectrometer and adjusts the enabled buttons
