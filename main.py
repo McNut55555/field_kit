@@ -4,7 +4,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMessageBox, QFileDialog , QInputDialog
 from pyqtgraph import PlotWidget, plot, ViewBox
 import pyqtgraph as pg
-import sys  # We need sys so that we can pass argv to QApplication
+import sys                                                                      # We need sys so that we can pass argv to QApplication
 from pyqtgraph.functions import Color, disconnect
 import globals
 from avaspec import *
@@ -256,7 +256,8 @@ class MainWindow(QtWidgets.QMainWindow):
             # self.app.processEvents()                          
             time.sleep(0.001)  
         globals.measureType = measconfig
-
+        
+        # choosing what graph should be displayed to the user
         if globals.visGraph == 0:
             self.scope()
         elif globals.visGraph == 2:
@@ -341,23 +342,17 @@ class MainWindow(QtWidgets.QMainWindow):
         choice = 0
         comment = ""
 
-        #
         # Get the comment from the user
         # here the comment is what the user inputs and result is if it was 
-        #
         comment, result = QInputDialog.getText(self, "Input", "Add Comment")
 
-        #
         # This will get the file path where the user would like to save the file. 
-        #
         options = QFileDialog.Options()
         # options |= QFileDialog.DontUseNativeDialog
         # fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
         save_path, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","", options=options)
 
-        #
         # Get the extension of the file. This is what type of file the user would like to save
-        #
         if(globals.visGraph == 0):
             extension = ".RAW8"
             measureMode = b"\00"

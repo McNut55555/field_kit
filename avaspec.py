@@ -336,23 +336,23 @@ def AVS_Measure(handle, windowhandle, nummeas):
     ret = AVS_Measure(handle, windowhandle, nummeas) 
     return ret
 
-class callbackclass(QObject):
-    newdata = pyqtSignal()
-    def __init__(self):
-        QObject.__init__(self, parent)
-        self.newdata.connect(PyQt5_demo.MainWindow.handle_newdata)
-    def callback(self, handle, error):
-        self.newdata.emit() # signal must be from a class !!
+# class callbackclass(QObject):
+#     newdata = pyqtSignal()
+#     def __init__(self):
+#         QObject.__init__(self, parent)
+#         self.newdata.connect(PyQt5_demo.MainWindow.handle_newdata)
+#     def callback(self, handle, error):
+#         self.newdata.emit() # signal must be from a class !!
 
 # We have not succeeded in getting the callback to execute without problem
 # please use AVS_Measure instead using Windows messaging or polling
 
-def AVS_MeasureCallback(handle, adres, nummeas):
-    CBTYPE = ctypes.CFUNCTYPE(None, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int))
-    prototype = func(ctypes.c_int, ctypes.c_int, CBTYPE, ctypes.c_uint16)
-    paramflags = (1, "handle",), (1, "adres",), (1, "nummeas"),
-    AVS_MeasureCallback = prototype(("AVS_MeasureCallback", lib), paramflags)
-    ret = AVS_MeasureCallback(handle, CBTYPE(callbackclass.callback), nummeas)  # CRASHES python
+# def AVS_MeasureCallback(handle, adres, nummeas):
+#     CBTYPE = ctypes.CFUNCTYPE(None, ctypes.POINTER(ctypes.c_int), ctypes.POINTER(ctypes.c_int))
+#     prototype = func(ctypes.c_int, ctypes.c_int, CBTYPE, ctypes.c_uint16)
+#     paramflags = (1, "handle",), (1, "adres",), (1, "nummeas"),
+#     AVS_MeasureCallback = prototype(("AVS_MeasureCallback", lib), paramflags)
+#     ret = AVS_MeasureCallback(handle, CBTYPE(callbackclass.callback), nummeas)  # CRASHES python
 
 def AVS_StopMeasure(handle):
     prototype = func(ctypes.c_int, ctypes.c_int)
