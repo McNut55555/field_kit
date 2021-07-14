@@ -95,16 +95,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     ## BUTTON CLICK FUNCTIONALITY  
     ###########################################################################
-    @pyqtSlot()
-    def absIrrButton_clicked(self):
-        globals.visGraph = 5
-        print("abs Irr")
-
-    @pyqtSlot()
-    def relIrrButton_clicked(self):
-        globals.visGraph = 6
-        print("rel Irr")
-        print('were gonna do this one')
 
     # Rescales the graph to allow for a better view
     @pyqtSlot()
@@ -115,46 +105,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget.ViewBox()
         self.ui.graphWidget_2.ViewBox()
 
-    # creates the transmission data and displays the graph
-    @pyqtSlot()
-    def transButton_clicked(self):
-        globals.visGraph = 3
-        y_value = []
-        y_label = "Percentage (%)"
-        title = "Transmission Mode"
-        for x in range(0, len(globals.spectraldata)-2):
-            y_value.append(100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
-        self.plot(y_value, y_label, title)
 
-    # creates the absorbance data and displays the graph
-    @pyqtSlot()
-    def absButton_clicked(self):
-        globals.visGraph = 1
-        y_value = []
-        y_label = "Absorbance (A.U.)"
-        title = "Absorbance Mode"
-        for x in range(0, len(globals.spectraldata)-2):
-            # seems that im grabbing outside pixels making the end of the graph bad... will have to look into it. 
-            if math.fabs(globals.refData[x]-globals.darkData[x]) == 0:
-                y_value.append(5)
-                print("divide by zero")
-            elif (math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])) <= 0:
-                y_value.append(5)
-                print("domain = 0")
-            else:
-                y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
-        self.plot(y_value, y_label, title)
-
-    # creates the reflectance data and displays the graph
-    @pyqtSlot()
-    def reflectButton_clicked(self):
-        globals.visGraph = 4
-        y_value = []
-        y_label = "Percent (%)"
-        title = "Reflectance Mode"
-        for x in range(0,len(globals.spectraldata)-2):
-            y_value.append( 100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])) )
-        self.plot(y_value, y_label, title)
 
     # saves the dark data in globals
     @pyqtSlot()
@@ -165,26 +116,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.darkButton.setStyleSheet("color: green")
         self.ui.darkButton.setIcon(QIcon("Icons/check.png"))
         print("darkData now saved")
-
-    # disconnects from the spectrometer and adjusts the enabled buttons
-    @pyqtSlot()
-    def stopButton_clicked(self):
-        AVS_Done()
-        self.ui.startStopButton.setEnabled(False)
-        self.ui.startStopButton.setStyleSheet("background-color: black;")
-        self.ui.connectButton.setEnabled(True)
-        self.ui.connectButton.setStyleSheet("color: #FFF;")
-        self.ui.darkButton.setEnabled(False)
-        self.ui.darkButton.setStyleSheet("background-color: black")
-        self.ui.configButton.setEnabled(False)
-        self.ui.configButton.setStyleSheet("background-color: black")
-        self.ui.refButton.setEnabled(False)
-        self.ui.refButton.setStyleSheet("background-color: black")
-        self.ui.stopButton.setEnabled(False)
-        self.ui.stopButton.setStyleSheet("background-color: black")
-        self.ui.darkButton.setIcon(QIcon())
-        self.ui.refButton.setIcon(QIcon())
-        print("disconnected")
 
     # saves reference data to globals and changes the look of the button to alert user that data has been saved
     @pyqtSlot()
@@ -207,7 +138,6 @@ class MainWindow(QtWidgets.QMainWindow):
             increment = 1
         elif globals.integration_time <= 1 and globals.integration_time > 0.2:
             increment = 0.5
-
         # stays in the loop until the largest pixel count is in the range of the loop. slowly adjusts integration time till it gets
         # to the range
         while( largest_pixel > 60000 or largest_pixel < 55000 ):
@@ -259,13 +189,37 @@ class MainWindow(QtWidgets.QMainWindow):
         print(globals.integration_time)
         print(globals.averages)   
 
+    # disconnects from the spectrometer and adjusts the enabled buttons
+    @pyqtSlot()
+    def stopButton_clicked(self):
+        AVS_Done()
+        self.ui.startStopButton.setEnabled(False)
+        self.ui.startStopButton.setStyleSheet("background-color: black;")
+        self.ui.connectButton.setEnabled(True)
+        self.ui.connectButton.setStyleSheet("color: #FFF;")
+        self.ui.darkButton.setEnabled(False)
+        self.ui.darkButton.setStyleSheet("background-color: black")
+        self.ui.configButton.setEnabled(False)
+        self.ui.configButton.setStyleSheet("background-color: black")
+        self.ui.refButton.setEnabled(False)
+        self.ui.refButton.setStyleSheet("background-color: black")
+        self.ui.stopButton.setEnabled(False)
+        self.ui.stopButton.setStyleSheet("background-color: black")
+        self.ui.darkButton.setIcon(QIcon())
+        self.ui.refButton.setIcon(QIcon())
+        print("disconnected")
+
+
+
     # collects data from the spectrometer. collect button. 
     @pyqtSlot()
     def startStopButton_clicked(self):
         self.repaint()                                                                      # gets rid of old data on the screen
         ret = AVS_UseHighResAdc(globals.dev_handle, True)                                   # sets the spectrometer to use 16 bit resolution instead of 14 bit
-        pix = AVS_GetNumPixels(globals.dev_handle)
-        print(pix)
+
+        print(globals.pixels)
+
+        # set the configuration
         measconfig = MeasConfigType()
         measconfig.m_StartPixel = 0
         measconfig.m_StopPixel = globals.pixels - 1
@@ -338,7 +292,7 @@ class MainWindow(QtWidgets.QMainWindow):
         ret = AVS_GetNrOfDevices()                                                                          # will check the list of connected usb devices and returns the number attached   
         mylist = AvsIdentityType()                                                                          # pretty sure these do the same thing but whatever you know it works
         mylist = AVS_GetList(1)          
-        globals.identity = mylist                                                                   
+        globals.identity = mylist                                                              
 
         # displaying information on the serial number and working with it
         serienummer = str(mylist[0].SerialNumber.decode("utf-8"))
@@ -346,6 +300,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # this activates the spectrometer for communication
         globals.dev_handle = AVS_Activate(mylist[0])
+
+        # set the number of pixels the spectrometer has
+        globals.pixels = AVS_GetNumPixels(globals.dev_handle)
+        print(globals.pixels)
 
         # gets all the information about the spectrometer
         devcon = DeviceConfigType()
@@ -371,16 +329,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         return
 
-    # creates the scope - dark graph and displays it with plot function. 
-    @pyqtSlot()
-    def scopeMinDarkButton_clicked(self):
-        globals.visGraph = 2
-        y_value = []
-        title = "Scope Minus Dark"
-        y_label = "Counts"
-        for x in range(0, len(globals.spectraldata)-2):
-            y_value.append(globals.spectraldata[x]-globals.darkData[x])
-        self.plot(y_value, y_label, title)
 
     # saves the data of the spectrometer for later use in Avasoft 8. Not finished
     @pyqtSlot()
@@ -618,15 +566,81 @@ class MainWindow(QtWidgets.QMainWindow):
         # get the values
         globals.visGraph = 0
         y_value = []
-        for x in range(0,len(globals.spectraldata)-2):                                  # dropping off the last two data points
+        for x in range(21,globals.pixels-22):                                  # dropping off the last two data points
             y_value.append(globals.spectraldata[x])
+            if globals.spectraldata[x] == 0:
+                print("x value", x)
         self.plot(y_value, "Scope (ADC Counts)", "Scope Mode")
+
+    # creates the absorbance data and displays the graph
+    @pyqtSlot()
+    def absButton_clicked(self):
+        globals.visGraph = 1
+        y_value = []
+        y_label = "Absorbance (A.U.)"
+        title = "Absorbance Mode"
+        for x in range(21, globals.pixels-22):
+            # seems that im grabbing outside pixels making the end of the graph bad... will have to look into it. 
+            if math.fabs(globals.refData[x]-globals.darkData[x]) == 0:
+                y_value.append(5)
+                print("divide by zero")
+            elif (math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])) <= 0:
+                y_value.append(5)
+                print("domain = 0")
+            else:
+                y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
+        self.plot(y_value, y_label, title)
+
+    # creates the transmission data and displays the graph
+    @pyqtSlot()
+    def transButton_clicked(self):
+        globals.visGraph = 3
+        y_value = []
+        y_label = "Percentage (%)"
+        title = "Transmission Mode"
+        for x in range(21, globals.pixels-22):
+            y_value.append(100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
+        self.plot(y_value, y_label, title)
+        
+    # creates the scope - dark graph and displays it with plot function. 
+    @pyqtSlot()
+    def scopeMinDarkButton_clicked(self):
+        globals.visGraph = 2
+        y_value = []
+        title = "Scope Minus Dark"
+        y_label = "Counts"
+        for x in range(21, globals.pixels-22):
+            y_value.append(globals.spectraldata[x]-globals.darkData[x])
+        self.plot(y_value, y_label, title)
+
+    # creates the reflectance data and displays the graph
+    @pyqtSlot()
+    def reflectButton_clicked(self):
+        globals.visGraph = 4
+        y_value = []
+        y_label = "Percent (%)"
+        title = "Reflectance Mode"
+        for x in range(21, globals.pixels-22):
+            y_value.append( 100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])) )
+        self.plot(y_value, y_label, title)
+
+    @pyqtSlot()
+    def absIrrButton_clicked(self):
+        globals.visGraph = 5
+        print("abs Irr")
+
+    @pyqtSlot()
+    def relIrrButton_clicked(self):
+        globals.visGraph = 6
+        print("rel Irr")
+        print('were gonna do this one')
+
 
     # plots the data to both graphs on page 1 and page 2. 
     def plot(self, y_value, y_label, title):
         # get the values
         x_value = []
-        for x in range(0,len(globals.wavelength)-2):                                    # not sure if this is going to effect it but dropping off the last two data points
+        for x in range(21,globals.pixels-22):                                    # not sure if this is going to effect it but dropping off the last two data points
             x_value.append(globals.wavelength[x])
         
         # Set the label for x axis
