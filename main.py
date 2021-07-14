@@ -38,8 +38,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # PAGE 1
         self.ui.btn_page_1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_1))
-        if self.ui.btn_page_1.clicked == True:
-            globals.visGraph = 0
 
         # PAGE 2
         self.ui.btn_page_2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
@@ -91,7 +89,6 @@ class MainWindow(QtWidgets.QMainWindow):
         ## show the screen
         #######################################################################
         self.show()
-
 
 
     ## BUTTON CLICK FUNCTIONALITY  
@@ -213,7 +210,6 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
 
-
     # collects data from the spectrometer. collect button. 
     @pyqtSlot()
     def startStopButton_clicked(self):
@@ -259,8 +255,6 @@ class MainWindow(QtWidgets.QMainWindow):
                     globals.stopscanning = True  
             # self.app.processEvents()                          
             time.sleep(0.001)  
-
-
         globals.measureType = measconfig
 
         if globals.visGraph == 0:
@@ -279,7 +273,6 @@ class MainWindow(QtWidgets.QMainWindow):
             self.relIrrButton_clicked()
         else:
             self.scope()
-
         return   
 
     # connects to the spectrometer
@@ -399,26 +392,19 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write(struct.pack("c", b'S'))
             file.write(struct.pack("c", b'8'))
             file.write(struct.pack("c", b'4'))
-
             # Number of spectra 
-            file.write(struct.pack("B", 1))   
-                                                    
+            file.write(struct.pack("B", 1))                                         
             # length
             file.write(struct.pack("<i", globals.deviceConfig.m_Len))
             print(globals.deviceConfig.m_Len)
-
             # seqnum    1
             file.write(b'\x00')
-
             # measure mode  1
             file.write(measureMode)
-
             # bitness   1
             file.write(b'\x00')
-                                                                                                        # file.write("00000001")
             #SDmarker   1
             file.write(b'\x00')
-                                                                                                        # file.write("00000000")
             #identity  75        
             #                                                                    # this may need to be 10 long intead of 9
             for x in range(0, len(globals.identity[0].SerialNumber)):
@@ -431,7 +417,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 file.write(b'\x04')
             for x in globals.identity[0].Status:
                 file.write(struct.pack("<B", x))
-
             #meascong
                 # m_StartPixel
             file.write(struct.pack("<H", globals.measureType.m_StartPixel))
@@ -463,39 +448,30 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write(struct.pack("<I", globals.measureType.m_Control_m_LaserWidth))
             file.write(struct.pack("<f", globals.measureType.m_Control_m_LaserWaveLength))
             file.write(struct.pack("<H", globals.measureType.m_Control_m_StoreToRam))
-
             #timestamp                                                                                      DWORD
             for i in range(4):
                 file.write(struct.pack("<B", 1))
-
             #SPCfiledate                                                                                    DWORD
             for i in range(4):
                 file.write(struct.pack("<B", 1))
-
             #detectortemp                                                                                   Single
             for i in range(4):
                 file.write(struct.pack("<B", 1))
-
             #boardtemp                                                                                      Single
             for i in range(4):
                 file.write(struct.pack("<B", 1))
-
             #NTC2volt                                                                                       Single
             for i in range(4):
                 file.write(struct.pack("<B", 1))
-
             #colorTemp                                                                                      Single
             for i in range(4):
                 file.write(struct.pack("<B", 1))
-
             #calIntTime                                                                                     Single
             for i in range(4):
                 file.write(b"E")
-
             #fitdata
             for i in globals.deviceConfig.m_Detector_m_aFit:
                 file.write(struct.pack("<d", i))
-
             #comment                                                                                        AnsiChar
             if len(comment) <= 129:
                 for i in comment:
@@ -505,53 +481,40 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 for i in range(129):
                     file.write(struct.pack("c", bytes(comment[i], 'utf-8')))
-            file.write(b"\01")
-                # for some reason the file that gets saved has a seperator here
-
+            file.write(b"\01")                                                                              # for some reason the file that gets saved has a seperator here
             #xcoord                                                                                         Should be a short ... long rn
             for x in range(numpix):
                 file.write(struct.pack('<f', globals.wavelength[x]))   
-
             #scope                                                                                          Should be a short ... long rn
             for x in range(numpix):
                 file.write(struct.pack("<f", globals.spectraldata[x]))
-
             #dark                                                                                           Should be a short ... long rn
             for x in range(numpix):
                 file.write(struct.pack("<f", globals.darkData[x]))
-
             #reference                                                                                      Should be a short ... long rn
             for x in range(numpix):
                 file.write(struct.pack("<f", globals.refData[x]))
-
             #mergegroup
             for x in range(10):
                 file.write(b"\00")
-
             #straylightconf
             file.write(struct.pack('<?', False))
             file.write(struct.pack("<?", False))
             file.write(struct.pack("<l", 1))
             file.write(b'\00')
-
             #nonlincong
             file.write(struct.pack("<?", False))
             file.write(struct.pack("<?", False))
             file.write(b'\00')
-
             #customReflectance
             file.write(b"N")
-
             #customWhiteRefValue
             for x in range(471):
                 file.write(struct.pack("<l", 0))
-
             #customDarkRefValue
             for x in range(471):
                 file.write(struct.pack("<l", 0))
-        
         return
-
 
             
     ## OTHER FUCNTIONS
