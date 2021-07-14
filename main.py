@@ -104,8 +104,7 @@ class MainWindow(QtWidgets.QMainWindow):
         return
         self.ui.graphWidget.ViewBox()
         self.ui.graphWidget_2.ViewBox()
-
-
+        return
 
     # saves the dark data in globals
     @pyqtSlot()
@@ -116,6 +115,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.darkButton.setStyleSheet("color: green")
         self.ui.darkButton.setIcon(QIcon("Icons/check.png"))
         print("darkData now saved")
+        return
 
     # saves reference data to globals and changes the look of the button to alert user that data has been saved
     @pyqtSlot()
@@ -124,12 +124,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.refButton.setStyleSheet("color: green")
         self.ui.refButton.setIcon(QIcon("Icons/check.png"))
         print("reference data now saved")
+        return
 
     # configures the spectrometer to ensure that no pixel is saturated
     @pyqtSlot()
     def configButton_clicked(self):
         print("configuration")
-
         largest_pixel = 0
         count = 0
         increment = 5
@@ -188,6 +188,7 @@ class MainWindow(QtWidgets.QMainWindow):
         print("done with configuration")
         print(globals.integration_time)
         print(globals.averages)   
+        return
 
     # disconnects from the spectrometer and adjusts the enabled buttons
     @pyqtSlot()
@@ -208,6 +209,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.darkButton.setIcon(QIcon())
         self.ui.refButton.setIcon(QIcon())
         print("disconnected")
+        return
 
 
 
@@ -546,6 +548,8 @@ class MainWindow(QtWidgets.QMainWindow):
             #customDarkRefValue
             for x in range(471):
                 file.write(struct.pack("<l", 0))
+        
+        return
 
 
             
@@ -559,6 +563,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         if fileName:
             print(fileName)
+        return
 
     def scope(self):
         # get the values
@@ -569,6 +574,7 @@ class MainWindow(QtWidgets.QMainWindow):
             if globals.spectraldata[x] == 0:
                 print("x value", x)
         self.plot(y_value, "Scope (ADC Counts)", "Scope Mode")
+        return
 
     # creates the absorbance data and displays the graph
     @pyqtSlot()
@@ -588,6 +594,7 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 y_value.append( -1 * math.log((math.fabs(globals.spectraldata[x]-globals.darkData[x]))/(math.fabs(globals.refData[x]-globals.darkData[x])),10))
         self.plot(y_value, y_label, title)
+        return
 
     # creates the transmission data and displays the graph
     @pyqtSlot()
@@ -599,6 +606,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for x in range(21, globals.pixels-22):
             y_value.append(100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
         self.plot(y_value, y_label, title)
+        return
         
     # creates the scope - dark graph and displays it with plot function. 
     @pyqtSlot()
@@ -610,6 +618,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for x in range(21, globals.pixels-22):
             y_value.append(globals.spectraldata[x]-globals.darkData[x])
         self.plot(y_value, y_label, title)
+        return
 
     # creates the reflectance data and displays the graph
     @pyqtSlot()
@@ -621,17 +630,20 @@ class MainWindow(QtWidgets.QMainWindow):
         for x in range(21, globals.pixels-22):
             y_value.append( 100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])) )
         self.plot(y_value, y_label, title)
+        return
 
     @pyqtSlot()
     def absIrrButton_clicked(self):
         globals.visGraph = 5
         print("abs Irr")
+        return
 
     @pyqtSlot()
     def relIrrButton_clicked(self):
         globals.visGraph = 6
         print("rel Irr")
         print('were gonna do this one')
+        return
 
 
     # plots the data to both graphs on page 1 and page 2. 
@@ -656,6 +668,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget.plot(x_value, y_value)
         self.ui.graphWidget_2.clear()
         self.ui.graphWidget_2.plot(x_value, y_value)
+        return
 
 
 ## MAIN
