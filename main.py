@@ -399,26 +399,25 @@ class MainWindow(QtWidgets.QMainWindow):
         fileName = "avalight"
         extension = ""
         measureMode = ""
-        choice = 0
-        if(choice == 0):
+        if(globals.visGraph == 0):
             extension = ".RAW8"
             measureMode = b"\00"
-        elif choice == 2:
+        elif globals.visGraph == 2:
             extension = ".RWD8"
             measureMode = b"\02"
-        elif choice == 1:
+        elif globals.visGraph == 1:
             extension = ".ABS8"
             measureMode = b"\01"
-        elif choice == 3:
+        elif globals.visGraph == 3:
             extension = ".TRM8"
             measureMode = b"\03"
-        elif choice == 5:
+        elif globals.visGraph == 5:
             extension = ".IRR8"
             measureMode = b"\05"
-        elif choice == 4:
+        elif globals.visGraph == 4:
             extension = ".RFL8"
             measureMode = b"\04"
-        elif choice == 6:
+        elif globals.visGraph == 6:
             extension = ".RIR8"
             measureMode = b"\06"
         else:
