@@ -262,16 +262,17 @@ class MainWindow(QtWidgets.QMainWindow):
     # collects data from the spectrometer. collect button. 
     @pyqtSlot()
     def startStopButton_clicked(self):
-        # self.startStopButton.setEnabled(False)
         self.repaint()                                                                      # gets rid of old data on the screen
         ret = AVS_UseHighResAdc(globals.dev_handle, True)                                   # sets the spectrometer to use 16 bit resolution instead of 14 bit
+        pix = AVS_GetNumPixels(globals.dev_handle)
+        print(pix)
         measconfig = MeasConfigType()
         measconfig.m_StartPixel = 0
         measconfig.m_StopPixel = globals.pixels - 1
-        measconfig.m_IntegrationTime = globals.integration_time                                                    # variables that will get changed
+        measconfig.m_IntegrationTime = globals.integration_time                             # variables that will get changed
         measconfig.m_IntegrationDelay = 0
-        measconfig.m_NrAverages = globals.averages                                                         # variables that will get changed
-        measconfig.m_CorDynDark_m_Enable = 0  # nesting of types does NOT work!!
+        measconfig.m_NrAverages = globals.averages                                          # variables that will get changed
+        measconfig.m_CorDynDark_m_Enable = 0                                                # nesting of types does NOT work!!
         measconfig.m_CorDynDark_m_ForgetPercentage = 0
         measconfig.m_Smoothing_m_SmoothPix = 0
         measconfig.m_Smoothing_m_SmoothModel = 0
