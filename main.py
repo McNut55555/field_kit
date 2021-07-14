@@ -53,7 +53,7 @@ class MainWindow(QtWidgets.QMainWindow):
         ########################################################################
         globals.integration_time = 10
         globals.averages = 5
-        globals.first = True 
+        globals.visGraph = 0
 
         ## SET INITAL ALLOWABLE CLICKS
         ########################################################################
@@ -97,10 +97,12 @@ class MainWindow(QtWidgets.QMainWindow):
     ###########################################################################
     @pyqtSlot()
     def absIrrButton_clicked(self):
+        globals.visGraph = 5
         print("abs Irr")
 
     @pyqtSlot()
     def relIrrButton_clicked(self):
+        globals.visGraph = 6
         print("rel Irr")
         print('were gonna do this one')
 
@@ -116,7 +118,7 @@ class MainWindow(QtWidgets.QMainWindow):
     # creates the transmission data and displays the graph
     @pyqtSlot()
     def transButton_clicked(self):
-        globals.visGraph = 4
+        globals.visGraph = 3
         y_value = []
         y_label = "Percentage (%)"
         title = "Transmission Mode"
@@ -127,7 +129,7 @@ class MainWindow(QtWidgets.QMainWindow):
     # creates the absorbance data and displays the graph
     @pyqtSlot()
     def absButton_clicked(self):
-        globals.visGraph = 3
+        globals.visGraph = 1
         y_value = []
         y_label = "Absorbance (A.U.)"
         title = "Absorbance Mode"
@@ -146,7 +148,7 @@ class MainWindow(QtWidgets.QMainWindow):
     # creates the reflectance data and displays the graph
     @pyqtSlot()
     def reflectButton_clicked(self):
-        globals.visGraph = 5
+        globals.visGraph = 4
         y_value = []
         y_label = "Percent (%)"
         title = "Reflectance Mode"
@@ -305,32 +307,23 @@ class MainWindow(QtWidgets.QMainWindow):
 
         globals.measureType = measconfig
 
-        # while globals.first == True:
-        #     self.plot_scope()
-        #     globals.first = False
+        if globals.visGraph == 0:
+            self.scope()
+        elif globals.visGraph == 2:
+            self.scopeMinDarkButton_clicked()
+        elif globals.visGraph == 1:
+            self.absButton_clicked()
+        elif globals.visGraph == 3:
+            self.transButton_clicked()
+        elif globals.visGraph == 4:
+            self.refButton_clicked()
+        elif globals.visGraph == 6:
+            self.absIrrButton_clicked()
+        elif globals.visGraph == 7:
+            self.relIrrButton_clicked()
+        else:
+            self.scope()
 
-        # if globals.visGraph == 1:
-        #     print()
-        #     self.scope()
-        # elif globals.visGraph == 2:
-        #     print()
-        #     self.scopeMinDarkButton()
-        # elif globals.visGraph == 3:
-        #     print()
-        #     self.absButton()
-        # elif globals.visGraph == 4:
-        #     print()
-        #     self.transButton()
-        # elif globals.visGraph == 5:
-        #     print()
-        #     self.refButton()
-        # elif globals.visGraph == 6:
-        #     print()
-        # elif globals.visGraph == 7:
-        #     print()
-        # else:
-        #     print()
-        self.scope()    
         return   
 
     # connects to the spectrometer
@@ -619,7 +612,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def scope(self):
         # get the values
-        globals.visGraph = 1
+        globals.visGraph = 0
         y_value = []
         for x in range(0,len(globals.spectraldata)-2):                                  # dropping off the last two data points
             y_value.append(globals.spectraldata[x])
@@ -647,59 +640,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget.plot(x_value, y_value)
         self.ui.graphWidget_2.clear()
         self.ui.graphWidget_2.plot(x_value, y_value)
-
-def decimalToBinary(n):
-    # this thing returns a string
-    return bin(n).replace("0b", "")
-
-## MAKES A STRING A BYTE SIZE
-#############################################
-def eightBits(n):
-    if len(n) == 1:
-        n = "0000000" + n
-    elif len(n) == 2:
-        n = "000000" + n
-    elif len(n) == 3:
-        n = "00000" + n
-    elif len(n) == 4:
-        n = "0000" + n
-    elif len(n) == 5:
-        n = "000" + n
-    elif len(n) == 6:
-        n = "00" + n
-    elif len(n) == 7:
-        n = "0" + n
-    else:
-        print("eight bits")
-        return n
-    return n
-
-## CONVERTS DECIMAL TO BINARY
-###############################################
-def double_to_binary(num):
-    # convert to binary using IEEE 754
-    print("decimal to binary")
-    print(float.hex(num))
-    bin = ''
-    # find the initial bit to see if its negative or not
-    if num < 0:
-        bin += "1"
-    else:
-        bin += "0"
-
-    # find the exponent in scientific notation 
-    # can potenially have a 4 digit exponent 2 ^ 11 
-    string = "{:e}".format(num)
-    val = ''
-    for i in range(4,-1, -1):
-        if string[len(string)-1-i] != "e":
-            val += string[len(string)-1-i]
-        if string[len(string)-1-i] == "e":
-            val = ""
-    exponent = int(val) + 1023
-
-    # return the value
-    return bin
 
 
 ## MAIN
