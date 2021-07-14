@@ -384,6 +384,9 @@ class MainWindow(QtWidgets.QMainWindow):
     # saves the data of the spectrometer for later use in Avasoft 8. Not finished
     @pyqtSlot()
     def saveButton_clicked(self):
+        """
+        This function saves the data of the spectrometer in a format so that Avasoft 8 will be able to open the data. 
+        """
         print("Save Button clicked")
         numpix = globals.measureType.m_StopPixel - globals.measureType.m_StartPixel +1
 
@@ -492,48 +495,48 @@ class MainWindow(QtWidgets.QMainWindow):
             file.write(struct.pack("<L", globals.measureType.m_NrAverages))
                 # m_CorDynDark
                     # m_Enable
-            file.write(struct.pack("B", globals.measureType.m_CorDynDark_m_Enable))
+            file.write(struct.pack("<B", globals.measureType.m_CorDynDark_m_Enable))
                     # m_ForgetPercentage
-            file.write(struct.pack("B", globals.measureType.m_CorDynDark_m_ForgetPercentage))
+            file.write(struct.pack("<B", globals.measureType.m_CorDynDark_m_ForgetPercentage))
                 # m_Smoothing
-            file.write(struct.pack("e", globals.measureType.m_Smoothing_m_SmoothPix))
-            file.write(struct.pack("B", globals.measureType.m_Smoothing_m_SmoothModel))
+            file.write(struct.pack("<e", globals.measureType.m_Smoothing_m_SmoothPix))
+            file.write(struct.pack("<B", globals.measureType.m_Smoothing_m_SmoothModel))
                 # SaturationDetection
-            file.write(struct.pack("B", globals.measureType.m_SaturationDetection))
+            file.write(struct.pack("<B", globals.measureType.m_SaturationDetection))
                 # m_Trigger
-            file.write(struct.pack("B", globals.measureType.m_Trigger_m_Mode))
-            file.write(struct.pack("B", globals.measureType.m_Trigger_m_Source))
-            file.write(struct.pack("B", globals.measureType.m_Trigger_m_SourceType))
+            file.write(struct.pack("<B", globals.measureType.m_Trigger_m_Mode))
+            file.write(struct.pack("<B", globals.measureType.m_Trigger_m_Source))
+            file.write(struct.pack("<B", globals.measureType.m_Trigger_m_SourceType))
                 # m_Control
-            file.write(struct.pack("H", globals.measureType.m_Control_m_StrobeControl))
-            file.write(struct.pack("I", globals.measureType.m_Control_m_LaserDelay))
-            file.write(struct.pack("I", globals.measureType.m_Control_m_LaserWidth))
-            file.write(struct.pack("f", globals.measureType.m_Control_m_LaserWaveLength))
-            file.write(struct.pack("H", globals.measureType.m_Control_m_StoreToRam))
+            file.write(struct.pack("<H", globals.measureType.m_Control_m_StrobeControl))
+            file.write(struct.pack("<I", globals.measureType.m_Control_m_LaserDelay))
+            file.write(struct.pack("<I", globals.measureType.m_Control_m_LaserWidth))
+            file.write(struct.pack("<f", globals.measureType.m_Control_m_LaserWaveLength))
+            file.write(struct.pack("<H", globals.measureType.m_Control_m_StoreToRam))
 
             #timestamp                                                                                      DWORD
             for i in range(4):
-                file.write(struct.pack("B", 1))
+                file.write(struct.pack("<B", 1))
 
             #SPCfiledate                                                                                    DWORD
             for i in range(4):
-                file.write(struct.pack("B", 1))
+                file.write(struct.pack("<B", 1))
 
             #detectortemp                                                                                   Single
             for i in range(4):
-                file.write(struct.pack("B", 1))
+                file.write(struct.pack("<B", 1))
 
             #boardtemp                                                                                      Single
             for i in range(4):
-                file.write(struct.pack("B", 1))
+                file.write(struct.pack("<B", 1))
 
             #NTC2volt                                                                                       Single
             for i in range(4):
-                file.write(struct.pack("B", 1))
+                file.write(struct.pack("<B", 1))
 
             #colorTemp                                                                                      Single
             for i in range(4):
-                file.write(struct.pack("B", 1))
+                file.write(struct.pack("<B", 1))
 
             #calIntTime                                                                                     Single
             for i in range(4):
