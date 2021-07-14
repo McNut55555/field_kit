@@ -38,7 +38,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # PAGE 1
         self.ui.btn_page_1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_1))
-        self.ui.connectButton.clicked.connect(self.connectButton_clicked)
 
         # PAGE 2
         self.ui.btn_page_2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
@@ -70,7 +69,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         ## MAKE ALL THE CONNECTIONS
         #######################################################################
-        self.ui.connectButton.clicked.connect(lambda: self.connectButton_clicked)
+        self.ui.connectButton.clicked.connect(self.connectButton_clicked)
         self.ui.startStopButton.clicked.connect(self.startStopButton_clicked)
         self.ui.darkButton.clicked.connect(self.darkButton_clicked)
         self.ui.refButton.clicked.connect(self.refButton_clicked)
