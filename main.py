@@ -38,6 +38,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # PAGE 1
         self.ui.btn_page_1.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_1))
+        if self.ui.btn_page_1.clicked == True:
+            globals.visGraph = 0
 
         # PAGE 2
         self.ui.btn_page_2.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_2))
