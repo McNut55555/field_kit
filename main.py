@@ -217,8 +217,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.repaint()                                                                      # gets rid of old data on the screen
         ret = AVS_UseHighResAdc(globals.dev_handle, True)                                   # sets the spectrometer to use 16 bit resolution instead of 14 bit
 
-        print(globals.pixels)
-
         # set the configuration
         measconfig = MeasConfigType()
         measconfig.m_StartPixel = 0
