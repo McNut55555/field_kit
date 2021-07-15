@@ -596,6 +596,12 @@ class MainWindow(QtWidgets.QMainWindow):
     def absIrrButton_clicked(self):
         globals.visGraph = 5
         print("abs Irr")
+        print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_Smoothing_m_SmoothPix)
+        print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_Smoothing_m_SmoothModel)
+        print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime)
+        print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers)                       # array
+        print(globals.deviceConfig.m_Irradiance_m_CalibrationType)
+        print(globals.deviceConfig.m_Irradiance_m_FiberDiameter)
         return
 
     @pyqtSlot()
