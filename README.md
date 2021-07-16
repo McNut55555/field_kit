@@ -28,3 +28,5 @@ Developing Irradiance graphs, saving data openable by Avasoft 8, and options fea
 
 # Class MainWindow:
 This class allows for the creation of the GUI and all of its functionality. All functions in class have included comments to explain the functionality. 
+
+# Functions
