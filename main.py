@@ -599,7 +599,10 @@ class MainWindow(QtWidgets.QMainWindow):
         print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_Smoothing_m_SmoothPix)
         print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_Smoothing_m_SmoothModel)
         print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime)
-        print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers)                       # array
+        print(type(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers))                       # array
+        for i in range(globals.pixels):
+            print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers[i])
+        print(globals.pixels)
         print(globals.deviceConfig.m_Irradiance_m_CalibrationType)
         print(globals.deviceConfig.m_Irradiance_m_FiberDiameter)
         return
