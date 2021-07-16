@@ -330,7 +330,10 @@ class MainWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def saveButton_clicked(self):
         """
-        This function saves the data of the spectrometer in a format so that Avasoft 8 will be able to open the data. 
+        This function saves the data of the spectrometer in a format so that Avasoft 8 will be able to open the data.
+        It asks the user for a comment and where to save the file. The file extension that it chooses will be the 
+        last graph that was displayed to the user/displaying to the user. The format of the file can be found in the 
+        file format manuel.
         """
         print("Save Button clicked")
         numpix = globals.measureType.m_StopPixel - globals.measureType.m_StartPixel +1
