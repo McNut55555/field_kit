@@ -600,11 +600,15 @@ class MainWindow(QtWidgets.QMainWindow):
         print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_Smoothing_m_SmoothModel)
         print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime)
         print(type(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers))                       # array
-        for i in range(globals.pixels):
-            print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers[i])
         print(globals.pixels)
         print(globals.deviceConfig.m_Irradiance_m_CalibrationType)
         print(globals.deviceConfig.m_Irradiance_m_FiberDiameter)
+        y_label = "uWatt/cm^2"
+        title = "Absolute Irradiance"
+        y_value = []
+        for i in range(21, globals.pixels-22):
+            y_value.append(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers[i]*(globals.spectraldata[i]-globals.darkData[i])*(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime/globals.integration_time))
+        self.plot(y_value, y_label, title)
         return
 
     @pyqtSlot()
