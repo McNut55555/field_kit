@@ -94,6 +94,12 @@ class MainWindow(QtWidgets.QMainWindow):
     ## BUTTON CLICK FUNCTIONALITY  
     ###########################################################################
 
+    '''
+    parameters:
+    return:
+    functionality: This function is supposed to reset the view of the graphs so that the data can be seen again. 
+    it doesnt work.
+    '''
     # Rescales the graph to allow for a better view
     @pyqtSlot()
     def scaleButton_clicked(self):
@@ -104,6 +110,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget_2.ViewBox()
         return
 
+    '''
+    parameters:
+    return:
+    functionality: This function stores the dark data to the globals file when the dark button is clicked. It then changes the look of the 
+    button so the user knows that the data has been stored. 
+    '''
     # saves the dark data in globals
     @pyqtSlot()
     def darkButton_clicked(self):
@@ -115,6 +127,12 @@ class MainWindow(QtWidgets.QMainWindow):
         print("darkData now saved")
         return
 
+    '''
+    paramaters:
+    return:
+    functionality: This function stores data to globals when the refrence button is clicked. it then changes the look of the button 
+    so the user knows that the data has been saved.
+    '''
     # saves reference data to globals and changes the look of the button to alert user that data has been saved
     @pyqtSlot()
     def refButton_clicked(self):
@@ -125,7 +143,9 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
     '''
-    configures the spectrometer to ensure that no pixel is saturated. Does this by slowly incrementing the the integration time. 
+    Parameters:
+    return:
+    functionality: configures the spectrometer to ensure that no pixel is saturated. Does this by slowly incrementing the the integration time. 
     One the largest pixel is between 60,000 and 55,000 the integration time gets set to that value. It then slowly adjusts the 
     number of averages so that each 
     '''
@@ -189,6 +209,11 @@ class MainWindow(QtWidgets.QMainWindow):
         print("Averages:", globals.averages)   
         return
 
+    '''
+    parameters:
+    return:
+    functionality: This fucntion disconnects the spectrometer when the stop button in the Gui is pressed. It then resets some of the access to buttons for the user. 
+    '''
     # disconnects from the spectrometer and adjusts the enabled buttons
     @pyqtSlot()
     def stopButton_clicked(self):
@@ -210,7 +235,12 @@ class MainWindow(QtWidgets.QMainWindow):
         print("disconnected")
         return
 
-
+    '''
+    parameters:
+    return:
+    functionality: This fuction is for when the collect Button on the GUI is pressed. It collects data from the spectrometer. Then it chooses what graph the 
+    user wants displayed and displayes that graph. It chooses the graph by what last graph was chosen to be displayed. 
+    '''
     # collects data from the spectrometer. collect button. 
     @pyqtSlot()
     def startStopButton_clicked(self):
@@ -277,6 +307,13 @@ class MainWindow(QtWidgets.QMainWindow):
             self.scope()
         return   
 
+    '''
+    parameters: self
+    return: none
+    functonality: This function is for when the connect button in the GUI is clicked. It will connect to the 
+    spectrometer and get all necessary information from it. It will then change the activated buttons to the 
+    user and other stuff for the GUI.
+    '''
     # connects to the spectrometer
     @pyqtSlot()
     def connectButton_clicked(self):
@@ -327,6 +364,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     # saves the data of the spectrometer for later use in Avasoft 8. Not finished
+    '''
+    parameters:
+    return:"
+    functionality: This function main purpose is to save a file so that the data can then be opened in 
+    Avasoft 8. This is done by saving all the data in the file format given by the file format document. 
+    All the data is saved in little endian. Some of the full functionality isn't finished. 
+    '''
     @pyqtSlot()
     def saveButton_clicked(self):
         """
@@ -518,6 +562,9 @@ class MainWindow(QtWidgets.QMainWindow):
             
     ## OTHER FUCNTIONS
     ###########################################################################
+    '''
+    i dont think i need this function... more like i know i just don't want to delete it yet
+    '''
     def saveFileDialog(self):
         options = QFileDialog.Options()
         # options |= QFileDialog.DontUseNativeDialog
@@ -528,6 +575,12 @@ class MainWindow(QtWidgets.QMainWindow):
             print(fileName)
         return
 
+    '''
+    paramters:
+    return:
+    functionality: This function will get all the scope data and will pass it to the plot function to be 
+    displayed to the user. 
+    '''
     def scope(self):
         # get the values
         globals.visGraph = 0
@@ -539,6 +592,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plot(y_value, "Scope (ADC Counts)", "Scope Mode")
         return
 
+    '''
+    parameters:
+    return:
+    functionality:
+    '''
     # creates the absorbance data and displays the graph
     @pyqtSlot()
     def absButton_clicked(self):
@@ -559,6 +617,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plot(y_value, y_label, title)
         return
 
+    '''
+    parameters:
+    return:
+    Functionality: This function will find all the transmission data and then will pass this information to the 
+    plot function to be displayed to the user. 
+    '''
     # creates the transmission data and displays the graph
     @pyqtSlot()
     def transButton_clicked(self):
@@ -571,6 +635,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plot(y_value, y_label, title)
         return
         
+    '''
+    parameters:
+    return:
+    functionality: This function will find the scope minus the dark data and then will pass this information 
+    to the plot function to be displayed to the user. 
+    '''
     # creates the scope - dark graph and displays it with plot function. 
     @pyqtSlot()
     def scopeMinDarkButton_clicked(self):
@@ -583,6 +653,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plot(y_value, y_label, title)
         return
 
+    '''
+    parameters:
+    return:
+    functionality: This function will find all the reflectance data and will then pass that to the plot 
+    function to be displayed to the user.
+    '''
     # creates the reflectance data and displays the graph
     @pyqtSlot()
     def reflectButton_clicked(self):
@@ -595,6 +671,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plot(y_value, y_label, title)
         return
 
+    '''
+    parameters:
+    return:
+    functionality: This fucntion will find the absolute irradiance values. It will then pass these values
+    to be graphed by the plot function. 
+    '''
     @pyqtSlot()
     def absIrrButton_clicked(self):
         globals.visGraph = 5
@@ -614,6 +696,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.plot(y_value, y_label, title)
         return
 
+    '''
+    parameters:
+    return:
+    functionality: This function is supposed to find that y_values of the reletive irradiance graph and 
+    then pass them to be plotted by the plot function.
+    '''
     @pyqtSlot()
     def relIrrButton_clicked(self):
         globals.visGraph = 6
@@ -621,7 +709,14 @@ class MainWindow(QtWidgets.QMainWindow):
         print('were gonna do this one')
         return
 
-
+    '''
+    Parameters: self, array, string, string
+    Return: None
+    Functionality: This function takes y_values, y_label, and a title and graphs all the data
+    to both graphs on page 1 and on page 2. In the function, it gets all the data for the x axis 
+    (the wavelength range). It then sets the labels for the x axis. sets the labels for the y 
+    axis. sets the titles. Then plots all the data
+    '''
     # plots the data to both graphs on page 1 and page 2. 
     def plot(self, y_value, y_label, title):
         # get the values
