@@ -14,7 +14,6 @@ transData = [0.0] * pixels
 reflectData = [0.0] * pixels
 
 # configuration data
-max = 0
 integration_time = 1
 averages = 2
 stopscanning = True
@@ -29,3 +28,6 @@ visGraph = 0
 # pixels
 stop_pix = 4096
 start_pix = 0
+
+# continuous
+continuous = False

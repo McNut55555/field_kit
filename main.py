@@ -66,6 +66,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.refButton.setStyleSheet("background-color : black")
         self.ui.stopButton.setEnabled(False)
         self.ui.stopButton.setStyleSheet("background-color : black")
+        self.ui.SingleButton.setChecked(True)
 
         ## MAKE ALL THE CONNECTIONS
         #######################################################################
@@ -87,6 +88,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.relIrrButton.clicked.connect(self.relIrrButton_clicked)
         self.ui.stopApply.clicked.connect(self.setStopPixel)
         self.ui.startApply.clicked.connect(self.setStartPixel)
+        self.ui.intApply.clicked.connect(self.setIntegration)
+        self.ui.avgApply.clicked.connect(self.setAverages)
 
         ## show the screen
         #######################################################################
@@ -95,6 +98,49 @@ class MainWindow(QtWidgets.QMainWindow):
 
     ## BUTTON CLICK FUNCTIONALITY  
     ###########################################################################
+    '''
+    parameters: self
+    return: None 
+    functionality: 
+    '''
+    @pyqtSlot()
+    def setIntegration(self):
+        # reset the look of dark and reference 
+        self.ui.darkButton.setIcon(QIcon())
+        self.ui.refButton.setIcon(QIcon())
+        self.ui.darkButton.setStyleSheet("color: white")
+        self.ui.refButton.setStyleSheet("color: white")
+
+        # actual meat
+        x = self.ui.intEdit.toPlainText()
+        if x.isdigit():
+            globals.integration_time = float(x)
+            print("Integration time:", globals.integration_time)
+        else:
+            QMessageBox.warning(self, "Warning", "Please enter a valid number")
+        return
+
+    '''
+    parameters: self
+    return: None
+    functionality: Will change the value set in globals averages with the data in the avgEdit.
+    '''
+    @pyqtSlot()
+    def setAverages(self):
+        # reset the look of dark and reference 
+        self.ui.darkButton.setIcon(QIcon())
+        self.ui.refButton.setIcon(QIcon())
+        self.ui.darkButton.setStyleSheet("color: white")
+        self.ui.refButton.setStyleSheet("color: white")
+
+        # actual code associated with function
+        x = self.ui.avgEdit.toPlainText()
+        if x.isdigit():
+            globals.averages = int(x)
+            print("Average:", globals.averages)
+        else:
+            QMessageBox.warning(self, "Warning", "Please enter a valid number")
+        return
 
     '''
     parameters:
@@ -150,21 +196,32 @@ class MainWindow(QtWidgets.QMainWindow):
     functionality: configures the spectrometer to ensure that no pixel is saturated. Does this by slowly incrementing the the integration time. 
     One the largest pixel is between 60,000 and 55,000 the integration time gets set to that value. It then slowly adjusts the 
     number of averages so that each 
+    BUG: htting the configure button twice in a row doesn't work properly. 
     '''
-    @pyqtSlot()
+    # @pyqtSlot()
     def configButton_clicked(self):
         print("configuration")
+
+        # reset the look of dark and reference 
+        self.ui.darkButton.setIcon(QIcon())
+        self.ui.refButton.setIcon(QIcon())
+        self.ui.darkButton.setStyleSheet("color: white")
+        self.ui.refButton.setStyleSheet("color: white")
+
+        # declare variables
         largest_pixel = 0
         count = 0
         increment = 5
+
         # changes the increment depending on the current integration time... for debugging 
         if globals.integration_time <= 5 and globals.integration_time > 1:
             increment = 1
         elif globals.integration_time <= 1 and globals.integration_time > 0.2:
             increment = 0.5
+
         # stays in the loop until the largest pixel count is in the range of the loop. slowly adjusts integration time till it gets
         # to the range
-        while( largest_pixel > 60000 or largest_pixel < 55000 ):
+        while( largest_pixel > 60000 or largest_pixel < 52500 ):
             largest_pixel = 0
             for x in range(0, len(globals.spectraldata)-2):
                 if(globals.spectraldata[x] > largest_pixel):
@@ -176,25 +233,28 @@ class MainWindow(QtWidgets.QMainWindow):
             if globals.integration_time - increment <= 0:
                 increment = increment / 2
 
+            # change the integration time so it can't go negative
             if(largest_pixel > 60000):
-                # lower the integration time:
                 globals.integration_time = globals.integration_time - increment
-
-            if(largest_pixel < 55000):
-                # increase integration time: 
+            if(largest_pixel < 55000): 
                 globals.integration_time = globals.integration_time + increment
 
             # code below allows the user to disconnect from the spectrometer mid configuration
             QtWidgets.QApplication.processEvents()                                        # This works. however ew. 
 
             # Added a count so the configuration doesn't get stuck in a infinite loop... will eventually exit
-            count += 1
+            if count == 15:
+                increment = increment / 2
+            elif count == 30:
+                increment = increment / 2
             if count == 100:
                 break
+            count += 1
+
             # takes another reading
             self.startStopButton_clicked()
         print(largest_pixel)
-        globals.max = largest_pixel
+        largest_pixel = 0
         
         # this will adjust the number of averages to get in the cycle_time range... the amount of time to take one reading 
         # I think this value is in seconds but im not quite sure. 
@@ -205,10 +265,10 @@ class MainWindow(QtWidgets.QMainWindow):
             globals.averages = 100
         elif globals.averages < 2:
             globals.averages = 2
-        print("done with configuration")
         print('cycle time:', cycle_time)
         print("integration time:", globals.integration_time)
         print("Averages:", globals.averages)   
+        print("done with configuration")
         return
 
     '''
@@ -246,6 +306,10 @@ class MainWindow(QtWidgets.QMainWindow):
     # collects data from the spectrometer. collect button. 
     @pyqtSlot()
     def startStopButton_clicked(self):
+        if AVS_GetNrOfDevices() == 0:
+            self.stopButton_clicked()
+            QMessageBox.warning(self, "Disconnected", "No Spectrometer found")
+            exit
         self.repaint()                                                                      # gets rid of old data on the screen
         ret = AVS_UseHighResAdc(globals.dev_handle, True)                                   # sets the spectrometer to use 16 bit resolution instead of 14 bit
 
@@ -319,10 +383,11 @@ class MainWindow(QtWidgets.QMainWindow):
     # connects to the spectrometer
     @pyqtSlot()
     def connectButton_clicked(self):
-        print("connected")
         # initialize the usb... were not gonna care about eithernet for now only usb
         ret = AVS_Init(0)                                                                                   # init(0) means were using a USB
-                                                                                                            # will return the number of devices on success this should be 1 
+        if ret == 0:
+            QMessageBox.warning(self, "No spectrometer", "No Spectrometer connected")
+            return
 
         ret = AVS_GetNrOfDevices()                                                                          # will check the list of connected usb devices and returns the number attached   
         mylist = AvsIdentityType()                                                                          # pretty sure these do the same thing but whatever you know it works
@@ -362,6 +427,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.connectButton.setStyleSheet("color: #FFF;")
         self.ui.connectButton.setStyleSheet("background-color: black")
 
+        # return message
+        print("connected")
         return
 
 
@@ -567,15 +634,15 @@ class MainWindow(QtWidgets.QMainWindow):
     '''
     i dont think i need this function... more like i know i just don't want to delete it yet
     '''
-    def saveFileDialog(self):
-        options = QFileDialog.Options()
-        # options |= QFileDialog.DontUseNativeDialog
-        # fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
-        fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","", options=options)
+    # def saveFileDialog(self):
+    #     options = QFileDialog.Options()
+    #     # options |= QFileDialog.DontUseNativeDialog
+    #     # fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
+    #     fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","", options=options)
 
-        if fileName:
-            print(fileName)
-        return
+    #     if fileName:
+    #         print(fileName)
+    #     return
 
     '''
     paramters:
@@ -589,8 +656,6 @@ class MainWindow(QtWidgets.QMainWindow):
         y_value = []
         for x in range(21,globals.pixels-22):                                  # dropping off the last two data points
             y_value.append(globals.spectraldata[x])
-            if globals.spectraldata[x] == 0:
-                print("x value", x)
         self.plot(y_value, "Scope (ADC Counts)", "Scope Mode")
         return
 

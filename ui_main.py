@@ -436,6 +436,36 @@ class Ui_MainWindow(object):
         self.stopApply.setObjectName("stopApply")
         self.horizontalLayout_10.addWidget(self.stopApply)
         self.verticalLayout_16.addLayout(self.horizontalLayout_10)
+        self.label_2 = QtWidgets.QLabel(self.page_3)
+        self.label_2.setGeometry(QtCore.QRect(60, 280, 141, 31))
+        self.label_2.setStyleSheet("color: #FFF;\n"
+"")
+        self.label_2.setObjectName("label_2")
+        self.label_3 = QtWidgets.QLabel(self.page_3)
+        self.label_3.setGeometry(QtCore.QRect(50, 330, 101, 41))
+        self.label_3.setStyleSheet("color: #FFF;\n"
+"")
+        self.label_3.setObjectName("label_3")
+        self.intEdit = QtWidgets.QTextEdit(self.page_3)
+        self.intEdit.setGeometry(QtCore.QRect(210, 270, 104, 70))
+        self.intEdit.setStyleSheet("color: #FFF;\n"
+"")
+        self.intEdit.setObjectName("intEdit")
+        self.avgEdit = QtWidgets.QTextEdit(self.page_3)
+        self.avgEdit.setGeometry(QtCore.QRect(200, 350, 104, 70))
+        self.avgEdit.setStyleSheet("color: #FFF;\n"
+"")
+        self.avgEdit.setObjectName("avgEdit")
+        self.intApply = QtWidgets.QPushButton(self.page_3)
+        self.intApply.setGeometry(QtCore.QRect(360, 280, 89, 25))
+        self.intApply.setStyleSheet("color: #FFF;\n"
+"")
+        self.intApply.setObjectName("intApply")
+        self.avgApply = QtWidgets.QPushButton(self.page_3)
+        self.avgApply.setGeometry(QtCore.QRect(350, 350, 89, 25))
+        self.avgApply.setStyleSheet("color: #FFF;\n"
+"")
+        self.avgApply.setObjectName("avgApply")
         self.stackedWidget.addWidget(self.page_3)
         self.verticalLayout_5.addWidget(self.stackedWidget)
         self.horizontalLayout_2.addWidget(self.frame_pages)
@@ -477,6 +507,10 @@ class Ui_MainWindow(object):
         self.startApply.setText(_translate("MainWindow", "Apply"))
         self.label_5.setText(_translate("MainWindow", "Stop Pixel"))
         self.stopApply.setText(_translate("MainWindow", "Apply"))
+        self.label_2.setText(_translate("MainWindow", "Integration time:"))
+        self.label_3.setText(_translate("MainWindow", "Averages:"))
+        self.intApply.setText(_translate("MainWindow", "Apply"))
+        self.avgApply.setText(_translate("MainWindow", "Apply"))
 from pyqtgraph import PlotWidget
 
 
