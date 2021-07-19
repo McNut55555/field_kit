@@ -674,7 +674,7 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
     '''
-    parameters:
+    parameters: self
     return:
     functionality: This fucntion will find the absolute irradiance values. It will then pass these values
     to be graphed by the plot function. 
@@ -712,32 +712,6 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
     '''
-    parameters: self
-    return: None
-    functionality: This function will change the global variable for the stop pixel 
-    '''
-    @pyqtSlot()
-    def setStopPixel(self):
-        print("set stop")
-        x = self.ui.startEdit.toPlainText()
-        if x.isdigit():
-            globals.stop_pix = int(x)
-        return
-
-    '''
-    parameters: self
-    return: None
-    functionality: This function will change the global variable for the start pixel
-    '''
-    @pyqtSlot()
-    def setStartPixel(self):
-        print("set start")
-        x = self.ui.stopEdit.toPlainText()
-        if x.isdigit():
-            globals.start_pix = int(x)
-        return
-    
-    '''
     Parameters: self, array, string, string
     Return: None
     Functionality: This function takes y_values, y_label, and a title and graphs all the data
@@ -769,6 +743,32 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget_2.plot(x_value, y_value)
         return
 
+    '''
+    parameters: self
+    return: None
+    functionality: This function will change the global variable for the stop pixel 
+    '''
+    @pyqtSlot()
+    def setStopPixel(self):
+        print("set stop")
+        x = self.ui.startEdit.toPlainText()
+        if x.isdigit():
+            globals.stop_pix = int(x)
+        return
+
+    '''
+    parameters: self
+    return: None
+    functionality: This function will change the global variable for the start pixel
+    '''
+    @pyqtSlot()
+    def setStartPixel(self):
+        print("set start")
+        x = self.ui.stopEdit.toPlainText()
+        if x.isdigit():
+            globals.start_pix = int(x)
+        return
+    
 
 ## MAIN
 ###########################################################################
