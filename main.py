@@ -1,7 +1,7 @@
 # from re import L, S
 from PyQt5 import QtWidgets, uic, QtCore
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMessageBox, QFileDialog , QInputDialog
+from PyQt5.QtWidgets import QApplication, QMessageBox, QFileDialog , QInputDialog
 from pyqtgraph import PlotWidget, plot, ViewBox
 import pyqtgraph as pg
 import sys                                                                      # We need sys so that we can pass argv to QApplication
@@ -90,6 +90,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.startApply.clicked.connect(self.setStartPixel)
         self.ui.intApply.clicked.connect(self.setIntegration)
         self.ui.avgApply.clicked.connect(self.setAverages)
+        self.ui.measureTypeApply.clicked.connect(self.applyMeasureType)
 
         ## show the screen
         #######################################################################
@@ -98,6 +99,18 @@ class MainWindow(QtWidgets.QMainWindow):
 
     ## BUTTON CLICK FUNCTIONALITY  
     ###########################################################################
+    '''
+    parameters: self
+    return: None
+    functionality: this will switch the global data type continuous to true or false. Depending on the global variable is how the stop 
+    start button will work. 
+    '''
+    @pyqtSlot()
+    def applyMeasureType(self):
+        if self.ui.SingleButton.isChecked():
+            globals.continuous = False
+        else:
+            globals.continuous = True
     '''
     parameters: self
     return: None 
@@ -209,6 +222,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.refButton.setStyleSheet("color: white")
 
         # declare variables
+        globals.config = True
         largest_pixel = 0
         count = 0
         increment = 5
@@ -258,6 +272,7 @@ class MainWindow(QtWidgets.QMainWindow):
         
         # this will adjust the number of averages to get in the cycle_time range... the amount of time to take one reading 
         # I think this value is in seconds but im not quite sure. 
+        globals.config = False
         count = 0
         cycle_time = 500
         globals.averages = int(cycle_time / globals.integration_time)
@@ -333,26 +348,48 @@ class MainWindow(QtWidgets.QMainWindow):
         measconfig.m_Control_m_LaserWidth = 0
         measconfig.m_Control_m_LaserWaveLength = 0.0
         measconfig.m_Control_m_StoreToRam = 0
-        ret = AVS_PrepareMeasure(globals.dev_handle, measconfig)
-        nummeas = 1                                                                         # variables that will get changed
+        ret = AVS_PrepareMeasure(globals.dev_handle, measconfig)                                                                      # variables that will get changed
 
-        scans = 0                                                                           # counter
-        globals.stopscanning = False                                                        # dont want to stop scanning until we say so
-        while (globals.stopscanning == False):                                              # keep scanning until we dont want to anymore
-            ret = AVS_Measure(globals.dev_handle, 0, 1)                                     # tell it to scan
-            dataready = False                                                               # while the data is false
-            while (dataready == False):
-                dataready = (AVS_PollScan(globals.dev_handle) == True)                      # get the status of data
+        # this is where the program decides if the measurments should be continuous or not
+        if globals.continuous == False or globals.config == True:
+            nummeas = 1 
+            scans = 0                                                                           # counter
+            globals.stopscanning = False                                                        # dont want to stop scanning until we say so
+            while (globals.stopscanning == False):                                              # keep scanning until we dont want to anymore
+                ret = AVS_Measure(globals.dev_handle, 0, 1)                                     # tell it to scan
+                dataready = False                                                               # while the data is false
+                while (dataready == False):
+                    dataready = (AVS_PollScan(globals.dev_handle) == True)                      # get the status of data
+                    time.sleep(0.001)
+                if dataready == True:
+                    ret = AVS_GetScopeData(globals.dev_handle)
+                    globals.spectraldata = ret[1]
+                    scans = scans + 1
+                    if (scans >= nummeas):
+                        globals.stopscanning = True  
+                # self.app.processEvents()                          
+                time.sleep(0.001)  
+            globals.measureType = measconfig
+        else:
+            nummeas = 100
+            scans = 0 
+            globals.stopscanning = False
+            while(globals.stopscanning == False):
+                ret = AVS_Measure(globals.dev_handle,0,1)
+                dataready = False
+                while dataready ==False:
+                    dataready = (AVS_PollScan(globals.dev_handle) == True)
+                    time.sleep(0.001)
+                if dataready == True:
+                    ret = AVS_GetScopeData(globals.dev_handle)
+                    globals.spectraldata = ret[1]
+                    scans = scans + 1 
+                    print("yup")
+                    if (scans >= nummeas):
+                        globals.stopscanning = True
+                    QApplication.processEvents()
                 time.sleep(0.001)
-            if dataready == True:
-                ret = AVS_GetScopeData(globals.dev_handle)
-                globals.spectraldata = ret[1]
-                scans = scans + 1
-                if (scans >= nummeas):
-                    globals.stopscanning = True  
-            # self.app.processEvents()                          
-            time.sleep(0.001)  
-        globals.measureType = measconfig
+            globals.measureType = measconfig
         
         # choosing what graph should be displayed to the user
         if globals.visGraph == 0:

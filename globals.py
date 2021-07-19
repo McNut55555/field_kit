@@ -31,3 +31,4 @@ start_pix = 0
 
 # continuous
 continuous = False
+config = False

@@ -794,7 +794,7 @@ QPushButton:hover {
                   </layout>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_2">
+                  <widget class="QPushButton" name="measureTypeApply">
                    <property name="styleSheet">
                     <string notr="true">color: #FFF;
 </string>
