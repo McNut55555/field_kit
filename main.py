@@ -85,6 +85,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.scaleButton.clicked.connect(self.scaleButton_clicked)
         self.ui.absIrrButton.clicked.connect(self.absIrrButton_clicked)
         self.ui.relIrrButton.clicked.connect(self.relIrrButton_clicked)
+        self.ui.stopApply.clicked.connect(self.setStopPixel)
+        self.ui.startApply.clicked.connect(self.setStartPixel)
 
         ## show the screen
         #######################################################################
@@ -709,6 +711,32 @@ class MainWindow(QtWidgets.QMainWindow):
         print('were gonna do this one')
         return
 
+    '''
+    parameters: self
+    return: None
+    functionality: This function will change the global variable for the stop pixel 
+    '''
+    @pyqtSlot()
+    def setStopPixel(self):
+        print("set stop")
+        x = self.ui.startEdit.toPlainText()
+        if x.isdigit():
+            globals.stop_pix = int(x)
+        return
+
+    '''
+    parameters: self
+    return: None
+    functionality: This function will change the global variable for the start pixel
+    '''
+    @pyqtSlot()
+    def setStartPixel(self):
+        print("set start")
+        x = self.ui.stopEdit.toPlainText()
+        if x.isdigit():
+            globals.start_pix = int(x)
+        return
+    
     '''
     Parameters: self, array, string, string
     Return: None

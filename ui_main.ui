@@ -806,53 +806,9 @@ QPushButton:hover {
                  </item>
                 </layout>
                </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <item>
-                  <widget class="QLabel" name="label_2">
-                   <property name="styleSheet">
-                    <string notr="true">color: #FFF;
-</string>
-                   </property>
-                   <property name="text">
-                    <string>Save Location:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="lineEdit"/>
-                 </item>
-                </layout>
-               </item>
               </layout>
              </widget>
              <widget class="QWidget" name="layoutWidget">
-              <property name="geometry">
-               <rect>
-                <x>20</x>
-                <y>220</y>
-                <width>342</width>
-                <height>27</height>
-               </rect>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_8">
-               <item>
-                <widget class="QLabel" name="label_3">
-                 <property name="text">
-                  <string>Save Spectrum for Relative Irradiance</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="RefIrrSpec">
-                 <property name="text">
-                  <string>Save</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="">
               <property name="geometry">
                <rect>
                 <x>440</x>
@@ -875,14 +831,14 @@ QPushButton:hover {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QTextEdit" name="textEdit">
+                  <widget class="QTextEdit" name="startEdit">
                    <property name="styleSheet">
                     <string notr="true">color: #FFF;</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton">
+                  <widget class="QPushButton" name="startApply">
                    <property name="styleSheet">
                     <string notr="true">color: #FFF;</string>
                    </property>
@@ -906,14 +862,14 @@ QPushButton:hover {
                   </widget>
                  </item>
                  <item>
-                  <widget class="QTextEdit" name="textEdit_2">
+                  <widget class="QTextEdit" name="stopEdit">
                    <property name="styleSheet">
                     <string notr="true">color: #FFF;</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QPushButton" name="pushButton_3">
+                  <widget class="QPushButton" name="stopApply">
                    <property name="styleSheet">
                     <string notr="true">color: #FFF;</string>
                    </property>

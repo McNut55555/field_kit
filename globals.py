@@ -25,3 +25,7 @@ deviceConfig = DeviceConfigType()
 
 # what plot are you currently on
 visGraph = 0
+
+# pixels
+stop_pix = 4096
+start_pix = 0
