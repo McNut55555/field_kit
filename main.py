@@ -86,8 +86,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.scaleButton.clicked.connect(self.scaleButton_clicked)
         self.ui.absIrrButton.clicked.connect(self.absIrrButton_clicked)
         self.ui.relIrrButton.clicked.connect(self.relIrrButton_clicked)
-        self.ui.stopApply.clicked.connect(self.setStopPixel)
-        self.ui.startApply.clicked.connect(self.setStartPixel)
+        self.ui.stopApply.clicked.connect(self.setStopWavelength)
+        self.ui.startApply.clicked.connect(self.setStartWavelength)
         self.ui.intApply.clicked.connect(self.setIntegration)
         self.ui.avgApply.clicked.connect(self.setAverages)
         self.ui.measureTypeApply.clicked.connect(self.applyMeasureType)
@@ -109,8 +109,10 @@ class MainWindow(QtWidgets.QMainWindow):
     def applyMeasureType(self):
         if self.ui.SingleButton.isChecked():
             globals.continuous = False
+            print("Single Measurement")
         else:
             globals.continuous = True
+            print("Continuous Applied")
     '''
     parameters: self
     return: None 
@@ -225,13 +227,13 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.config = True
         largest_pixel = 0
         count = 0
-        increment = 5
+        increment = globals.integration_time / 2
 
         # changes the increment depending on the current integration time... for debugging 
-        if globals.integration_time <= 5 and globals.integration_time > 1:
-            increment = 1
-        elif globals.integration_time <= 1 and globals.integration_time > 0.2:
-            increment = 0.5
+        # if globals.integration_time <= 5 and globals.integration_time > 1:
+        #     increment = 1
+        # elif globals.integration_time <= 1 and globals.integration_time > 0.2:
+        #     increment = 0.5
 
         # stays in the loop until the largest pixel count is in the range of the loop. slowly adjusts integration time till it gets
         # to the range
@@ -264,6 +266,13 @@ class MainWindow(QtWidgets.QMainWindow):
             if count == 100:
                 break
             count += 1
+
+            # setting a minimum integration time... this one is for the mini
+            if globals.integration_time <= 0.03:
+                QMessageBox.warning(self, "minimum integration time", "Cannot go below 30 micro seconds")
+                return
+
+            print("integration time:", globals.integration_time)
 
             # takes another reading
             self.startStopButton_clicked()
@@ -370,8 +379,26 @@ class MainWindow(QtWidgets.QMainWindow):
                 # self.app.processEvents()                          
                 time.sleep(0.001)  
             globals.measureType = measconfig
+            # choosing what graph should be displayed to the user
+            if globals.visGraph == 0:
+                self.scope()
+            elif globals.visGraph == 2:
+                self.scopeMinDarkButton_clicked()
+            elif globals.visGraph == 1:
+                self.absButton_clicked()
+            elif globals.visGraph == 3:
+                self.transButton_clicked()
+            elif globals.visGraph == 4:
+                self.refButton_clicked()
+            elif globals.visGraph == 6:
+                self.absIrrButton_clicked()
+            elif globals.visGraph == 7:
+                self.relIrrButton_clicked()
+            else:
+                self.scope()
+
         else:
-            nummeas = 100
+            nummeas = 10
             scans = 0 
             globals.stopscanning = False
             while(globals.stopscanning == False):
@@ -390,24 +417,26 @@ class MainWindow(QtWidgets.QMainWindow):
                     QApplication.processEvents()
                 time.sleep(0.001)
             globals.measureType = measconfig
+
+            # choosing what graph should be displayed to the user
+            if globals.visGraph == 0:
+                self.scope()
+            elif globals.visGraph == 2:
+                self.scopeMinDarkButton_clicked()
+            elif globals.visGraph == 1:
+                self.absButton_clicked()
+            elif globals.visGraph == 3:
+                self.transButton_clicked()
+            elif globals.visGraph == 4:
+                self.refButton_clicked()
+            elif globals.visGraph == 6:
+                self.absIrrButton_clicked()
+            elif globals.visGraph == 7:
+                self.relIrrButton_clicked()
+            else:
+                self.scope()
         
-        # choosing what graph should be displayed to the user
-        if globals.visGraph == 0:
-            self.scope()
-        elif globals.visGraph == 2:
-            self.scopeMinDarkButton_clicked()
-        elif globals.visGraph == 1:
-            self.absButton_clicked()
-        elif globals.visGraph == 3:
-            self.transButton_clicked()
-        elif globals.visGraph == 4:
-            self.refButton_clicked()
-        elif globals.visGraph == 6:
-            self.absIrrButton_clicked()
-        elif globals.visGraph == 7:
-            self.relIrrButton_clicked()
-        else:
-            self.scope()
+        
         return   
 
     '''
@@ -448,6 +477,7 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.deviceConfig = devcon
         globals.pixels = devcon.m_Detector_m_NrPixels
         globals.wavelength = AVS_GetLambda(globals.dev_handle)
+        print(globals.deviceConfig.m_StandAlone_m_Meas_m_IntegrationTime)
 
         # change if the button should be able to be used or not 
         self.ui.startStopButton.setEnabled(True)
@@ -668,18 +698,6 @@ class MainWindow(QtWidgets.QMainWindow):
             
     ## OTHER FUCNTIONS
     ###########################################################################
-    '''
-    i dont think i need this function... more like i know i just don't want to delete it yet
-    '''
-    # def saveFileDialog(self):
-    #     options = QFileDialog.Options()
-    #     # options |= QFileDialog.DontUseNativeDialog
-    #     # fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
-    #     fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","", options=options)
-
-    #     if fileName:
-    #         print(fileName)
-    #     return
 
     '''
     paramters:
@@ -735,7 +753,11 @@ class MainWindow(QtWidgets.QMainWindow):
         y_label = "Percentage (%)"
         title = "Transmission Mode"
         for x in range(21, globals.pixels-22):
-            y_value.append(100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
+            if globals.refData[x]-globals.darkData[x] == 0:
+                print("float division by zero")
+                y_value.append(100)
+            else:
+                y_value.append(100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])))
         self.plot(y_value, y_label, title)
         return
         
@@ -771,7 +793,11 @@ class MainWindow(QtWidgets.QMainWindow):
         y_label = "Percent (%)"
         title = "Reflectance Mode"
         for x in range(21, globals.pixels-22):
-            y_value.append( 100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])) )
+            if (globals.refData[x]-globals.darkData[x]) == 0:
+                print("float division by zero")
+                y_value.append(100)
+            else:
+                y_value.append( 100*((globals.spectraldata[x]-globals.darkData[x])/(globals.refData[x]-globals.darkData[x])) )
         self.plot(y_value, y_label, title)
         return
 
@@ -851,11 +877,13 @@ class MainWindow(QtWidgets.QMainWindow):
     functionality: This function will change the global variable for the stop pixel 
     '''
     @pyqtSlot()
-    def setStopPixel(self):
+    def setStopWavelength(self):
         print("set stop")
         x = self.ui.startEdit.toPlainText()
         if x.isdigit():
             globals.stop_pix = int(x)
+        else:
+            QMessageBox.warning(self, "Wrong Input", "Please enter a number")
         return
 
     '''
@@ -864,11 +892,13 @@ class MainWindow(QtWidgets.QMainWindow):
     functionality: This function will change the global variable for the start pixel
     '''
     @pyqtSlot()
-    def setStartPixel(self):
+    def setStartWavelength(self):
         print("set start")
         x = self.ui.stopEdit.toPlainText()
         if x.isdigit():
             globals.start_pix = int(x)
+        else: 
+            QMessageBox.warning(self, "Wrong input", "Please enter a number")
         return
     
 

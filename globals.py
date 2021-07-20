@@ -25,10 +25,10 @@ deviceConfig = DeviceConfigType()
 # what plot are you currently on
 visGraph = 0
 
-# pixels
-stop_pix = 4096
-start_pix = 0
-
 # continuous
 continuous = False
 config = False
+
+# wavelength range
+low = 21
+high = pixels - 22

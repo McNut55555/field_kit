@@ -826,7 +826,7 @@ QPushButton:hover {
                     <string notr="true">color: #FFF;</string>
                    </property>
                    <property name="text">
-                    <string>Start Pixel</string>
+                    <string>Start Wavelength</string>
                    </property>
                   </widget>
                  </item>
@@ -857,7 +857,7 @@ QPushButton:hover {
                     <string notr="true">color: #FFF;</string>
                    </property>
                    <property name="text">
-                    <string>Stop Pixel</string>
+                    <string>Stop Wavelength</string>
                    </property>
                   </widget>
                  </item>
