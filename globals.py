@@ -31,4 +31,4 @@ config = False
 
 # wavelength range
 low = 21
-high = pixels - 22
+high = pixels - 23

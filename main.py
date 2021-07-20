@@ -469,7 +469,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # set the number of pixels the spectrometer has
         globals.pixels = AVS_GetNumPixels(globals.dev_handle)
-        print(globals.pixels)
+        print('Pixels:', globals.pixels)
 
         # gets all the information about the spectrometer
         devcon = DeviceConfigType()
@@ -477,7 +477,6 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.deviceConfig = devcon
         globals.pixels = devcon.m_Detector_m_NrPixels
         globals.wavelength = AVS_GetLambda(globals.dev_handle)
-        print(globals.deviceConfig.m_StandAlone_m_Meas_m_IntegrationTime)
 
         # change if the button should be able to be used or not 
         self.ui.startStopButton.setEnabled(True)
@@ -709,7 +708,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # get the values
         globals.visGraph = 0
         y_value = []
-        for x in range(21,globals.pixels-22):                                  # dropping off the last two data points
+        for x in range(globals.low,globals.high):                                  # dropping off the last two data points
             y_value.append(globals.spectraldata[x])
         self.plot(y_value, "Scope (ADC Counts)", "Scope Mode")
         return
@@ -726,7 +725,7 @@ class MainWindow(QtWidgets.QMainWindow):
         y_value = []
         y_label = "Absorbance (A.U.)"
         title = "Absorbance Mode"
-        for x in range(21, globals.pixels-22):
+        for x in range(globals.low, globals.high):
             # seems that im grabbing outside pixels making the end of the graph bad... will have to look into it. 
             if math.fabs(globals.refData[x]-globals.darkData[x]) == 0:
                 y_value.append(5)
@@ -752,7 +751,7 @@ class MainWindow(QtWidgets.QMainWindow):
         y_value = []
         y_label = "Percentage (%)"
         title = "Transmission Mode"
-        for x in range(21, globals.pixels-22):
+        for x in range(globals.low, globals.high):
             if globals.refData[x]-globals.darkData[x] == 0:
                 print("float division by zero")
                 y_value.append(100)
@@ -774,7 +773,7 @@ class MainWindow(QtWidgets.QMainWindow):
         y_value = []
         title = "Scope Minus Dark"
         y_label = "Counts"
-        for x in range(21, globals.pixels-22):
+        for x in range(globals.low, globals.high):
             y_value.append(globals.spectraldata[x]-globals.darkData[x])
         self.plot(y_value, y_label, title)
         return
@@ -792,7 +791,7 @@ class MainWindow(QtWidgets.QMainWindow):
         y_value = []
         y_label = "Percent (%)"
         title = "Reflectance Mode"
-        for x in range(21, globals.pixels-22):
+        for x in range(globals.low, globals.high):
             if (globals.refData[x]-globals.darkData[x]) == 0:
                 print("float division by zero")
                 y_value.append(100)
@@ -821,7 +820,7 @@ class MainWindow(QtWidgets.QMainWindow):
         y_label = "uWatt/cm^2"
         title = "Absolute Irradiance"
         y_value = []
-        for i in range(21, globals.pixels-22):
+        for i in range(globals.low, globals.high):
             y_value.append(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers[i]*(globals.spectraldata[i]-globals.darkData[i])*(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime/globals.integration_time))
         self.plot(y_value, y_label, title)
         return
@@ -851,7 +850,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def plot(self, y_value, y_label, title):
         # get the values
         x_value = []
-        for x in range(21,globals.pixels-22):                                    # not sure if this is going to effect it but dropping off the last two data points
+        for x in range(globals.low,globals.high):                                    # not sure if this is going to effect it but dropping off the last two data points
             x_value.append(globals.wavelength[x])
         
         # Set the label for x axis
@@ -879,9 +878,16 @@ class MainWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def setStopWavelength(self):
         print("set stop")
-        x = self.ui.startEdit.toPlainText()
-        if x.isdigit():
-            globals.stop_pix = int(x)
+        val = self.ui.stopEdit.toPlainText()
+        if val.isdigit():
+            val = float(val)
+            for i in range(len(globals.wavelength)-1, -1, -1):
+                if globals.wavelength[i] == 0:
+                    continue
+                if val >= globals.wavelength[i]:
+                    globals.high = i
+                    print("assigned:", globals.high)
+                    return
         else:
             QMessageBox.warning(self, "Wrong Input", "Please enter a number")
         return
@@ -894,9 +900,15 @@ class MainWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def setStartWavelength(self):
         print("set start")
-        x = self.ui.stopEdit.toPlainText()
-        if x.isdigit():
-            globals.start_pix = int(x)
+        val = self.ui.startEdit.toPlainText()
+        if val.isdigit():
+            val = float(val)
+            # given the wavelength must find the pixel associated with wavelegth
+            for i in range(len(globals.wavelength)):
+                if val <= globals.wavelength[i]:
+                    globals.low = i
+                    print("assigned:", globals.low)
+                    return
         else: 
             QMessageBox.warning(self, "Wrong input", "Please enter a number")
         return
