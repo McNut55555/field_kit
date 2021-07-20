@@ -492,6 +492,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.connectButton.setEnabled(False)
         self.ui.connectButton.setStyleSheet("color: #FFF;")
         self.ui.connectButton.setStyleSheet("background-color: black")
+        self.ui.stopEdit.append(str(round(globals.wavelength[len(globals.wavelength)-23],3)))
+        self.ui.startEdit.append(str(round(globals.wavelength[0],3)))
 
         # return message
         print("connected")
@@ -868,6 +870,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget.plot(x_value, y_value)
         self.ui.graphWidget_2.clear()
         self.ui.graphWidget_2.plot(x_value, y_value)
+        print(self.ui.graphWidget_2.visibleRange())
+        # help(self.ui.graphWidget_2)
+        self.ui.graphWidget.enableMouse(False)
         return
 
     '''
