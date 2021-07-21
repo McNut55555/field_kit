@@ -9,6 +9,7 @@ from enum import Enum
 if 'linux' in sys.platform: # Linux will have 'linux' or 'linux2'
     lib = ctypes.CDLL("libavs.so.0")
     func = ctypes.CFUNCTYPE
+    print("yup")
 elif 'darwin' in sys.platform: # macOS will have 'darwin'
     lib = ctypes.CDLL("DLLs/libavs.0.dylib")
     func = ctypes.CFUNCTYPE
