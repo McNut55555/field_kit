@@ -145,7 +145,7 @@ class MainWindow(QtWidgets.QMainWindow):
     '''
     parameters: self
     return: None 
-    functionality: 
+    functionality: This sets the integration time of the spectrometer manually. 
     '''
     @pyqtSlot()
     def setIntegration(self):
@@ -192,8 +192,8 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
     '''
-    parameters:
-    return:
+    parameters: self
+    return: None
     functionality: This function is supposed to reset the view of the graphs so that the data can be seen again. 
     it doesnt work.
     '''
