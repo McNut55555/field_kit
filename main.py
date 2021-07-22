@@ -67,6 +67,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.stopButton.setEnabled(False)
         self.ui.stopButton.setStyleSheet("background-color : black")
         self.ui.SingleButton.setChecked(True)
+        self.ui.intApply.setEnabled(False)
+        self.ui.avgApply.setEnabled(False)
+        self.ui.avgApply.setStyleSheet("background-color : black")
+        self.ui.intApply.setStyleSheet("background-color : black")
+        self.ui.startApply.setEnabled(False)
+        self.ui.stopApply.setEnabled(False)
+        self.ui.startApply.setStyleSheet("background-color : black")
+        self.ui.stopApply.setStyleSheet("background-color : black")
 
         ## MAKE ALL THE CONNECTIONS
         #######################################################################
@@ -128,11 +136,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # actual meat
         x = self.ui.intEdit.toPlainText()
-        if x.isdigit():
-            globals.integration_time = float(x)
-            print("Integration time:", globals.integration_time)
-        else:
-            QMessageBox.warning(self, "Warning", "Please enter a valid number")
+        for i in range(len(x)):
+            print('x[i]:', x[i], 'type:', type(x[i]))
+            if x[i].isdigit() == False and x[i] != ".":
+                QMessageBox.warning(self, "Warning", "Please enter a valid number")
+                return
+        globals.integration_time = float(x)
         return
 
     '''
@@ -150,11 +159,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # actual code associated with function
         x = self.ui.avgEdit.toPlainText()
-        if x.isdigit():
-            globals.averages = int(x)
-            print("Average:", globals.averages)
-        else:
-            QMessageBox.warning(self, "Warning", "Please enter a valid number")
+        for i in range(len(x)):
+            print('x[i]:', x[i], 'type:', type(x[i]))
+            if x[i].isdigit() == False and x[i] != ".":
+                QMessageBox.warning(self, "Warning", "Please enter a valid number")
+                return
+        x = float(x)
+        globals.averages = int(x)
+        self.ui.avgEdit.clear()
+        self.ui.avgEdit.append(str(int(x)))
         return
 
     '''
@@ -318,6 +331,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.stopButton.setStyleSheet("background-color: black")
         self.ui.darkButton.setIcon(QIcon())
         self.ui.refButton.setIcon(QIcon())
+        self.ui.intApply.setEnabled(False)
+        self.ui.avgApply.setEnabled(False)
+        self.ui.avgApply.setStyleSheet("background-color : black")
+        self.ui.intApply.setStyleSheet("background-color : black")
+        self.ui.startApply.setEnabled(False)
+        self.ui.stopApply.setEnabled(False)
+        self.ui.startApply.setStyleSheet("background-color : black")
+        self.ui.stopApply.setStyleSheet("background-color : black")
         print("disconnected")
         return
 
@@ -499,6 +520,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.startEdit.clear()
         self.ui.stopEdit.append(str(round(globals.wavelength[len(globals.wavelength)-23],3)))
         self.ui.startEdit.append(str(round(globals.wavelength[0],3)))
+        self.ui.intApply.setEnabled(True)
+        self.ui.avgApply.setEnabled(True)
+        self.ui.intApply.setStyleSheet("color: #FFF;")
+        self.ui.avgApply.setStyleSheet("color: #FFF;")
+        self.ui.startApply.setEnabled(True)
+        self.ui.stopApply.setEnabled(True)
+        self.ui.startApply.setStyleSheet("color: #FFF;")
+        self.ui.stopApply.setStyleSheet("color: #FFF;")
 
         # return message
         print("connected")
