@@ -32,3 +32,7 @@ config = False
 # wavelength range
 low = 21
 high = pixels - 23
+
+# deciding if certain graphs can be generated
+darkTrue = False
+refTrue = False

@@ -76,6 +76,27 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.startApply.setStyleSheet("background-color : black")
         self.ui.stopApply.setStyleSheet("background-color : black")
 
+        self.ui.collectButton_2.setEnabled(False)
+        self.ui.scaleButton.setEnabled(False)
+        self.ui.scopeModeButton.setEnabled(False)
+        self.ui.scopeMinDarkButton.setEnabled(False)
+        self.ui.absButton.setEnabled(False)
+        self.ui.transButton.setEnabled(False)
+        self.ui.reflectButton.setEnabled(False)
+        self.ui.absIrrButton.setEnabled(False)
+        self.ui.relIrrButton.setEnabled(False)
+        self.ui.saveButton.setEnabled(False)
+        self.ui.collectButton_2.setStyleSheet("background-color : black")
+        self.ui.scaleButton.setStyleSheet("background-color : black")
+        self.ui.scopeModeButton.setStyleSheet("background-color : black")
+        self.ui.scopeMinDarkButton.setStyleSheet("background-color : black")
+        self.ui.absButton.setStyleSheet("background-color : black")
+        self.ui.transButton.setStyleSheet("background-color : black")
+        self.ui.reflectButton.setStyleSheet("background-color : black")
+        self.ui.absIrrButton.setStyleSheet("background-color : black")
+        self.ui.relIrrButton.setStyleSheet("background-color : black")
+        self.ui.saveButton.setStyleSheet('background-color : black')
+
         ## MAKE ALL THE CONNECTIONS
         #######################################################################
         self.ui.connectButton.clicked.connect(self.connectButton_clicked)
@@ -197,9 +218,25 @@ class MainWindow(QtWidgets.QMainWindow):
     def darkButton_clicked(self):
         # saves data
         globals.darkData = globals.spectraldata
+        globals.darkTrue = True
         # changes the buttons look to show user that data has been saved
+        self.ui.scopeMinDarkButton.setEnabled(True)
+        self.ui.scopeMinDarkButton.setStyleSheet("color: #FFF;")
         self.ui.darkButton.setStyleSheet("color: green")
         self.ui.darkButton.setIcon(QIcon("Icons/check.png"))
+        if globals.darkTrue and globals.refTrue:
+            self.ui.absButton.setEnabled(True)
+            self.ui.transButton.setEnabled(True)
+            self.ui.reflectButton.setEnabled(True)
+            self.ui.absIrrButton.setEnabled(True)
+            self.ui.relIrrButton.setEnabled(True)
+            self.ui.saveButton.setEnabled(True)
+            self.ui.absButton.setStyleSheet("color: #FFF;")
+            self.ui.transButton.setStyleSheet("color: #FFF;")
+            self.ui.reflectButton.setStyleSheet("color: #FFF;")
+            self.ui.absIrrButton.setStyleSheet("color: #FFF;")
+            self.ui.relIrrButton.setStyleSheet("color: #FFF;")
+            self.ui.saveButton.setStyleSheet("color: #FFF;")
         print("darkData now saved")
         return
 
@@ -213,6 +250,20 @@ class MainWindow(QtWidgets.QMainWindow):
     @pyqtSlot()
     def refButton_clicked(self):
         globals.refData = globals.spectraldata
+        globals.refTrue = True
+        if globals.darkTrue and globals.refTrue:
+            self.ui.absButton.setEnabled(True)
+            self.ui.transButton.setEnabled(True)
+            self.ui.reflectButton.setEnabled(True)
+            self.ui.absIrrButton.setEnabled(True)
+            self.ui.relIrrButton.setEnabled(True)
+            self.ui.saveButton.setEnabled(True)
+            self.ui.absButton.setStyleSheet("color: #FFF;")
+            self.ui.transButton.setStyleSheet("color: #FFF;")
+            self.ui.reflectButton.setStyleSheet("color: #FFF;")
+            self.ui.absIrrButton.setStyleSheet("color: #FFF;")
+            self.ui.relIrrButton.setStyleSheet("color: #FFF;")
+            self.ui.saveButton.setStyleSheet("color: #FFF;")
         self.ui.refButton.setStyleSheet("color: green")
         self.ui.refButton.setIcon(QIcon("Icons/check.png"))
         print("reference data now saved")
@@ -238,6 +289,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # declare variables
         globals.config = True
+        globals.refTrue = False
+        globals.darkTrue = False
         largest_pixel = 0
         count = 0
         increment = globals.integration_time / 2
@@ -306,6 +359,21 @@ class MainWindow(QtWidgets.QMainWindow):
         print("integration time:", globals.integration_time)
         print("Averages:", globals.averages)   
         print("done with configuration")
+
+        # changing format
+        self.ui.scopeMinDarkButton.setEnabled(False)
+        self.ui.absButton.setEnabled(False)
+        self.ui.transButton.setEnabled(False)
+        self.ui.reflectButton.setEnabled(False)
+        self.ui.absIrrButton.setEnabled(False)
+        self.ui.relIrrButton.setEnabled(False)
+        self.ui.scopeMinDarkButton.setStyleSheet("background-color : black;")
+        self.ui.absButton.setStyleSheet("background-color : black;")
+        self.ui.transButton.setStyleSheet("background-color : black;")
+        self.ui.reflectButton.setStyleSheet("background-color : black;")
+        self.ui.absIrrButton.setStyleSheet("background-color : black;")
+        self.ui.relIrrButton.setStyleSheet("background-color : black;")
+        
         return
 
     '''
@@ -339,6 +407,27 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.stopApply.setEnabled(False)
         self.ui.startApply.setStyleSheet("background-color : black")
         self.ui.stopApply.setStyleSheet("background-color : black")
+
+        self.ui.collectButton_2.setEnabled(False)
+        self.ui.scaleButton.setEnabled(False)
+        self.ui.scopeMinDarkButton.setEnabled(False)
+        self.ui.scopeModeButton.setEnabled(False)
+        self.ui.absButton.setEnabled(False)
+        self.ui.transButton.setEnabled(False)
+        self.ui.reflectButton.setEnabled(False)
+        self.ui.relIrrButton.setEnabled(False)
+        self.ui.absIrrButton.setEnabled(False)
+        self.ui.saveButton.setEnabled(False)
+        self.ui.collectButton_2.setStyleSheet("background-color : black")
+        self.ui.scaleButton.setStyleSheet("background-color : black")
+        self.ui.scopeModeButton.setStyleSheet("background-color : black")
+        self.ui.scopeMinDarkButton.setStyleSheet("background-color : black")
+        self.ui.absButton.setStyleSheet("background-color : black")
+        self.ui.transButton.setStyleSheet("background-color : black")
+        self.ui.reflectButton.setStyleSheet("background-color : black")
+        self.ui.absIrrButton.setStyleSheet("background-color : black")
+        self.ui.relIrrButton.setStyleSheet("background-color : black")
+        self.ui.saveButton.setStyleSheet("background-color : black")
         print("disconnected")
         return
 
@@ -502,7 +591,7 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.pixels = devcon.m_Detector_m_NrPixels
         globals.wavelength = AVS_GetLambda(globals.dev_handle)
 
-        # change if the button should be able to be used or not 
+        # changing users access to buttons and look
         self.ui.startStopButton.setEnabled(True)
         self.ui.startStopButton.setStyleSheet("color: #FFF;")
         self.ui.darkButton.setEnabled(True)
@@ -528,6 +617,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.stopApply.setEnabled(True)
         self.ui.startApply.setStyleSheet("color: #FFF;")
         self.ui.stopApply.setStyleSheet("color: #FFF;")
+        self.ui.collectButton_2.setEnabled(True)
+        self.ui.scaleButton.setEnabled(True)
+        self.ui.scopeModeButton.setEnabled(True)
+        self.ui.collectButton_2.setStyleSheet("color: #FFF;")
+        self.ui.scaleButton.setStyleSheet("color: #FFF;")
+        self.ui.scopeModeButton.setStyleSheet("color: #FFF;")
 
         # return message
         print("connected")
@@ -914,17 +1009,18 @@ class MainWindow(QtWidgets.QMainWindow):
     def setStopWavelength(self):
         print("set stop")
         val = self.ui.stopEdit.toPlainText()
-        if val.isdigit():
-            val = float(val)
-            for i in range(len(globals.wavelength)-1, -1, -1):
-                if globals.wavelength[i] == 0:
-                    continue
-                if val >= globals.wavelength[i]:
-                    globals.high = i
-                    print("assigned:", globals.high)
-                    return
-        else:
-            QMessageBox.warning(self, "Wrong Input", "Please enter a number")
+        for i in range(len(val)):
+            if val[i].isdigit() == False and val[i] != ".":
+                QMessageBox.warning(self, "Input Warning", "Please make sure to enter a proper number")
+                return
+        val = float(val)
+        for i in range(len(globals.wavelength)-1, -1, -1):
+            if globals.wavelength[i] == 0:
+                continue
+            if val >= globals.wavelength[i]:
+                globals.high = i
+                print("assigned:", globals.high)
+                return
         return
 
     '''
@@ -936,16 +1032,17 @@ class MainWindow(QtWidgets.QMainWindow):
     def setStartWavelength(self):
         print("set start")
         val = self.ui.startEdit.toPlainText()
-        if val.isdigit():
-            val = float(val)
-            # given the wavelength must find the pixel associated with wavelegth
-            for i in range(len(globals.wavelength)):
-                if val <= globals.wavelength[i]:
-                    globals.low = i
-                    print("assigned:", globals.low)
-                    return
-        else: 
-            QMessageBox.warning(self, "Wrong input", "Please enter a number")
+        for i in range(len(val)):
+            if val[i].isdigit() == False and val[i] != ".":
+                QMessageBox.warning(self, "Input Warning", "Please make sure to enter a proper number")
+                return
+        val = float(val)
+        # given the wavelength must find the pixel associated with wavelegth
+        for i in range(len(globals.wavelength)):
+            if val <= globals.wavelength[i]:
+                globals.low = i
+                print("assigned:", globals.low)
+                return
         return
     
 
