@@ -529,7 +529,6 @@ class MainWindow(QtWidgets.QMainWindow):
         fileName = "avalight"
         extension = ""
         measureMode = ""
-        choice = 0
         comment = ""
 
         # Get the comment from the user
