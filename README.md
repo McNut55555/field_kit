@@ -24,9 +24,10 @@ Editing the GUI is done through Qt Designer. With Qt Designer the developer is a
     - $ pyuic5 -x ui_main.ui -o ui_main.py
 
 # Developement
-Developing Irradiance graphs, saving data openable by Avasoft 8, and options features. After every collection the graph only displays the scope data and the user has to manually switch to the graph they want. It would be nice to keep displaying the graph that the user selects. 
+Not sure if absolute Irradiance graph is accurate. Haven't got to test it yet. Continuous scanning doesn't work. This is out of the scope of my knowledge and requires parallel programming. Will be testing my directions with the pi. May seperate the MainWindow class into another file. Will rename it to Avalight or something. 
 
 # Class MainWindow:
 This class allows for the creation of the GUI and all of its functionality. All functions in class have included comments to explain the functionality. 
 
 # Functions
+All the functions should be commented appropriately so that a developer should be able to understand the functionality and use. 

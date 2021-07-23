@@ -291,6 +291,7 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.config = True
         globals.refTrue = False
         globals.darkTrue = False
+        globals.averages = 2
         largest_pixel = 0
         count = 0
         increment = globals.integration_time / 2
@@ -342,7 +343,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
             # takes another reading
             self.startStopButton_clicked()
-        print(largest_pixel)
         largest_pixel = 0
         
         # this will adjust the number of averages to get in the cycle_time range... the amount of time to take one reading 
@@ -355,6 +355,7 @@ class MainWindow(QtWidgets.QMainWindow):
             globals.averages = 100
         elif globals.averages < 2:
             globals.averages = 2
+        print('largest pixel', largest_pixel)
         print('cycle time:', cycle_time)
         print("integration time:", globals.integration_time)
         print("Averages:", globals.averages)   
@@ -373,6 +374,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.reflectButton.setStyleSheet("background-color : black;")
         self.ui.absIrrButton.setStyleSheet("background-color : black;")
         self.ui.relIrrButton.setStyleSheet("background-color : black;")
+        self.ui.intEdit.clear()
+        self.ui.avgEdit.clear()
+        self.ui.intEdit.append(str(round(globals.integration_time,2)))
+        self.ui.avgEdit.append(str(round(globals.averages,2)))
         
         return
 
