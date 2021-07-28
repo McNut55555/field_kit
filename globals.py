@@ -31,7 +31,7 @@ config = False
 
 # wavelength range
 low = 21
-high = pixels - 23
+high = pixels - 24
 
 # deciding if certain graphs can be generated
 darkTrue = False
