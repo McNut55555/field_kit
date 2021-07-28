@@ -57,11 +57,11 @@ class MainWindow(QtWidgets.QMainWindow):
         ## SET INITAL ALLOWABLE CLICKS
         ########################################################################
         self.ui.startStopButton.setEnabled(False)
-        # self.ui.startStopButton.setStyleSheet("background-color : black")
+        self.ui.startStopButton.setStyleSheet("background-color : black")
         self.ui.darkButton.setEnabled(False)
-        # self.ui.darkButton.setStyleSheet("background-color : black")
+        self.ui.darkButton.setStyleSheet("background-color : black")
         self.ui.configButton.setEnabled(False)
-        # self.ui.configButton.setStyleSheet("background-color : black")
+        self.ui.configButton.setStyleSheet("background-color : black")
         self.ui.refButton.setEnabled(False)
         self.ui.refButton.setStyleSheet("background-color : black")
         self.ui.stopButton.setEnabled(False)
