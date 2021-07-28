@@ -845,6 +845,8 @@ class MainWindow(QtWidgets.QMainWindow):
         y_value = []
         for x in range(globals.low,globals.high):                                  # dropping off the last two data points
             y_value.append(globals.spectraldata[x])
+            if globals.spectraldata[x] == 0:
+                print(x)
         self.plot(y_value, "Scope (ADC Counts)", "Scope Mode")
         return
 
