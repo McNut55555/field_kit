@@ -20,6 +20,12 @@ import os
 ##########################################################
 class MainWindow(QtWidgets.QMainWindow):
 
+    '''
+    Functionality: This is the function that get called when a MainWindow object is created. This sets up the
+    inital state for the field_kit. It also links all the buttons to the associated function within the MainWindow
+    class. It also sets up the allowable clicks for the user and the color of each button. As well as some inital 
+    global variables that are used in later functions. 
+    '''
     def __init__(self, *args, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
 
@@ -131,8 +137,9 @@ class MainWindow(QtWidgets.QMainWindow):
     '''
     parameters: self
     return: None
-    functionality: this will switch the global data type continuous to true or false. Depending on the global variable is how the stop 
-    start button will work. 
+    functionality: this will switch the global data type continuous to true or false. Depending on the 
+    global variable is how the stop start button will work. 
+    BUG: The continuous measure mode doesn't work properly. Needs work.
     '''
     @pyqtSlot()
     def applyMeasureType(self):
@@ -208,10 +215,11 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
     '''
-    parameters:
-    return:
-    functionality: This function stores the dark data to the globals file when the dark button is clicked. It then changes the look of the 
-    button so the user knows that the data has been stored. 
+    parameters: self
+    return: none
+    functionality: This function stores the dark data to the globals file when the dark button is clicked. It 
+    then changes the look of the button so the user knows that the data has been stored. The dark informtion 
+    is used to generate other types of graphs. 
     '''
     # saves the dark data in globals
     @pyqtSlot()
@@ -241,10 +249,10 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
     '''
-    paramaters:
-    return:
-    functionality: This function stores data to globals when the refrence button is clicked. it then changes the look of the button 
-    so the user knows that the data has been saved.
+    paramaters: self
+    return: none
+    functionality: This function stores data to globals when the refrence button is clicked. it then changes the look 
+    of the button so the user knows that the data has been saved.
     '''
     # saves reference data to globals and changes the look of the button to alert user that data has been saved
     @pyqtSlot()
@@ -270,12 +278,13 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
     '''
-    Parameters:
-    return:
+    Parameters: self
+    return: none
     functionality: configures the spectrometer to ensure that no pixel is saturated. Does this by slowly incrementing the the integration time. 
     One the largest pixel is between 60,000 and 55,000 the integration time gets set to that value. It then slowly adjusts the 
     number of averages so that each 
-    BUG: htting the configure button twice in a row doesn't work properly. 
+    BUG: htting the configure button twice in a row doesn't work properly all the time and requires the user to 
+    hit it more then once 
     '''
     # @pyqtSlot()
     def configButton_clicked(self):
@@ -384,7 +393,8 @@ class MainWindow(QtWidgets.QMainWindow):
     '''
     parameters:
     return:
-    functionality: This fucntion disconnects the spectrometer when the stop button in the Gui is pressed. It then resets some of the access to buttons for the user. 
+    functionality: This fucntion disconnects the spectrometer when the stop button in the Gui is pressed. 
+    It then resets some of the access to buttons for the user. 
     '''
     # disconnects from the spectrometer and adjusts the enabled buttons
     @pyqtSlot()
@@ -441,8 +451,11 @@ class MainWindow(QtWidgets.QMainWindow):
     '''
     parameters:
     return:
-    functionality: This fuction is for when the collect Button on the GUI is pressed. It collects data from the spectrometer. Then it chooses what graph the 
-    user wants displayed and displayes that graph. It chooses the graph by what last graph was chosen to be displayed. 
+    functionality: This fuction is for when the collect Button on the GUI is pressed. It collects data from 
+    the spectrometer. Then it chooses what graph the user wants displayed and displayes that graph. It chooses 
+    the graph by what last graph was chosen to be displayed. 
+    BUG: This is where the continuous scanning mode is implemented. The continuous scanning mode doesn't work. 
+    Seems that it requires parallel programming. 
     '''
     # collects data from the spectrometer. collect button. 
     @pyqtSlot()
@@ -643,7 +656,9 @@ class MainWindow(QtWidgets.QMainWindow):
     return:"
     functionality: This function main purpose is to save a file so that the data can then be opened in 
     Avasoft 8. This is done by saving all the data in the file format given by the file format document. 
-    All the data is saved in little endian. Some of the full functionality isn't finished. 
+    All the data is saved in little endian. Some of the full functionality isn't finished. Some of the data 
+    in the save isn't right. Like date and time when the spectrum was collected. Doesn't seem overly important 
+    yet.
     '''
     @pyqtSlot()
     def saveButton_clicked(self):
@@ -837,8 +852,8 @@ class MainWindow(QtWidgets.QMainWindow):
     ###########################################################################
 
     '''
-    paramters:
-    return:
+    paramters: self
+    return: none
     functionality: This function will get all the scope data and will pass it to the plot function to be 
     displayed to the user. 
     '''
@@ -852,9 +867,10 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
     '''
-    parameters:
-    return:
-    functionality:
+    parameters: self
+    return: none
+    functionality: Makes an array tht stores the absorbance data in it. This array is then passed to plot to be 
+    displayed to the user.
     '''
     # creates the absorbance data and displays the graph
     @pyqtSlot()
@@ -964,8 +980,8 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
     '''
-    parameters:
-    return:
+    parameters: self
+    return: none
     functionality: This function is supposed to find that y_values of the reletive irradiance graph and 
     then pass them to be plotted by the plot function.
     '''
@@ -1034,7 +1050,7 @@ class MainWindow(QtWidgets.QMainWindow):
     '''
     parameters: self
     return: None
-    functionality: This function will change the global variable for the start pixel
+    functionality: This function will change the global variable for the start pixel. 
     '''
     @pyqtSlot()
     def setStartWavelength(self):
