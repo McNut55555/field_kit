@@ -57,11 +57,11 @@ class MainWindow(QtWidgets.QMainWindow):
         ## SET INITAL ALLOWABLE CLICKS
         ########################################################################
         self.ui.startStopButton.setEnabled(False)
-        self.ui.startStopButton.setStyleSheet("background-color : black")
+        # self.ui.startStopButton.setStyleSheet("background-color : black")
         self.ui.darkButton.setEnabled(False)
-        self.ui.darkButton.setStyleSheet("background-color : black")
+        # self.ui.darkButton.setStyleSheet("background-color : black")
         self.ui.configButton.setEnabled(False)
-        self.ui.configButton.setStyleSheet("background-color : black")
+        # self.ui.configButton.setStyleSheet("background-color : black")
         self.ui.refButton.setEnabled(False)
         self.ui.refButton.setStyleSheet("background-color : black")
         self.ui.stopButton.setEnabled(False)
@@ -423,6 +423,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.relIrrButton.setEnabled(False)
         self.ui.absIrrButton.setEnabled(False)
         self.ui.saveButton.setEnabled(False)
+
+        # setting the background color of all the buttons
         self.ui.collectButton_2.setStyleSheet("background-color : black")
         self.ui.scaleButton.setStyleSheet("background-color : black")
         self.ui.scopeModeButton.setStyleSheet("background-color : black")
@@ -599,13 +601,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # changing users access to buttons and look
         self.ui.startStopButton.setEnabled(True)
-        # self.ui.startStopButton.setStyleSheet("color: #FFF;")
+        self.ui.startStopButton.setStyleSheet("color: #FFF;")
         self.ui.darkButton.setEnabled(True)
-        # self.ui.darkButton.setStyleSheet("color: #FFF;")
+        self.ui.darkButton.setStyleSheet("color: #FFF;")
         self.ui.configButton.setEnabled(True)
-        # self.ui.configButton.setStyleSheet("color: #FFF;")
+        self.ui.configButton.setStyleSheet("color: #FFF;")
         self.ui.refButton.setEnabled(True)
-        # self.ui.refButton.setStyleSheet("color: #FFF;")
+        self.ui.refButton.setStyleSheet("color: #FFF;")
         self.ui.stopButton.setEnabled(True)
         self.ui.stopButton.setStyleSheet("color: #FFF;")
         self.ui.connectButton.setEnabled(False)
