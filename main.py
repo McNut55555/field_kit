@@ -599,13 +599,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # changing users access to buttons and look
         self.ui.startStopButton.setEnabled(True)
-        self.ui.startStopButton.setStyleSheet("color: #FFF;")
+        # self.ui.startStopButton.setStyleSheet("color: #FFF;")
         self.ui.darkButton.setEnabled(True)
-        self.ui.darkButton.setStyleSheet("color: #FFF;")
+        # self.ui.darkButton.setStyleSheet("color: #FFF;")
         self.ui.configButton.setEnabled(True)
-        self.ui.configButton.setStyleSheet("color: #FFF;")
+        # self.ui.configButton.setStyleSheet("color: #FFF;")
         self.ui.refButton.setEnabled(True)
-        self.ui.refButton.setStyleSheet("color: #FFF;")
+        # self.ui.refButton.setStyleSheet("color: #FFF;")
         self.ui.stopButton.setEnabled(True)
         self.ui.stopButton.setStyleSheet("color: #FFF;")
         self.ui.connectButton.setEnabled(False)
