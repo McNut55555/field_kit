@@ -594,6 +594,7 @@ class MainWindow(QtWidgets.QMainWindow):
         devcon = AVS_GetParameter(globals.dev_handle, 63484)
         globals.deviceConfig = devcon
         globals.pixels = devcon.m_Detector_m_NrPixels
+        globals.high = globals.pixels - 24
         globals.wavelength = AVS_GetLambda(globals.dev_handle)
 
         # changing users access to buttons and look
@@ -845,8 +846,6 @@ class MainWindow(QtWidgets.QMainWindow):
         y_value = []
         for x in range(globals.low,globals.high):                                  # dropping off the last two data points
             y_value.append(globals.spectraldata[x])
-            if globals.spectraldata[x] == 0:
-                print(x)
         self.plot(y_value, "Scope (ADC Counts)", "Scope Mode")
         return
 
