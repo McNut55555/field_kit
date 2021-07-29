@@ -31,3 +31,55 @@ This class allows for the creation of the GUI and all of its functionality. All 
 
 # Functions
 All the functions should be commented appropriately so that a developer should be able to understand the functionality and use. 
+
+# Globals.py 
+
+VARIABES
+
+    dev_handle: The serial number of the spectrometer
+    
+    pixels: the amount of pixels in the current spectrometer. This gets redefined in the fuction connectButton_clicked in main.py. 
+
+    wavelength: This array stores all the wavelengths that each pixel views. 
+
+    spectraldata: This array stores the counts of each pixel.
+
+    darkData: This array stores the counts of each pixel when the spectrometer is dark
+
+    refData: This array stores the counts of each pixel when the spectrometer is seeing virgin light. 
+
+    integration_time: This vairable stores the integration time of the spectrometer
+
+    averages: This variable stores the amount of averages the spectrometer takes when taking a measurement. 
+
+    stopscanning: This variable is used when collecting data from the spectrometer. This is used in the function collect in main.py. 
+
+    first:
+
+    measureType:
+
+    identity:
+
+    deviceConfig:
+
+    visGraph:
+
+    contiuous:
+
+    config:
+
+    low:
+
+    high:
+
+    darkTrue:
+
+    refTrue:
+
+# ui_functions.py 
+
+# avaspec.py
+The file that allows for communication with the spectrometer through the use of the .dll or .so. If you want to know what each function does in this file look at the avasoft dll manual. I didn't write this. 
+
+# main.py 
+This is where all the code gets executed. It also makes the mainwindow class which makes all the functionality of the application. 
