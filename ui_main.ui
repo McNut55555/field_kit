@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>786</width>
-    <height>411</height>
+    <height>519</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -295,7 +295,7 @@ QPushButton:hover {
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>1</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="page_1">
              <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -729,240 +729,194 @@ QPushButton:hover {
              </layout>
             </widget>
             <widget class="QWidget" name="page_3">
-             <widget class="QWidget" name="layoutWidget">
-              <property name="geometry">
-               <rect>
-                <x>10</x>
-                <y>10</y>
-                <width>394</width>
-                <height>181</height>
-               </rect>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_15">
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_6">
-                 <item>
-                  <widget class="QLabel" name="label">
-                   <property name="styleSheet">
-                    <string notr="true">color: #FFF;
+             <layout class="QVBoxLayout" name="verticalLayout_15">
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <widget class="QLabel" name="label_2">
+                  <property name="styleSheet">
+                   <string notr="true">color: #FFF;
 </string>
-                   </property>
-                   <property name="text">
-                    <string>Measurement Type</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_8">
-                   <item>
-                    <widget class="QRadioButton" name="SingleButton">
-                     <property name="styleSheet">
-                      <string notr="true">color: #FFF;
+                  </property>
+                  <property name="text">
+                   <string>Integration time:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTextEdit" name="intEdit">
+                  <property name="styleSheet">
+                   <string notr="true">color: #FFF;
 </string>
-                     </property>
-                     <property name="text">
-                      <string>Single Measurement</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QRadioButton" name="ContinueButton">
-                     <property name="styleSheet">
-                      <string notr="true">color: #FFF;
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="intApply">
+                  <property name="styleSheet">
+                   <string notr="true">color: #FFF;
 </string>
-                     </property>
-                     <property name="text">
-                      <string>Continuously</string>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="measureTypeApply">
-                   <property name="styleSheet">
-                    <string notr="true">color: #FFF;
+                  </property>
+                  <property name="text">
+                   <string>Apply</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_8">
+                <item>
+                 <widget class="QLabel" name="label_3">
+                  <property name="styleSheet">
+                   <string notr="true">color: #FFF;
 </string>
-                   </property>
-                   <property name="text">
-                    <string>Apply</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="layoutWidget">
-              <property name="geometry">
-               <rect>
-                <x>440</x>
-                <y>30</y>
-                <width>371</width>
-                <height>152</height>
-               </rect>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_16">
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_9">
-                 <item>
-                  <widget class="QLabel" name="label_4">
-                   <property name="styleSheet">
-                    <string notr="true">color: #FFF;</string>
-                   </property>
-                   <property name="text">
-                    <string>Start Wavelength</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QTextEdit" name="startEdit">
-                   <property name="styleSheet">
-                    <string notr="true">color: #FFF;</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="startApply">
-                   <property name="styleSheet">
-                    <string notr="true">color: #FFF;</string>
-                   </property>
-                   <property name="text">
-                    <string>Apply</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_10">
-                 <item>
-                  <widget class="QLabel" name="label_5">
-                   <property name="styleSheet">
-                    <string notr="true">color: #FFF;</string>
-                   </property>
-                   <property name="text">
-                    <string>Stop Wavelength</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QTextEdit" name="stopEdit">
-                   <property name="styleSheet">
-                    <string notr="true">color: #FFF;</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="stopApply">
-                   <property name="styleSheet">
-                    <string notr="true">color: #FFF;</string>
-                   </property>
-                   <property name="text">
-                    <string>Apply</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QLabel" name="label_2">
-              <property name="geometry">
-               <rect>
-                <x>60</x>
-                <y>280</y>
-                <width>141</width>
-                <height>31</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: #FFF;
+                  </property>
+                  <property name="text">
+                   <string>Averages:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QTextEdit" name="avgEdit">
+                  <property name="styleSheet">
+                   <string notr="true">color: #FFF;
 </string>
-              </property>
-              <property name="text">
-               <string>Integration time:</string>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_3">
-              <property name="geometry">
-               <rect>
-                <x>50</x>
-                <y>330</y>
-                <width>101</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: #FFF;
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="avgApply">
+                  <property name="styleSheet">
+                   <string notr="true">color: #FFF;
 </string>
-              </property>
-              <property name="text">
-               <string>Averages:</string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="intEdit">
-              <property name="geometry">
-               <rect>
-                <x>210</x>
-                <y>270</y>
-                <width>104</width>
-                <height>70</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: #FFF;
+                  </property>
+                  <property name="text">
+                   <string>Apply</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_16">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_9">
+                  <item>
+                   <widget class="QLabel" name="label_4">
+                    <property name="styleSheet">
+                     <string notr="true">color: #FFF;</string>
+                    </property>
+                    <property name="text">
+                     <string>Start Wavelength</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="startEdit">
+                    <property name="styleSheet">
+                     <string notr="true">color: #FFF;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="startApply">
+                    <property name="styleSheet">
+                     <string notr="true">color: #FFF;</string>
+                    </property>
+                    <property name="text">
+                     <string>Apply</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_10">
+                  <item>
+                   <widget class="QLabel" name="label_5">
+                    <property name="styleSheet">
+                     <string notr="true">color: #FFF;</string>
+                    </property>
+                    <property name="text">
+                     <string>Stop Wavelength</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QTextEdit" name="stopEdit">
+                    <property name="styleSheet">
+                     <string notr="true">color: #FFF;</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="stopApply">
+                    <property name="styleSheet">
+                     <string notr="true">color: #FFF;</string>
+                    </property>
+                    <property name="text">
+                     <string>Apply</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <item>
+                 <widget class="QLabel" name="label">
+                  <property name="styleSheet">
+                   <string notr="true">color: #FFF;
 </string>
-              </property>
-             </widget>
-             <widget class="QTextEdit" name="avgEdit">
-              <property name="geometry">
-               <rect>
-                <x>200</x>
-                <y>350</y>
-                <width>104</width>
-                <height>70</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: #FFF;
+                  </property>
+                  <property name="text">
+                   <string>Measurement Type</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="verticalLayout_8">
+                  <item>
+                   <widget class="QRadioButton" name="SingleButton">
+                    <property name="styleSheet">
+                     <string notr="true">color: #FFF;
 </string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="intApply">
-              <property name="geometry">
-               <rect>
-                <x>360</x>
-                <y>280</y>
-                <width>89</width>
-                <height>25</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: #FFF;
+                    </property>
+                    <property name="text">
+                     <string>Single Measurement</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QRadioButton" name="ContinueButton">
+                    <property name="styleSheet">
+                     <string notr="true">color: #FFF;
 </string>
-              </property>
-              <property name="text">
-               <string>Apply</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="avgApply">
-              <property name="geometry">
-               <rect>
-                <x>350</x>
-                <y>350</y>
-                <width>89</width>
-                <height>25</height>
-               </rect>
-              </property>
-              <property name="styleSheet">
-               <string notr="true">color: #FFF;
+                    </property>
+                    <property name="text">
+                     <string>Continuously</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="measureTypeApply">
+                  <property name="styleSheet">
+                   <string notr="true">color: #FFF;
 </string>
-              </property>
-              <property name="text">
-               <string>Apply</string>
-              </property>
-             </widget>
+                  </property>
+                  <property name="text">
+                   <string>Apply</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
             </widget>
            </widget>
           </item>
