@@ -3,24 +3,27 @@ import ctypes
 import struct
 from PyQt5.QtCore import *
 from enum import Enum
+import os
 # import debugpy
+
+path = os.getcwd()
 
 # debugpy.breakpoint()
 if 'linux' in sys.platform: # Linux will have 'linux' or 'linux2'
-    lib = ctypes.CDLL("libavs.so.0")
+    lib = ctypes.CDLL(path + "/libavs.so.0")
     func = ctypes.CFUNCTYPE
 elif 'darwin' in sys.platform: # macOS will have 'darwin'
-    lib = ctypes.CDLL("DLLs/libavs.0.dylib")
+    lib = ctypes.CDLL(path + "/libavs.0.dylib")
     func = ctypes.CFUNCTYPE
 else: # Windows will have 'win32' or 'cygwin'
     import ctypes.wintypes
     if (ctypes.sizeof(ctypes.c_voidp) == 8): # 64 bit
         WM_MEAS_READY = 0x8001
-        lib = ctypes.WinDLL("C:/Users/mmcnu/Documents/code/field_kit/avaspecx64.dll")
+        lib = ctypes.WinDLL(path + "/avaspecx64.dll")
         func = ctypes.WINFUNCTYPE
     else:
         WM_MEAS_READY = 0x0401
-        lib = ctypes.WinDLL("avaspec.dll")
+        lib = ctypes.WinDLL(path + "/avaspec.dll")
         func = ctypes.WINFUNCTYPE
 
 AVS_SERIAL_LEN = 10

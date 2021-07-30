@@ -13,7 +13,6 @@ import math
 from ui_functions import *
 from ui_main import Ui_MainWindow
 import struct
-import os
 
 
 ## MAIN WINDOW CLASS
@@ -684,11 +683,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # This will get the file path where the user would like to save the file. 
         options = QFileDialog.Options()
-        # options |= QFileDialog.DontUseNativeDialog
-        # fileName, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","All Files (*);;Text Files (*.txt)", options=options)
         save_path, _ = QFileDialog.getSaveFileName(self,"QFileDialog.getSaveFileName()","","", options=options)
 
         # Get the extension of the file. This is what type of file the user would like to save
+        # currently just saves the graph of the graph being displayed. 
         if(globals.visGraph == 0):
             extension = ".RAW8"
             measureMode = b"\00"
