@@ -126,6 +126,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.avgApply.clicked.connect(self.setAverages)
         self.ui.measureTypeApply.clicked.connect(self.applyMeasureType)
 
+        # self.ui.graphWidget.setMouseEnabled(False, False)
+
         ## show the screen
         #######################################################################
         self.show()
@@ -201,16 +203,15 @@ class MainWindow(QtWidgets.QMainWindow):
     parameters: self
     return: None
     functionality: This function is supposed to reset the view of the graphs so that the data can be seen again. 
-    it doesnt work.
     '''
     # Rescales the graph to allow for a better view
     @pyqtSlot()
     def scaleButton_clicked(self):
         print("scale")
-        print("this doesnt work")
-        return
-        self.ui.graphWidget.ViewBox()
-        self.ui.graphWidget_2.ViewBox()
+        self.ui.graphWidget.autoRange()
+        self.ui.graphWidget_2.autoRange()
+        self.ui.graphWidget_2.enableAutoRange()
+        self.ui.graphWidget.enableAutoRange()
         return
 
     '''

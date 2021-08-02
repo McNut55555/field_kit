@@ -17,7 +17,6 @@ reflectData = [0.0] * pixels
 integration_time = 1
 averages = 2
 stopscanning = True
-# first = True
 measureType = MeasConfigType()
 identity = AvsIdentityType()
 deviceConfig = DeviceConfigType()
