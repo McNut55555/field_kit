@@ -1,8 +1,6 @@
 # from re import L, S
-from PyQt5 import QtWidgets
 from ui_functions import *
 from MainWindow import *
-import sys
 
 ## MAIN
 ###########################################################################

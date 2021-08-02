@@ -8,6 +8,7 @@
 
 ## ==> GUI FILE
 from main import *
+from MainWindow import *
 
 class UIFunctions(MainWindow):
 

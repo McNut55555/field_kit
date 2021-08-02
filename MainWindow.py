@@ -82,7 +82,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.stopApply.setStyleSheet("background-color : black")
 
         self.ui.collectButton_2.setEnabled(False)
-        self.ui.scaleButton.setEnabled(False)
         self.ui.scopeModeButton.setEnabled(False)
         self.ui.scopeMinDarkButton.setEnabled(False)
         self.ui.absButton.setEnabled(False)
@@ -92,7 +91,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.relIrrButton.setEnabled(False)
         self.ui.saveButton.setEnabled(False)
         self.ui.collectButton_2.setStyleSheet("background-color : black")
-        self.ui.scaleButton.setStyleSheet("background-color : black")
         self.ui.scopeModeButton.setStyleSheet("background-color : black")
         self.ui.scopeMinDarkButton.setStyleSheet("background-color : black")
         self.ui.absButton.setStyleSheet("background-color : black")
@@ -117,7 +115,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.saveButton.clicked.connect(self.saveButton_clicked)
         self.ui.transButton.clicked.connect(self.transButton_clicked)
         self.ui.collectButton_2.clicked.connect(self.startStopButton_clicked)
-        self.ui.scaleButton.clicked.connect(self.scaleButton_clicked)
         self.ui.absIrrButton.clicked.connect(self.absIrrButton_clicked)
         self.ui.relIrrButton.clicked.connect(self.relIrrButton_clicked)
         self.ui.stopApply.clicked.connect(self.setStopWavelength)
@@ -126,7 +123,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.avgApply.clicked.connect(self.setAverages)
         self.ui.measureTypeApply.clicked.connect(self.applyMeasureType)
 
-        # self.ui.graphWidget.setMouseEnabled(False, False)
+        ## Disabling panning in x and y directions on graph
+        ##########################################################
+        self.ui.graphWidget.setMouseEnabled(False, False)
+        self.ui.graphWidget_2.setMouseEnabled(False, False)
 
         ## show the screen
         #######################################################################
@@ -197,21 +197,6 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.averages = int(x)
         self.ui.avgEdit.clear()
         self.ui.avgEdit.append(str(int(x)))
-        return
-
-    '''
-    parameters: self
-    return: None
-    functionality: This function is supposed to reset the view of the graphs so that the data can be seen again. 
-    '''
-    # Rescales the graph to allow for a better view
-    @pyqtSlot()
-    def scaleButton_clicked(self):
-        print("scale")
-        self.ui.graphWidget.autoRange()
-        self.ui.graphWidget_2.autoRange()
-        self.ui.graphWidget_2.enableAutoRange()
-        self.ui.graphWidget.enableAutoRange()
         return
 
     '''
@@ -348,8 +333,6 @@ class MainWindow(QtWidgets.QMainWindow):
                 QMessageBox.warning(self, "minimum integration time", "Cannot go below 30 micro seconds")
                 return
 
-            print("integration time:", globals.integration_time)
-
             # takes another reading
             self.startStopButton_clicked()
         largest_pixel = 0
@@ -424,7 +407,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.stopApply.setStyleSheet("background-color : black")
 
         self.ui.collectButton_2.setEnabled(False)
-        self.ui.scaleButton.setEnabled(False)
         self.ui.scopeMinDarkButton.setEnabled(False)
         self.ui.scopeModeButton.setEnabled(False)
         self.ui.absButton.setEnabled(False)
@@ -436,7 +418,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # setting the background color of all the buttons
         self.ui.collectButton_2.setStyleSheet("background-color : black")
-        self.ui.scaleButton.setStyleSheet("background-color : black")
         self.ui.scopeModeButton.setStyleSheet("background-color : black")
         self.ui.scopeMinDarkButton.setStyleSheet("background-color : black")
         self.ui.absButton.setStyleSheet("background-color : black")
@@ -466,6 +447,8 @@ class MainWindow(QtWidgets.QMainWindow):
             exit
         self.repaint()                                                                      # gets rid of old data on the screen
         ret = AVS_UseHighResAdc(globals.dev_handle, True)                                   # sets the spectrometer to use 16 bit resolution instead of 14 bit
+
+        self.ui.startStopButton.setIcon(QIcon("/Icons/loading.png"))
 
         # set the configuration
         measconfig = MeasConfigType()
@@ -570,6 +553,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.intEdit.clear()
         self.ui.intEdit.append(str(round(globals.integration_time,2)))
         self.ui.avgEdit.append(str(round(globals.averages,2)))
+        self.ui.refButton.setIcon(QIcon())
         return   
 
     '''
@@ -639,10 +623,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.startApply.setStyleSheet("color: #FFF;")
         self.ui.stopApply.setStyleSheet("color: #FFF;")
         self.ui.collectButton_2.setEnabled(True)
-        self.ui.scaleButton.setEnabled(True)
         self.ui.scopeModeButton.setEnabled(True)
         self.ui.collectButton_2.setStyleSheet("color: #FFF;")
-        self.ui.scaleButton.setStyleSheet("color: #FFF;")
         self.ui.scopeModeButton.setStyleSheet("color: #FFF;")
 
         # return message

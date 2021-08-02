@@ -7,6 +7,8 @@ import os
 # import debugpy
 
 path = os.getcwd()
+os_name = os.name
+info = os.uname()
 
 # debugpy.breakpoint()
 if 'linux' in sys.platform: # Linux will have 'linux' or 'linux2'

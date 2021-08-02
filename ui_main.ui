@@ -295,7 +295,7 @@ QPushButton:hover {
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>2</number>
+             <number>1</number>
             </property>
             <widget class="QWidget" name="page_1">
              <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -510,23 +510,6 @@ QPushButton:hover {
                       </widget>
                      </item>
                      <item>
-                      <widget class="QPushButton" name="saveButton">
-                       <property name="sizePolicy">
-                        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                         <horstretch>0</horstretch>
-                         <verstretch>0</verstretch>
-                        </sizepolicy>
-                       </property>
-                       <property name="styleSheet">
-                        <string notr="true">color: #FFF;
-</string>
-                       </property>
-                       <property name="text">
-                        <string>Save</string>
-                       </property>
-                      </widget>
-                     </item>
-                     <item>
                       <layout class="QVBoxLayout" name="verticalLayout_6">
                        <property name="spacing">
                         <number>0</number>
@@ -687,7 +670,7 @@ QPushButton:hover {
                       </layout>
                      </item>
                      <item>
-                      <widget class="QPushButton" name="scaleButton">
+                      <widget class="QPushButton" name="saveButton">
                        <property name="sizePolicy">
                         <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                          <horstretch>0</horstretch>
@@ -699,7 +682,7 @@ QPushButton:hover {
 </string>
                        </property>
                        <property name="text">
-                        <string>Scale</string>
+                        <string>Save</string>
                        </property>
                       </widget>
                      </item>
