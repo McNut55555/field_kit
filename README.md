@@ -2,8 +2,7 @@
 portable spectroscopy field kit for Avantes. 
 
 # Instructions:
-In these list of these instruction I assume that you are developing on Linux (unbuntu 18.01) and all commands are for terminal. Everything is created using 
-python, python libraries, and qt designer. 
+In these list of these instruction I assume that you are developing on Linux (unbuntu 18.01) and all commands are for terminal. Everything is created using python, python libraries, and qt designer. 
 
 # Getting Code
 Clone the code from GitHub (Including just for Completeness):
@@ -56,25 +55,25 @@ VARIABES
 
     first:
 
-    measureType:
+    measureType: is variable holds the MeasConfigType variable from avaspec.py
 
-    identity:
+    identity: this variable holds the AvsIdentityType variable from avaspec.py
 
-    deviceConfig:
+    deviceConfig: this variable holds the DeviceConfigType variable from avaspec.py
 
-    visGraph:
+    visGraph: This variable holds the variable telling the function startStopButton_clicked in main.py what fucntion to graph to both of the graphs on setup and measure tabs.  
 
-    contiuous:
+    contiuous: This variable is meant to be used to tell startStopButton function to continue scanning if True. However the continuous aspect of the program doesn't work. 
 
     config:
 
-    low:
+    low: This sets the low end pixel to be displayed to the graphs. 
 
-    high:
+    high: This sets the high end pixel to be displayed to the graphs.
 
-    darkTrue:
+    darkTrue: This variable tells if a dark refrence has been saved. This is used when 
 
-    refTrue:
+    refTrue: This varible tells if the refrence has been saved. This is used when
 
 # ui_functions.py 
 
