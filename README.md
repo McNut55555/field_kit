@@ -78,7 +78,9 @@ VARIABES
 # ui_functions.py 
 
 # avaspec.py
-The file that allows for communication with the spectrometer through the use of the .dll or .so. If you want to know what each function does in this file look at the avasoft dll manual. I didn't write this. 
+IMPORTANT: When using Raspberrian or ubuntu make sure that you are using the right dll for the operating system. Both of them fall into the logic for linux however use a different dll to communicate with the spectrometer. This means depending on the operating system you may have to change which dll it is reading in on avaspec.py. This can be done by changing the what comment is visible to the interpreter. 
+
+The file that allows for communication with the spectrometer through the use of the .dll or .so. If you want to know what each function does in this file look at the avasoft dll manual. I didn't write this. However, I did make a few changes.  
 
 # main.py 
 This is where all the code gets executed. It also makes the mainwindow class which makes all the functionality of the application. 
