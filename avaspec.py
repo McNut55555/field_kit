@@ -14,7 +14,7 @@ if 'linux' in sys.platform: # Linux will have 'linux' or 'linux2'
     # this is the DLL for ubuntu
     lib = ctypes.CDLL(path + "/DLL/libavs.so.0")
 
-    # this is the DLL for raspberrian
+    # this is the DLL for raspbian
     # lib = ctypes.CDLL(path + "/DLL/libavs.so.0.2.0")
 
     func = ctypes.CFUNCTYPE
