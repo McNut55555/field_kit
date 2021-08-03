@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>786</width>
-    <height>519</height>
+    <width>979</width>
+    <height>726</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -295,7 +295,7 @@ QPushButton:hover {
           <item>
            <widget class="QStackedWidget" name="stackedWidget">
             <property name="currentIndex">
-             <number>1</number>
+             <number>2</number>
             </property>
             <widget class="QWidget" name="page_1">
              <layout class="QVBoxLayout" name="verticalLayout_14">
@@ -791,7 +791,7 @@ QPushButton:hover {
                      <string notr="true">color: #FFF;</string>
                     </property>
                     <property name="text">
-                     <string>Start Wavelength</string>
+                     <string>Start Wavelength:</string>
                     </property>
                    </widget>
                   </item>
@@ -822,7 +822,7 @@ QPushButton:hover {
                      <string notr="true">color: #FFF;</string>
                     </property>
                     <property name="text">
-                     <string>Stop Wavelength</string>
+                     <string>Stop Wavelength:</string>
                     </property>
                    </widget>
                   </item>
@@ -856,7 +856,7 @@ QPushButton:hover {
 </string>
                   </property>
                   <property name="text">
-                   <string>Measurement Type</string>
+                   <string>Measurement Type:</string>
                   </property>
                  </widget>
                 </item>
@@ -894,6 +894,24 @@ QPushButton:hover {
                   </property>
                   <property name="text">
                    <string>Apply</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_13">
+                <item>
+                 <widget class="QLabel" name="label_6">
+                  <property name="text">
+                   <string>TextLabel</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="pushButton">
+                  <property name="text">
+                   <string>PushButton</string>
                   </property>
                  </widget>
                 </item>

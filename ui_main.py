@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(786, 519)
+        MainWindow.resize(979, 726)
         MainWindow.setMinimumSize(QtCore.QSize(500, 250))
         MainWindow.setStyleSheet("background-color: rgb(45, 45, 45);")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
@@ -453,6 +453,15 @@ class Ui_MainWindow(object):
         self.measureTypeApply.setObjectName("measureTypeApply")
         self.horizontalLayout_6.addWidget(self.measureTypeApply)
         self.verticalLayout_15.addLayout(self.horizontalLayout_6)
+        self.horizontalLayout_13 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_13.setObjectName("horizontalLayout_13")
+        self.label_6 = QtWidgets.QLabel(self.page_3)
+        self.label_6.setObjectName("label_6")
+        self.horizontalLayout_13.addWidget(self.label_6)
+        self.pushButton = QtWidgets.QPushButton(self.page_3)
+        self.pushButton.setObjectName("pushButton")
+        self.horizontalLayout_13.addWidget(self.pushButton)
+        self.verticalLayout_15.addLayout(self.horizontalLayout_13)
         self.stackedWidget.addWidget(self.page_3)
         self.verticalLayout_5.addWidget(self.stackedWidget)
         self.horizontalLayout_2.addWidget(self.frame_pages)
@@ -460,7 +469,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -489,14 +498,16 @@ class Ui_MainWindow(object):
         self.intApply.setText(_translate("MainWindow", "Apply"))
         self.label_3.setText(_translate("MainWindow", "Averages:"))
         self.avgApply.setText(_translate("MainWindow", "Apply"))
-        self.label_4.setText(_translate("MainWindow", "Start Wavelength"))
+        self.label_4.setText(_translate("MainWindow", "Start Wavelength:"))
         self.startApply.setText(_translate("MainWindow", "Apply"))
-        self.label_5.setText(_translate("MainWindow", "Stop Wavelength"))
+        self.label_5.setText(_translate("MainWindow", "Stop Wavelength:"))
         self.stopApply.setText(_translate("MainWindow", "Apply"))
-        self.label.setText(_translate("MainWindow", "Measurement Type"))
+        self.label.setText(_translate("MainWindow", "Measurement Type:"))
         self.SingleButton.setText(_translate("MainWindow", "Single Measurement"))
         self.ContinueButton.setText(_translate("MainWindow", "Continuously"))
         self.measureTypeApply.setText(_translate("MainWindow", "Apply"))
+        self.label_6.setText(_translate("MainWindow", "TextLabel"))
+        self.pushButton.setText(_translate("MainWindow", "PushButton"))
 from pyqtgraph import PlotWidget
 
 
