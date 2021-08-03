@@ -447,6 +447,7 @@ class MainWindow(QtWidgets.QMainWindow):
             exit
         self.repaint()                                                                      # gets rid of old data on the screen
         ret = AVS_UseHighResAdc(globals.dev_handle, True)                                   # sets the spectrometer to use 16 bit resolution instead of 14 bit
+        globals.highRes = True
 
         self.ui.startStopButton.setIcon(QIcon("/Icons/loading.png"))
 
@@ -945,22 +946,20 @@ class MainWindow(QtWidgets.QMainWindow):
     def absIrrButton_clicked(self):
         globals.visGraph = 5
         print("abs Irr")
-        print("smoothPix:", globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_Smoothing_m_SmoothPix)
-        print("smoothModel:",globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_Smoothing_m_SmoothModel)
-        print("CalInttime:", globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime)
-        print("aCalibCovers:", type(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers))                       # array
-        print("CalibrationType:", globals.deviceConfig.m_Irradiance_m_CalibrationType)
-        print("FiberDiamerter:", globals.deviceConfig.m_Irradiance_m_FiberDiameter)
         y_label = "uWatt/cm^2"
         title = "Absolute Irradiance"
         y_value = []
         Inttimefactor = globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime/globals.integration_time
+        ADCFactor = 1
+        if globals.highRes == True:
+            ADCFactor = 0.25
+
         for i in range(globals.low, globals.high):
             if globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers[i] == 0:
                 y_value.append(0)
                 print("divide by zero")
             else:
-                y_value.append(Inttimefactor*((globals.spectraldata[i]-globals.darkData[i])/globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers[i]))
+                y_value.append(ADCFactor * Inttimefactor * ((globals.spectraldata[i]-globals.darkData[i])/globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers[i]))
         self.plot(y_value, y_label, title)
         return
 

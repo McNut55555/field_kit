@@ -57,6 +57,8 @@ VARIABES:
 
     deviceConfig: this variable holds the DeviceConfigType variable from avaspec.py
 
+    highRes: this variable holds a boolean value depending if highRes is on. 14 bit or 16 bit. Currently used when calculating absIrr in MainWindow. 
+
     visGraph: This variable holds the variable telling the function startStopButton_clicked in main.py what fucntion to graph to both of the graphs on setup and measure tabs.  
 
     contiuous: This variable is meant to be used to tell startStopButton function to continue scanning if True. However the continuous aspect of the program doesn't work. 
