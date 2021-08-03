@@ -642,15 +642,13 @@ class MainWindow(QtWidgets.QMainWindow):
     All the data is saved in little endian. Some of the full functionality isn't finished. Some of the data 
     in the save isn't right. Like date and time when the spectrum was collected. Doesn't seem overly important 
     yet.
+
+    DEVELOPEMENT: the save function works but doesn't completely encode all the data. The data that is still just 
+    holding space are currently: timestamp, SPCfiledate, detectorTemp, boardtemp, NTC2volt, ColorTemp, straylightconf, nonlinconf
+    customReflectance, CustomWhiteRefVal, and CustomDarkRefVal. 
     '''
     @pyqtSlot()
     def saveButton_clicked(self):
-        """
-        This function saves the data of the spectrometer in a format so that Avasoft 8 will be able to open the data.
-        It asks the user for a comment and where to save the file. The file extension that it chooses will be the 
-        last graph that was displayed to the user/displaying to the user. The format of the file can be found in the 
-        file format manuel.
-        """
         print("Save Button clicked")
         numpix = globals.measureType.m_StopPixel - globals.measureType.m_StartPixel +1
 
@@ -715,7 +713,7 @@ class MainWindow(QtWidgets.QMainWindow):
             # measure mode  1
             file.write(measureMode)
             # bitness   1
-            file.write(b'\x00')
+            file.write(b'\x01')
             #SDmarker   1
             file.write(b'\x00')
             #identity  75        
@@ -780,8 +778,7 @@ class MainWindow(QtWidgets.QMainWindow):
             for i in range(4):
                 file.write(struct.pack("<B", 1))
             #calIntTime                                                                                     Single
-            for i in range(4):
-                file.write(b"E")
+            file.write(struct.pack("<f", globals.measureType.m_Irradiance_m_IntensityCalib_m_CalInttime))
             #fitdata
             for i in globals.deviceConfig.m_Detector_m_aFit:
                 file.write(struct.pack("<d", i))
