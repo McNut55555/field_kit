@@ -441,15 +441,22 @@ class MainWindow(QtWidgets.QMainWindow):
     # collects data from the spectrometer. collect button. 
     @pyqtSlot()
     def startStopButton_clicked(self):
+        # set icon for user to know that its collecting
+        self.ui.startStopButton.setIcon(QIcon("Icons/loading.png"))
+        self.ui.collectButton_2.setIcon(QIcon("Icons/loading.png"))
+
+        # check that there is something connected
         if AVS_GetNrOfDevices() == 0:
             self.stopButton_clicked()
             QMessageBox.warning(self, "Disconnected", "No Spectrometer found")
             exit
-        self.repaint()                                                                      # gets rid of old data on the screen
-        ret = AVS_UseHighResAdc(globals.dev_handle, True)                                   # sets the spectrometer to use 16 bit resolution instead of 14 bit
-        globals.highRes = True
+        
+        # gets rid of old data on the screen
+        self.repaint()                          
 
-        self.ui.startStopButton.setIcon(QIcon("/Icons/loading.png"))
+        # set high resolution... 16 bit not 14 bit                                        
+        ret = AVS_UseHighResAdc(globals.dev_handle, True)  
+        globals.highRes = True
 
         # set the configuration
         measconfig = MeasConfigType()
@@ -490,10 +497,11 @@ class MainWindow(QtWidgets.QMainWindow):
                     scans = scans + 1
                     if (scans >= nummeas):
                         globals.stopscanning = True  
-                # self.app.processEvents()                          
+                QApplication.processEvents()                          
                 time.sleep(0.001)  
             globals.measureType = measconfig
-            # choosing what graph should be displayed to the user
+
+            # choosing what graph should be displayed to the user this is kinda bad programming below
             if globals.visGraph == 0:
                 self.scope()
             elif globals.visGraph == 2:
@@ -511,6 +519,7 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 self.scope()
 
+        # this is for continuous scans. It doesn't work
         else:
             nummeas = 10
             scans = 0 
@@ -550,11 +559,14 @@ class MainWindow(QtWidgets.QMainWindow):
             else:
                 self.scope()
 
+        
+        # change the GUI for the user
         self.ui.avgEdit.clear()
         self.ui.intEdit.clear()
         self.ui.intEdit.append(str(round(globals.integration_time,2)))
         self.ui.avgEdit.append(str(round(globals.averages,2)))
-        self.ui.refButton.setIcon(QIcon())
+        self.ui.startStopButton.setIcon(QIcon())
+        self.ui.collectButton_2.setIcon(QIcon())
         return   
 
     '''
@@ -970,7 +982,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def relIrrButton_clicked(self):
         globals.visGraph = 6
         print("rel Irr")
-        print('were gonna do this one')
+        print('Doesn\'t produce a graph')
         return
 
     '''
