@@ -7,29 +7,28 @@ import os
 # import debugpy
 
 path = os.getcwd()
+os_name = os.name
 
 # debugpy.breakpoint()
 if 'linux' in sys.platform: # Linux will have 'linux' or 'linux2'
     # this is the DLL for ubuntu
-    lib = ctypes.CDLL(path + "/libavs.so.0")
+    lib = ctypes.CDLL("/home/mark/field_kit/DLL/libavs.so.0.9.9")
 
-    # this is the DLL for raspberrian
-    # lib = ctypes.CDLL(path + "/libavs.so.0.2.0")
-
-    
+    # this is the DLL for raspbian
+    # lib = ctypes.CDLL(path + "/DLL/libavs.so.0.2.0")
     func = ctypes.CFUNCTYPE
 elif 'darwin' in sys.platform: # macOS will have 'darwin'
-    lib = ctypes.CDLL(path + "/libavs.0.dylib")
+    lib = ctypes.CDLL(path + "/DLL/libavs.0.dylib")
     func = ctypes.CFUNCTYPE
 else: # Windows will have 'win32' or 'cygwin'
     import ctypes.wintypes
     if (ctypes.sizeof(ctypes.c_voidp) == 8): # 64 bit
         WM_MEAS_READY = 0x8001
-        lib = ctypes.WinDLL(path + "/avaspecx64.dll")
+        lib = ctypes.WinDLL(path + "/DLL/avaspecx64.dll")
         func = ctypes.WINFUNCTYPE
     else:
         WM_MEAS_READY = 0x0401
-        lib = ctypes.WinDLL(path + "/avaspec.dll")
+        lib = ctypes.WinDLL(path + "/DLL/avaspec.dll")
         func = ctypes.WINFUNCTYPE
 
 AVS_SERIAL_LEN = 10

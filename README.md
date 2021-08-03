@@ -15,26 +15,24 @@ In terminal (installing necessary software):
     - install QtCreator: "$ sudo apt-get install qtcreator"
     - install qwt: "$ sudo apt-get install libqwt-qt5-dev"
     - install PyQt5: "$ sudo apt-get install python3-pyqt5"
-    - install pyqtgraph: "$ pip3 install pyqtgraph"
+    - install pyqtgraph: "$ sudo apt-get install python3-pyqtgraph"
     - (optional) install VS Code IDE: "$ sudo apt-get install code"
 
 # Editing GUI (.ui file):
-Editing the GUI is done through Qt Designer. With Qt Designer the developer is also able to see all of the names associated with each button (objectName). Run the command below to convert the .ui file to a .py file so main can access the changes to the GUI. 
+Editing the GUI is done through Qt Designer. With Qt Designer the developer is also able to see all of the names associated with each button (objectName). Run the command below to convert the .ui file to a .py file so MainWindow can access the changes to the GUI when changes are made. 
     - $ pyuic5 -x ui_main.ui -o ui_main.py
 
 # Developement
 Not sure if absolute Irradiance graph is accurate. Haven't got to test it yet. Continuous scanning doesn't work. This is out of the scope of my knowledge and requires parallel programming. Will be testing my directions with the pi. May seperate the MainWindow class into another file. Will rename it to Avalight or something. 
 
+# main.py 
+This is where all the code gets executed. It also makes the mainwindow class which makes all the functionality of the application. 
+
 # Class MainWindow:
 This class allows for the creation of the GUI and all of its functionality. All functions in class have included comments to explain the functionality. 
 
-# Functions
-All the functions should be commented appropriately so that a developer should be able to understand the functionality and use. 
-
 # Globals.py 
-
-VARIABES
-
+VARIABES:
     dev_handle: The serial number of the spectrometer
     
     pixels: the amount of pixels in the current spectrometer. This gets redefined in the fuction connectButton_clicked in main.py. 
@@ -52,8 +50,6 @@ VARIABES
     averages: This variable stores the amount of averages the spectrometer takes when taking a measurement. 
 
     stopscanning: This variable is used when collecting data from the spectrometer. This is used in the function collect in main.py. 
-
-    first:
 
     measureType: is variable holds the MeasConfigType variable from avaspec.py
 
@@ -82,5 +78,3 @@ IMPORTANT: When using Raspberrian or ubuntu make sure that you are using the rig
 
 The file that allows for communication with the spectrometer through the use of the .dll or .so. If you want to know what each function does in this file look at the avasoft dll manual. I didn't write this. However, I did make a few changes.  
 
-# main.py 
-This is where all the code gets executed. It also makes the mainwindow class which makes all the functionality of the application. 
