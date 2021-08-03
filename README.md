@@ -18,17 +18,13 @@ In terminal (installing necessary software):
     - install pyqtgraph: "$ sudo apt-get install python3-pyqtgraph"
     - (optional) install VS Code IDE: "$ sudo apt-get install code"
 
-# Editing GUI (.ui file):
-Editing the GUI is done through Qt Designer. With Qt Designer the developer is also able to see all of the names associated with each button (objectName). Run the command below to convert the .ui file to a .py file so MainWindow can access the changes to the GUI when changes are made. 
-    - $ pyuic5 -x ui_main.ui -o ui_main.py
-
 # Developement
 Not sure if absolute Irradiance graph is accurate. Haven't got to test it yet. Continuous scanning doesn't work. This is out of the scope of my knowledge and requires parallel programming. Will be testing my directions with the pi. May seperate the MainWindow class into another file. Will rename it to Avalight or something. 
 
 # main.py 
-This is where all the code gets executed. It also makes the mainwindow class which makes all the functionality of the application. 
+This is where all the code gets executed. It also makes the mainwindow object which makes all the functionality of the application. Launches the application.  
 
-# Class MainWindow:
+# MainWindow.py:
 This class allows for the creation of the GUI and all of its functionality. All functions in class have included comments to explain the functionality. 
 
 # Globals.py 
@@ -73,10 +69,17 @@ VARIABES:
 
     refTrue: This varible tells if the refrence has been saved. This is used when
 
-# ui_functions.py 
+# ui_main.py / ui_main.ui:
+Editing the GUI is done through Qt Designer. With Qt Designer the developer is also able to see all of the names associated with each button (objectName). Run the command below to convert the .ui file to a .py file so MainWindow can access the changes to the GUI when changes are made. 
+    - $ pyuic5 -x ui_main.ui -o ui_main.py
+
 
 # avaspec.py
 IMPORTANT: When using Raspberrian or ubuntu make sure that you are using the right dll for the operating system. Both of them fall into the logic for linux however use a different dll to communicate with the spectrometer. This means depending on the operating system you may have to change which dll it is reading in on avaspec.py. This can be done by changing the what comment is visible to the interpreter. 
 
-The file that allows for communication with the spectrometer through the use of the .dll or .so. If you want to know what each function does in this file look at the avasoft dll manual. I didn't write this. However, I did make a few changes.  
+The file that allows for communication with the spectrometer through the use of the .dll or .so. If you want to know what each function does in this file look at the avasoft dll manual. I didn't write this. However, I did make a few changes. 
+
+# ui_functions.py 
+This files sole purpose is to add the toggle of the left bar on the GUI. I would like to put this function inside MainWindow.py but haven't been able to do that yet. 
+ 
 

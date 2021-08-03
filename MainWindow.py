@@ -163,7 +163,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.darkButton.setStyleSheet("color: white")
         self.ui.refButton.setStyleSheet("color: white")
 
-        # actual meat
+        # actual functionality
         x = self.ui.intEdit.toPlainText()
         for i in range(len(x)):
             print('x[i]:', x[i], 'type:', type(x[i]))
@@ -171,6 +171,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 QMessageBox.warning(self, "Warning", "Please enter a valid number")
                 return
         globals.integration_time = float(x)
+        self.ui.intEdit.clear()
+        self.ui.intEdit.append(str(x))
         return
 
     '''
