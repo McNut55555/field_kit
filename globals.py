@@ -21,7 +21,7 @@ measureType = MeasConfigType()
 identity = AvsIdentityType()
 deviceConfig = DeviceConfigType()
 
-# what plot are you currently on
+# what plot you currently on
 visGraph = 0
 
 # continuous
