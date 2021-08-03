@@ -217,17 +217,17 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.scopeMinDarkButton.setStyleSheet("color: #FFF;")
         self.ui.darkButton.setStyleSheet("color: green")
         self.ui.darkButton.setIcon(QIcon("Icons/check.png"))
+        self.ui.absIrrButton.setEnabled(True)
+        self.ui.absIrrButton.setStyleSheet("color: #FFF;")
         if globals.darkTrue and globals.refTrue:
             self.ui.absButton.setEnabled(True)
             self.ui.transButton.setEnabled(True)
             self.ui.reflectButton.setEnabled(True)
-            self.ui.absIrrButton.setEnabled(True)
             self.ui.relIrrButton.setEnabled(True)
             self.ui.saveButton.setEnabled(True)
             self.ui.absButton.setStyleSheet("color: #FFF;")
             self.ui.transButton.setStyleSheet("color: #FFF;")
             self.ui.reflectButton.setStyleSheet("color: #FFF;")
-            self.ui.absIrrButton.setStyleSheet("color: #FFF;")
             self.ui.relIrrButton.setStyleSheet("color: #FFF;")
             self.ui.saveButton.setStyleSheet("color: #FFF;")
         print("darkData now saved")
@@ -945,18 +945,22 @@ class MainWindow(QtWidgets.QMainWindow):
     def absIrrButton_clicked(self):
         globals.visGraph = 5
         print("abs Irr")
-        print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_Smoothing_m_SmoothPix)
-        print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_Smoothing_m_SmoothModel)
-        print(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime)
-        print(type(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers))                       # array
-        print(globals.pixels)
-        print(globals.deviceConfig.m_Irradiance_m_CalibrationType)
-        print(globals.deviceConfig.m_Irradiance_m_FiberDiameter)
+        print("smoothPix:", globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_Smoothing_m_SmoothPix)
+        print("smoothModel:",globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_Smoothing_m_SmoothModel)
+        print("CalInttime:", globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime)
+        print("aCalibCovers:", type(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers))                       # array
+        print("CalibrationType:", globals.deviceConfig.m_Irradiance_m_CalibrationType)
+        print("FiberDiamerter:", globals.deviceConfig.m_Irradiance_m_FiberDiameter)
         y_label = "uWatt/cm^2"
         title = "Absolute Irradiance"
         y_value = []
+        Inttimefactor = globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime/globals.integration_time
         for i in range(globals.low, globals.high):
-            y_value.append(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers[i]*(globals.spectraldata[i]-globals.darkData[i])*(globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime/globals.integration_time))
+            if globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers[i] == 0:
+                y_value.append(0)
+                print("divide by zero")
+            else:
+                y_value.append(Inttimefactor*((globals.spectraldata[i]-globals.darkData[i])/globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_aCalibConvers[i]))
         self.plot(y_value, y_label, title)
         return
 
