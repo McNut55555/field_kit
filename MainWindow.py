@@ -543,9 +543,9 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.transButton_clicked()
             elif globals.visGraph == 4:
                 self.refButton_clicked()
-            elif globals.visGraph == 6:
+            elif globals.visGraph == 5:
                 self.absIrrButton_clicked()
-            elif globals.visGraph == 7:
+            elif globals.visGraph == 6:
                 self.relIrrButton_clicked()
             else:
                 self.scope()
