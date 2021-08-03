@@ -221,6 +221,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.darkButton.setIcon(QIcon("Icons/check.png"))
         self.ui.absIrrButton.setEnabled(True)
         self.ui.absIrrButton.setStyleSheet("color: #FFF;")
+        # changes button availablity to user if ref and dark are true
         if globals.darkTrue and globals.refTrue:
             self.ui.absButton.setEnabled(True)
             self.ui.transButton.setEnabled(True)
@@ -291,12 +292,6 @@ class MainWindow(QtWidgets.QMainWindow):
         largest_pixel = 0
         count = 0
         increment = globals.integration_time / 2
-
-        # changes the increment depending on the current integration time... for debugging 
-        # if globals.integration_time <= 5 and globals.integration_time > 1:
-        #     increment = 1
-        # elif globals.integration_time <= 1 and globals.integration_time > 0.2:
-        #     increment = 0.5
 
         # stays in the loop until the largest pixel count is in the range of the loop. slowly adjusts integration time till it gets
         # to the range
