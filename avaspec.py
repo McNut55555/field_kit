@@ -12,11 +12,11 @@ os_name = os.name
 # debugpy.breakpoint()
 if 'linux' in sys.platform: # Linux will have 'linux' or 'linux2'
     # this is the DLL for ubuntu
-    lib = ctypes.CDLL(path + "/DLL/libavs.so.0")
+    # lib = ctypes.CDLL(path + "/DLL/libavs.so.0")
+    lib = ctypes.CDLL("/home/mark/field_kit/DLL/libavs.so.0")
 
     # this is the DLL for raspbian
     # lib = ctypes.CDLL(path + "/DLL/libavs.so.0.2.0")
-
     func = ctypes.CFUNCTYPE
 elif 'darwin' in sys.platform: # macOS will have 'darwin'
     lib = ctypes.CDLL(path + "/DLL/libavs.0.dylib")
