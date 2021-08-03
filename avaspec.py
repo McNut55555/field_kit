@@ -12,8 +12,7 @@ os_name = os.name
 # debugpy.breakpoint()
 if 'linux' in sys.platform: # Linux will have 'linux' or 'linux2'
     # this is the DLL for ubuntu
-    # lib = ctypes.CDLL(path + "/DLL/libavs.so.0")
-    lib = ctypes.CDLL("/home/mark/field_kit/DLL/libavs.so.0")
+    lib = ctypes.CDLL("/home/mark/field_kit/DLL/libavs.so.0.9.9")
 
     # this is the DLL for raspbian
     # lib = ctypes.CDLL(path + "/DLL/libavs.so.0.2.0")
