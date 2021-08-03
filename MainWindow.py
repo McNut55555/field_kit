@@ -10,7 +10,7 @@ import globals
 from avaspec import *
 import time
 import math
-from ui_functions import *
+import ui_functions 
 from ui_main import Ui_MainWindow
 import struct
 
@@ -36,7 +36,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         ## TOGGLE/BURGUER MENU
         ########################################################################
-        self.ui.Btn_Toggle.clicked.connect(lambda: UIFunctions.toggleMenu(self, 250, True))
+        self.ui.Btn_Toggle.clicked.connect(lambda: ui_functions.UIFunctions.toggleMenu(self, 250, True))
 
         ## PAGES
         ########################################################################
