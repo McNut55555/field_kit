@@ -19,13 +19,13 @@ In terminal (installing necessary software):
     - (optional) install VS Code IDE: "$ sudo apt-get install code"
 
 # Developement
-Not sure if absolute Irradiance graph is accurate. Haven't got to test it yet. Continuous scanning doesn't work. This is out of the scope of my knowledge and requires parallel programming. Will be testing my directions with the pi. May seperate the MainWindow class into another file. Will rename it to Avalight or something. 
+Continuous scanning doesn't work. This is out of the scope of my knowledge and requires parallel programming. 
 
 # main.py 
 This is where all the code gets executed. It also makes the mainwindow object which makes all the functionality of the application. Launches the application.  
 
 # MainWindow.py:
-This class allows for the creation of the GUI and all of its functionality. All functions in class have included comments to explain the functionality. 
+This class allows for the creation of the GUI and all of its functionality. All functions in class have included comments to explain the functionality. I hope that I included enough comments for it to be understood. 
 
 # Globals.py 
 VARIABES:
@@ -40,6 +40,8 @@ VARIABES:
     darkData: This array stores the counts of each pixel when the spectrometer is dark
 
     refData: This array stores the counts of each pixel when the spectrometer is seeing virgin light. 
+
+    cycle_time: the amount of time it takes to collect a full measurement. This time can be changed by the user and thus changing the amount of averages it will take. 
 
     integration_time: This vairable stores the integration time of the spectrometer
 
