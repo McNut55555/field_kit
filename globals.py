@@ -14,6 +14,7 @@ transData = [0.0] * pixels
 reflectData = [0.0] * pixels
 
 # configuration data
+cycle_time = 0.5
 integration_time = 1
 averages = 2
 stopscanning = True

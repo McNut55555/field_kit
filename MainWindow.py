@@ -127,6 +127,7 @@ class MainWindow(QtWidgets.QMainWindow):
         ##########################################################
         self.ui.graphWidget.setMouseEnabled(False, False)
         self.ui.graphWidget_2.setMouseEnabled(False, False)
+        self.ui.graphWidget_3.setMouseEnabled(False, False)
 
         ## show the screen
         #######################################################################
@@ -135,71 +136,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
     ## BUTTON CLICK FUNCTIONALITY  
     ###########################################################################
-    '''
-    parameters: self
-    return: None
-    functionality: this will switch the global data type continuous to true or false. Depending on the 
-    global variable is how the stop start button will work. 
-    BUG: The continuous measure mode doesn't work properly. Needs work.
-    '''
-    @pyqtSlot()
-    def applyMeasureType(self):
-        if self.ui.SingleButton.isChecked():
-            globals.continuous = False
-            print("Single Measurement")
-        else:
-            globals.continuous = True
-            print("Continuous Applied")
-    '''
-    parameters: self
-    return: None 
-    functionality: This sets the integration time of the spectrometer manually. 
-    '''
-    @pyqtSlot()
-    def setIntegration(self):
-        # reset the look of dark and reference 
-        self.ui.darkButton.setIcon(QIcon())
-        self.ui.refButton.setIcon(QIcon())
-        self.ui.darkButton.setStyleSheet("color: white")
-        self.ui.refButton.setStyleSheet("color: white")
-
-        # actual functionality
-        x = self.ui.intEdit.toPlainText()
-        for i in range(len(x)):
-            print('x[i]:', x[i], 'type:', type(x[i]))
-            if x[i].isdigit() == False and x[i] != ".":
-                QMessageBox.warning(self, "Warning", "Please enter a valid number")
-                return
-        globals.integration_time = float(x)
-        self.ui.intEdit.clear()
-        self.ui.intEdit.append(str(x))
-        return
-
-    '''
-    parameters: self
-    return: None
-    functionality: Will change the value set in globals averages with the data in the avgEdit.
-    '''
-    @pyqtSlot()
-    def setAverages(self):
-        # reset the look of dark and reference 
-        self.ui.darkButton.setIcon(QIcon())
-        self.ui.refButton.setIcon(QIcon())
-        self.ui.darkButton.setStyleSheet("color: white")
-        self.ui.refButton.setStyleSheet("color: white")
-
-        # actual code associated with function
-        x = self.ui.avgEdit.toPlainText()
-        for i in range(len(x)):
-            print('x[i]:', x[i], 'type:', type(x[i]))
-            if x[i].isdigit() == False and x[i] != ".":
-                QMessageBox.warning(self, "Warning", "Please enter a valid number")
-                return
-        x = float(x)
-        globals.averages = int(x)
-        self.ui.avgEdit.clear()
-        self.ui.avgEdit.append(str(int(x)))
-        return
 
     '''
     parameters: self
@@ -271,8 +207,7 @@ class MainWindow(QtWidgets.QMainWindow):
     functionality: configures the spectrometer to ensure that no pixel is saturated. Does this by slowly incrementing the the integration time. 
     One the largest pixel is between 60,000 and 55,000 the integration time gets set to that value. It then slowly adjusts the 
     number of averages so that each 
-    BUG: htting the configure button twice in a row doesn't work properly all the time and requires the user to 
-    hit it more then once 
+    BUG: 
     '''
     # @pyqtSlot()
     def configButton_clicked(self):
@@ -301,6 +236,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 if(globals.spectraldata[x] > largest_pixel):
                     largest_pixel = globals.spectraldata[x]
     
+            # these are for so the integration time doesn't go below 0
             if globals.integration_time <= 0:
                 globals.integration_time = math.fabs(globals.integration_time)
 
@@ -314,7 +250,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 globals.integration_time = globals.integration_time + increment
 
             # code below allows the user to disconnect from the spectrometer mid configuration
-            QtWidgets.QApplication.processEvents()                                        # This works. however ew. 
+            QtWidgets.QApplication.processEvents()                                        
 
             # Added a count so the configuration doesn't get stuck in a infinite loop... will eventually exit
             if count == 15:
@@ -334,23 +270,25 @@ class MainWindow(QtWidgets.QMainWindow):
             self.startStopButton_clicked()
         largest_pixel = 0
         
-        # this will adjust the number of averages to get in the cycle_time range... the amount of time to take one reading 
-        # I think this value is in seconds but im not quite sure. 
+        # Find the amount of averages based on the integration time... half a second cycle time is desired 
         globals.config = False
         count = 0
-        cycle_time = 500
-        globals.averages = int(cycle_time / globals.integration_time)
+        globals.averages = int(globals.cycle_time / globals.integration_time)
+
+        # cant have less then 2 averages or more then 100
         if globals.averages > 100:
             globals.averages = 100
         elif globals.averages < 2:
             globals.averages = 2
+
+        # print data to the user 
         print('largest pixel', largest_pixel)
-        print('cycle time:', cycle_time)
+        print('cycle time:', globals.cycle_time)
         print("integration time:", globals.integration_time)
         print("Averages:", globals.averages)   
         print("done with configuration")
 
-        # changing format
+        # changing look of GUI for user
         self.ui.scopeMinDarkButton.setEnabled(False)
         self.ui.absButton.setEnabled(False)
         self.ui.transButton.setEnabled(False)
@@ -365,8 +303,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.relIrrButton.setStyleSheet("background-color : black;")
         self.ui.intEdit.clear()
         self.ui.avgEdit.clear()
-        self.ui.intEdit.append(str(round(globals.integration_time,2)))
-        self.ui.avgEdit.append(str(round(globals.averages,2)))
+        self.ui.intEdit.append(str(round(globals.integration_time,3)))
+        self.ui.avgEdit.append(str(round(globals.averages,3)))
         
         return
 
@@ -499,22 +437,8 @@ class MainWindow(QtWidgets.QMainWindow):
             globals.measureType = measconfig
 
             # choosing what graph should be displayed to the user this is kinda bad programming below
-            if globals.visGraph == 0:
-                self.scope()
-            elif globals.visGraph == 2:
-                self.scopeMinDarkButton_clicked()
-            elif globals.visGraph == 1:
-                self.absButton_clicked()
-            elif globals.visGraph == 3:
-                self.transButton_clicked()
-            elif globals.visGraph == 4:
-                self.refButton_clicked()
-            elif globals.visGraph == 5:
-                self.absIrrButton_clicked()
-            elif globals.visGraph == 6:
-                self.relIrrButton_clicked()
-            else:
-                self.scope()
+            self.plotAll()
+            
 
         # this is for continuous scans. It doesn't work
         else:
@@ -539,22 +463,7 @@ class MainWindow(QtWidgets.QMainWindow):
             globals.measureType = measconfig
 
             # choosing what graph should be displayed to the user
-            if globals.visGraph == 0:
-                self.scope()
-            elif globals.visGraph == 2:
-                self.scopeMinDarkButton_clicked()
-            elif globals.visGraph == 1:
-                self.absButton_clicked()
-            elif globals.visGraph == 3:
-                self.transButton_clicked()
-            elif globals.visGraph == 4:
-                self.refButton_clicked()
-            elif globals.visGraph == 5:
-                self.absIrrButton_clicked()
-            elif globals.visGraph == 6:
-                self.relIrrButton_clicked()
-            else:
-                self.scope()
+            self.plotAll()
 
         
         # change the GUI for the user
@@ -642,7 +551,8 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
 
-    # saves the data of the spectrometer for later use in Avasoft 8. Not finished
+    ## SAVE FUNCTIONALITY
+    ########################################################
     '''
     parameters:
     return:"
@@ -836,7 +746,7 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
             
-    ## OTHER FUCNTIONS
+    ## PLOT FUNCTIONS
     ###########################################################################
 
     '''
@@ -1000,20 +910,47 @@ class MainWindow(QtWidgets.QMainWindow):
         # Set the label for x axis
         self.ui.graphWidget.setLabel('bottom', 'Wavelength (nm)')
         self.ui.graphWidget_2.setLabel('bottom', 'Wavelength (nm)')
+        self.ui.graphWidget_3.setLabel('bottom', 'Wavelength (nm)')
 
         # Set the label for y-axis
         self.ui.graphWidget.setLabel('left', y_label)
         self.ui.graphWidget_2.setLabel('left', y_label)
+        self.ui.graphWidget_3.setLabel('left', y_label)
 
         # Set the title of the graph and plots
         self.ui.graphWidget.setTitle(title)
         self.ui.graphWidget_2.setTitle(title)
+        self.ui.graphWidget_3.setTitle(title)
         self.ui.graphWidget.clear()
         self.ui.graphWidget.plot(x_value, y_value)
         self.ui.graphWidget_2.clear()
         self.ui.graphWidget_2.plot(x_value, y_value)
+        self.ui.graphWidget_3.clear()
+        self.ui.graphWidget_3.plot(x_value, y_value)
         return
 
+    def plotAll(self):
+        if globals.visGraph == 0:
+            self.scope()
+        elif globals.visGraph == 2:
+            self.scopeMinDarkButton_clicked()
+        elif globals.visGraph == 1:
+            self.absButton_clicked()
+        elif globals.visGraph == 3:
+            self.transButton_clicked()
+        elif globals.visGraph == 4:
+            self.refButton_clicked()
+        elif globals.visGraph == 5:
+            self.absIrrButton_clicked()
+        elif globals.visGraph == 6:
+            self.relIrrButton_clicked()
+        else:
+            self.scope()
+        return
+
+
+    ## FUNCTIONS FOR OPTIONS
+    ##############################################################################
     '''
     parameters: self
     return: None
@@ -1023,18 +960,23 @@ class MainWindow(QtWidgets.QMainWindow):
     def setStopWavelength(self):
         print("set stop")
         val = self.ui.stopEdit.toPlainText()
+
+        # decide if its a legit input
         for i in range(len(val)):
             if val[i].isdigit() == False and val[i] != ".":
                 QMessageBox.warning(self, "Input Warning", "Please make sure to enter a proper number")
                 return
         val = float(val)
+
+        # find the pixel that corresponds to the wavelength
         for i in range(len(globals.wavelength)-1, -1, -1):
             if globals.wavelength[i] == 0:
                 continue
             if val >= globals.wavelength[i]:
                 globals.high = i
                 print("assigned:", globals.high)
-                return
+                break
+        self.plotAll()
         return
 
     '''
@@ -1056,6 +998,77 @@ class MainWindow(QtWidgets.QMainWindow):
             if val <= globals.wavelength[i]:
                 globals.low = i
                 print("assigned:", globals.low)
-                return
+                break
+        self.plotAll()
         return
     
+    '''
+    parameters: self
+    return: None
+    functionality: this will switch the global data type continuous to true or false. Depending on the 
+    global variable is how the stop start button will work. 
+    BUG: The continuous measure mode doesn't work properly. Needs work.
+    '''
+    @pyqtSlot()
+    def applyMeasureType(self):
+        if self.ui.SingleButton.isChecked():
+            globals.continuous = False
+            print("Single Measurement")
+        else:
+            globals.continuous = True
+            print("Continuous Applied")
+    '''
+    parameters: self
+    return: None 
+    functionality: This sets the integration time of the spectrometer manually. 
+    '''
+    @pyqtSlot()
+    def setIntegration(self):
+        # reset the look of dark and reference 
+        self.ui.darkButton.setIcon(QIcon())
+        self.ui.refButton.setIcon(QIcon())
+        self.ui.darkButton.setStyleSheet("color: white")
+        self.ui.refButton.setStyleSheet("color: white")
+
+        # actual functionality
+        x = self.ui.intEdit.toPlainText()
+        for i in range(len(x)):
+            print('x[i]:', x[i], 'type:', type(x[i]))
+            if x[i].isdigit() == False and x[i] != ".":
+                QMessageBox.warning(self, "Warning", "Please enter a valid number")
+                return
+        if float(x) <= 0.03:
+            QMessageBox.warning(self, "value Error", "Mini cannot go below 0.03: Enter valid number")
+            return
+        globals.integration_time = float(x)
+        self.ui.intEdit.clear()
+        self.ui.intEdit.append(str(x))
+        self.startStopButton_clicked()
+        return
+
+    '''
+    parameters: self
+    return: None
+    functionality: Will change the value set in globals averages with the data in the avgEdit.
+    '''
+    @pyqtSlot()
+    def setAverages(self):
+        # reset the look of dark and reference 
+        self.ui.darkButton.setIcon(QIcon())
+        self.ui.refButton.setIcon(QIcon())
+        self.ui.darkButton.setStyleSheet("color: white")
+        self.ui.refButton.setStyleSheet("color: white")
+
+        # actual code associated with function
+        x = self.ui.avgEdit.toPlainText()
+        for i in range(len(x)):
+            print('x[i]:', x[i], 'type:', type(x[i]))
+            if x[i].isdigit() == False and x[i] != ".":
+                QMessageBox.warning(self, "Warning", "Please enter a valid number")
+                return
+        x = float(x)
+        globals.averages = int(x)
+        self.ui.avgEdit.clear()
+        self.ui.avgEdit.append(str(int(x)))
+        self.startStopButton_clicked()
+        return
