@@ -142,7 +142,8 @@ class MainWindow(QtWidgets.QMainWindow):
     return: none
     functionality: This function stores the dark data to the globals file when the dark button is clicked. It 
     then changes the look of the button so the user knows that the data has been stored. The dark informtion 
-    is used to generate other types of graphs. 
+    is used to generate other types of graphs. Changes the avalibility of different graphs on the measurement 
+    tab once ref and dark have been saved. 
     '''
     # saves the dark data in globals
     @pyqtSlot()
@@ -150,6 +151,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # saves data
         globals.darkData = globals.spectraldata
         globals.darkTrue = True
+
         # changes the buttons look to show user that data has been saved
         self.ui.scopeMinDarkButton.setEnabled(True)
         self.ui.scopeMinDarkButton.setStyleSheet("color: #FFF;")
@@ -157,6 +159,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.darkButton.setIcon(QIcon("Icons/check.png"))
         self.ui.absIrrButton.setEnabled(True)
         self.ui.absIrrButton.setStyleSheet("color: #FFF;")
+
         # changes button availablity to user if ref and dark are true
         if globals.darkTrue and globals.refTrue:
             self.ui.absButton.setEnabled(True)
@@ -175,8 +178,9 @@ class MainWindow(QtWidgets.QMainWindow):
     '''
     paramaters: self
     return: none
-    functionality: This function stores data to globals when the refrence button is clicked. it then changes the look 
-    of the button so the user knows that the data has been saved.
+    functionality: This function stores data to globals when the refrence button is clicked. it then changes the 
+    look of the button so the user knows that the data has been saved. changes graph avalibility when dark and 
+    ref are true. 
     '''
     # saves reference data to globals and changes the look of the button to alert user that data has been saved
     @pyqtSlot()
@@ -204,10 +208,13 @@ class MainWindow(QtWidgets.QMainWindow):
     '''
     Parameters: self
     return: none
-    functionality: configures the spectrometer to ensure that no pixel is saturated. Does this by slowly incrementing the the integration time. 
-    One the largest pixel is between 60,000 and 55,000 the integration time gets set to that value. It then slowly adjusts the 
-    number of averages so that each 
-    BUG: 
+    functionality: configures the spectrometer to ensure that no pixel is saturated. Does this by slowly 
+    incrementing the the integration time. One the largest pixel is between 60,000 and 55,000 the integration 
+    time gets set to that value. It then slowly adjusts the number of averages so that each
+
+    BUG: When the spectrometer isn't getting any light and trys to configure it will keep increasing integration
+    time and wont break out of the while loop. It doesn't break out until the count reaches 50. Not the best 
+    solution. s
     '''
     # @pyqtSlot()
     def configButton_clicked(self):
@@ -312,7 +319,7 @@ class MainWindow(QtWidgets.QMainWindow):
     parameters:
     return:
     functionality: This fucntion disconnects the spectrometer when the stop button in the Gui is pressed. 
-    It then resets some of the access to buttons for the user. 
+    It then resets some of the access to buttons for the user. Basically resets the whole program. 
     '''
     # disconnects from the spectrometer and adjusts the enabled buttons
     @pyqtSlot()
@@ -368,8 +375,8 @@ class MainWindow(QtWidgets.QMainWindow):
     parameters:
     return:
     functionality: This fuction is for when the collect Button on the GUI is pressed. It collects data from 
-    the spectrometer. Then it chooses what graph the user wants displayed and displayes that graph. It chooses 
-    the graph by what last graph was chosen to be displayed. 
+    the spectrometer. Then calls the function plotAll() to plot the data to all graphs. 
+
     BUG: This is where the continuous scanning mode is implemented. The continuous scanning mode doesn't work. 
     Seems that it requires parallel programming. 
     '''
@@ -436,7 +443,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 time.sleep(0.001)  
             globals.measureType = measconfig
 
-            # choosing what graph should be displayed to the user this is kinda bad programming below
+            # plot data to all 
             self.plotAll()
             
 
@@ -929,6 +936,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget_3.plot(x_value, y_value)
         return
 
+    """
+    parameters: self
+    return: none
+    functionality: This function chooses the graph that needs to be displayed to every graph on every tab. 
+    It will then call the function that displays that graph. 
+    """
     def plotAll(self):
         if globals.visGraph == 0:
             self.scope()
@@ -949,7 +962,7 @@ class MainWindow(QtWidgets.QMainWindow):
         return
 
 
-    ## FUNCTIONS FOR OPTIONS
+    ## FUNCTIONS FOR OPTIONS TAB
     ##############################################################################
     '''
     parameters: self
