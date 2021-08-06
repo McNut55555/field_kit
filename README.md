@@ -28,6 +28,7 @@ This is where all the code gets executed. It also makes the mainwindow object wh
 This class allows for the creation of the GUI and all of its functionality. All functions in class have included comments to explain the functionality. I hope that I included enough comments for it to be understood. 
 
 # Globals.py 
+
 VARIABES:
     dev_handle: The serial number of the spectrometer
     
