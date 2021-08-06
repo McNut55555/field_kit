@@ -929,6 +929,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.graphWidget_3.plot(x_value, y_value)
         return
 
+    '''
+    parameters: self
+    return: none
+    functionality: This function chooses what graph needs to be displayed to all of the graphs on the GUI. Then calls 
+    the function to graph the data. 
+    '''
     def plotAll(self):
         if globals.visGraph == 0:
             self.scope()
