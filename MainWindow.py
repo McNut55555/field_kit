@@ -704,7 +704,7 @@ class MainWindow(QtWidgets.QMainWindow):
             for i in range(4):
                 file.write(struct.pack("<B", 1))
             #calIntTime                                                                                     Single
-            file.write(struct.pack("<f", globals.measureType.m_Irradiance_m_IntensityCalib_m_CalInttime))
+            file.write(struct.pack("<f", globals.deviceConfig.m_Irradiance_m_IntensityCalib_m_CalInttime))
             #fitdata
             for i in globals.deviceConfig.m_Detector_m_aFit:
                 file.write(struct.pack("<d", i))
