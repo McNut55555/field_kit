@@ -576,6 +576,8 @@ class MainWindow(QtWidgets.QMainWindow):
     BUG: the save function works but doesn't completely encode all the data. The data that is still just 
     holding space are currently: timestamp, SPCfiledate, detectorTemp, boardtemp, NTC2volt, ColorTemp, straylightconf, nonlinconf
     customReflectance, CustomWhiteRefVal, and CustomDarkRefVal. 
+
+    BUG: The abs irradiance file won't open in avasoft 8 :(
     '''
     @pyqtSlot()
     def saveButton_clicked(self):
