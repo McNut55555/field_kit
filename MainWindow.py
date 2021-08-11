@@ -231,6 +231,8 @@ class MainWindow(QtWidgets.QMainWindow):
         globals.refTrue = False
         globals.darkTrue = False
         globals.averages = 2
+
+        # used in the configure loop
         largest_pixel = 0
         count = 0
         increment = globals.integration_time / 2
@@ -268,7 +270,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 break
             count += 1
 
-            # setting a minimum integration time... this one is for the mini
+            # setting a minimum integration time... this one is for the mini lowest for mini is 0.03 
             if globals.integration_time <= 0.03:
                 QMessageBox.warning(self, "minimum integration time", "Cannot go below 30 micro seconds")
                 return
