@@ -2,24 +2,28 @@
 portable spectroscopy field kit for Avantes. 
 
 # Instructions:
-In these list of these instruction I assume that you are developing on Linux (unbuntu 18.01) and all commands are for terminal. Everything is created using python, python libraries, and qt designer. 
+In these list of these instruction I assume that you are developing on Linux (unbuntu 18.01) or Rasbian and all commands are for terminal. Everything is created using python, python libraries, and qt designer. 
 
 # Getting Code
 Clone the code from GitHub (Including just for Completeness):
-    $ sudo apt install git
-    $ git clone https://github.com/McNut55555/field_kit.git
+ - $ sudo apt install git
+ - $ git clone https://github.com/McNut55555/field_kit.git
 
 # Setting up Enviornment
 In terminal (installing necessary software):
-    - install Qt5: "$ sudo apt-get install qt5-default"
-    - install QtCreator: "$ sudo apt-get install qtcreator"
-    - install qwt: "$ sudo apt-get install libqwt-qt5-dev"
-    - install PyQt5: "$ sudo apt-get install python3-pyqt5"
-    - install pyqtgraph: "$ sudo apt-get install python3-pyqtgraph"
-    - (optional) install VS Code IDE: "$ sudo apt-get install code"
+ - install Qt5: "$ sudo apt-get install qt5-default"
+ - install QtCreator: "$ sudo apt-get install qtcreator"
+ - install qwt: "$ sudo apt-get install libqwt-qt5-dev"
+ - install PyQt5: "$ sudo apt-get install python3-pyqt5"
+ - install pyqtgraph: "$ sudo apt-get install python3-pyqtgraph"
+ - (optional) install VS Code IDE: "$ sudo apt-get install code"
 
 # Developement
-Continuous scanning doesn't work. This is out of the scope of my knowledge and requires parallel programming. 
+ - Add a periodic scan mode
+ - Continuous scanning doesn't work. This is out of the scope of my knowledge and requires parallel programming. 
+ - Rel Irradiance graph doesn't generate anything. Function is unfinished. Didn't seem like an important graph
+ - Move the function that is inside ui_functions.py into MainWindow. 
+ - Add anymore options that may be neccessary
 
 # main.py 
 This is where all the code gets executed. It also makes the mainwindow object which makes all the functionality of the application. Launches the application.  
@@ -62,7 +66,7 @@ VARIABES:
 
     contiuous: This variable is meant to be used to tell startStopButton function to continue scanning if True. However the continuous aspect of the program doesn't work. 
 
-    config:
+    config: I have this in the if statement for continuos scanning however i don't think it actually does anything. 
 
     low: This sets the low end pixel to be displayed to the graphs. 
 
@@ -76,13 +80,17 @@ VARIABES:
 Editing the GUI is done through Qt Designer. With Qt Designer the developer is also able to see all of the names associated with each button (objectName). Run the command below to convert the .ui file to a .py file so MainWindow can access the changes to the GUI when changes are made. 
     - $ pyuic5 -x ui_main.ui -o ui_main.py
 
+IMPORTANT: its important that the developer knows to use QT Designer to find the object names of all the objects in the 
+gui. 
+
 
 # avaspec.py
 IMPORTANT: When using Raspberrian or ubuntu make sure that you are using the right dll for the operating system. Both of them fall into the logic for linux however use a different dll to communicate with the spectrometer. This means depending on the operating system you may have to change which dll it is reading in on avaspec.py. This can be done by changing the what comment is visible to the interpreter. 
 
 The file that allows for communication with the spectrometer through the use of the .dll or .so. If you want to know what each function does in this file look at the avasoft dll manual. I didn't write this. However, I did make a few changes. 
 
+line 15 uncommented line 18 commented == Ubuntu  
+line 18 uncommented line 15 commented == Rasbian
+
 # ui_functions.py 
 This files sole purpose is to add the toggle of the left bar on the GUI. I would like to put this function inside MainWindow.py but haven't been able to do that yet. 
- 
-

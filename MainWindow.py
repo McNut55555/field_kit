@@ -214,7 +214,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     BUG: When the spectrometer isn't getting any light and trys to configure it will keep increasing integration
     time and wont break out of the while loop. It doesn't break out until the count reaches 50. Not the best 
-    solution. s
+    solution.
     '''
     # @pyqtSlot()
     def configButton_clicked(self):
@@ -282,7 +282,7 @@ class MainWindow(QtWidgets.QMainWindow):
         count = 0
         globals.averages = int(globals.cycle_time / globals.integration_time)
 
-        # cant have less then 2 averages or more then 100
+        # cant have less then 2 averages or more then 100 got this from manual
         if globals.averages > 100:
             globals.averages = 100
         elif globals.averages < 2:
@@ -378,7 +378,7 @@ class MainWindow(QtWidgets.QMainWindow):
     the spectrometer. Then calls the function plotAll() to plot the data to all graphs. 
 
     BUG: This is where the continuous scanning mode is implemented. The continuous scanning mode doesn't work. 
-    Seems that it requires parallel programming. 
+    Seems that it requires parallel programming. Currently it takes 10 measurements
     '''
     # collects data from the spectrometer. collect button. 
     @pyqtSlot()
@@ -422,7 +422,8 @@ class MainWindow(QtWidgets.QMainWindow):
         measconfig.m_Control_m_StoreToRam = 0
         ret = AVS_PrepareMeasure(globals.dev_handle, measconfig)                                                                      # variables that will get changed
 
-        # this is where the program decides if the measurments should be continuous or not
+        ## NOT CONTINUOUS
+        ############################################################
         if globals.continuous == False or globals.config == True:
             nummeas = 1 
             scans = 0                                                                           # counter
@@ -447,7 +448,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.plotAll()
             
 
-        # this is for continuous scans. It doesn't work
+        ## CONTINUOUS SCANNING
+        ###########################################################
         else:
             nummeas = 10
             scans = 0 
@@ -492,8 +494,10 @@ class MainWindow(QtWidgets.QMainWindow):
     # connects to the spectrometer
     @pyqtSlot()
     def connectButton_clicked(self):
-        # initialize the usb... were not gonna care about eithernet for now only usb
-        ret = AVS_Init(0)                                                                                   # init(0) means were using a USB
+        # inital the usb. ret holds how many spectrometers are connected. 
+        ret = AVS_Init(0)       
+        
+        # if there aren't any spectrometers return warning and return out of the loop...
         if ret == 0:
             QMessageBox.warning(self, "No spectrometer", "No Spectrometer connected")
             return
@@ -569,7 +573,7 @@ class MainWindow(QtWidgets.QMainWindow):
     in the save isn't right. Like date and time when the spectrum was collected. Doesn't seem overly important 
     yet.
 
-    DEVELOPEMENT: the save function works but doesn't completely encode all the data. The data that is still just 
+    BUG: the save function works but doesn't completely encode all the data. The data that is still just 
     holding space are currently: timestamp, SPCfiledate, detectorTemp, boardtemp, NTC2volt, ColorTemp, straylightconf, nonlinconf
     customReflectance, CustomWhiteRefVal, and CustomDarkRefVal. 
     '''
@@ -940,7 +944,8 @@ class MainWindow(QtWidgets.QMainWindow):
     parameters: self
     return: none
     functionality: This function chooses the graph that needs to be displayed to every graph on every tab. 
-    It will then call the function that displays that graph. 
+    It will then call the function that displays populates the information. Then calls the function that 
+    displays all the information to each graph. 
     """
     def plotAll(self):
         if globals.visGraph == 0:
