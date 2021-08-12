@@ -215,6 +215,9 @@ class MainWindow(QtWidgets.QMainWindow):
     BUG: When the spectrometer isn't getting any light and trys to configure it will keep increasing integration
     time and wont break out of the while loop. It doesn't break out until the count reaches 50. Not the best 
     solution.
+
+    BUG: If the light source is too weak the configure doesn't like to increase the integration time to extremely 
+    high values. 
     '''
     # @pyqtSlot()
     def configButton_clicked(self):
@@ -236,6 +239,8 @@ class MainWindow(QtWidgets.QMainWindow):
         largest_pixel = 0
         count = 0
         increment = globals.integration_time / 2
+        last_largest = 0
+        change = 0
 
         # stays in the loop until the largest pixel count is in the range of the loop. slowly adjusts integration time till it gets
         # to the range
@@ -961,7 +966,7 @@ class MainWindow(QtWidgets.QMainWindow):
         elif globals.visGraph == 3:
             self.transButton_clicked()
         elif globals.visGraph == 4:
-            self.refButton_clicked()
+            self.reflectButton_clicked()
         elif globals.visGraph == 5:
             self.absIrrButton_clicked()
         elif globals.visGraph == 6:
